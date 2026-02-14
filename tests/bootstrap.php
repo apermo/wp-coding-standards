@@ -53,6 +53,9 @@ $GLOBALS['PHP_CODESNIFFER_TEST_DIRS']        = [];
 
 /*
  * Register Apermo standard and discover test classes.
+ *
+ * Globals are populated without loading test files so that PHPUnit's
+ * TestSuiteLoader can detect newly-declared classes when it includes them.
  */
 $apermo_path = dirname( __DIR__ ) . '/Apermo';
 $tests_dir   = $apermo_path . '/Tests/';
@@ -73,11 +76,18 @@ if ( is_dir( $tests_dir ) ) {
 			continue;
 		}
 
-		$class_name = Autoload::loadFile( $file->getPathname() );
+		// Derive FQCN from the file path without loading the file.
+		$relative   = substr( $file->getPathname(), strlen( $tests_dir ) );
+		$class_name = 'Apermo\\Tests\\' . str_replace(
+			[ '/', '.php' ],
+			[ '\\', '' ],
+			$relative
+		);
+
 		$GLOBALS['PHP_CODESNIFFER_STANDARD_DIRS'][ $class_name ] = $apermo_path;
 		$GLOBALS['PHP_CODESNIFFER_TEST_DIRS'][ $class_name ]     = $tests_dir;
 	}
 }
 
 // Clean up.
-unset( $phpcs_dir, $all_standards, $standards_to_ignore, $standard, $apermo_path, $tests_dir, $di, $file, $parts, $ext, $class_name );
+unset( $phpcs_dir, $all_standards, $standards_to_ignore, $standard, $apermo_path, $tests_dir, $di, $file, $parts, $ext, $class_name, $relative );
