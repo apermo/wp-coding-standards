@@ -47,15 +47,27 @@
 		<exclude name="Yoast.Commenting.FileComment.CopyrightTagOrder"/>
 	</rule>
 
-	<!-- CS: Change type of Sniff to warning. -->
-	<rule ref="Squiz.Commenting.InlineComment.InvalidEndChar">
-		<type>warning</type>
-		<severity>10</severity>
+	<!-- Superseded by Apermo.PHP.RequireNotInclude. -->
+	<rule ref="PEAR.Files.IncludingFile.UseRequire">
+		<severity>0</severity>
+	</rule>
+	<rule ref="PEAR.Files.IncludingFile.UseRequireOnce">
+		<severity>0</severity>
 	</rule>
 
 	<!-- Disallow long array syntax. -->
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax">
 		<severity>10</severity>
+	</rule>
+
+	<!-- Enforce elseif over else if (PSR2 default is a warning, we want an error). -->
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration">
+		<type>error</type>
+	</rule>
+
+	<!-- Unconditional if statements (if(true)) should be errors, not warnings. -->
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement">
+		<type>error</type>
 	</rule>
 
 	<!-- Disallow Yoda conditions. -->
