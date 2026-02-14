@@ -11,13 +11,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `Apermo.PHP.ExplainCommentedOutCode` sniff: enforces
   that commented-out PHP code is preceded by a `/** */`
-  doc-block with a recognized keyword (`Disabled`, `Kept`).
+  doc-block with a recognized keyword (`Disabled`, `Kept`,
+  `Debug`, `Review`, `WIP`).
+- `Apermo.WhiteSpace.MultipleEmptyLines` sniff: no more
+  than one consecutive empty line at file level, class
+  level, or between functions. Auto-fixable.
+- `Apermo.PHP.RequireNotInclude` sniff: forbids `include`
+  and `include_once` in favor of `require`/`require_once`.
 - PHPUnit test infrastructure for sniff unit tests.
 
 ### Changed
 
+- Upgraded `PSR2.ControlStructures.ElseIfDeclaration` from
+  warning to error (`else if` → `elseif`). Auto-fixable.
+- Upgraded `Generic.CodeAnalysis.UnconditionalIfStatement`
+  from warning to error.
 - Disabled `Squiz.PHP.CommentedOutCode.Found`, superseded
   by the new `ExplainCommentedOutCode` sniff.
+- Disabled `PEAR.Files.IncludingFile.UseRequire` and
+  `UseRequireOnce`, superseded by `RequireNotInclude`.
+- Removed downgrade of
+  `Squiz.Commenting.InlineComment.InvalidEndChar` to
+  warning (keeps default error).
 
 ## [1.0.0] - 2026-02-14
 
