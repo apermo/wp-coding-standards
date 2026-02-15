@@ -5,49 +5,67 @@ get_the_title();
 get_post();
 the_content();
 
-// Inside function scope.
-function test_errors() {
-	// Error: direct access functions.
+function test_implicit() {
+	// Error: MissingArgument — no arg provided.
 	get_post();
-	get_the_ID();
-	the_ID();
-
-	// Warning: optional post param not provided.
 	get_the_title();
 	get_permalink();
-	has_post_thumbnail();
+	get_the_content( '', false );
+	get_the_date();
 
-	// Warning: no post param exists.
+	// Error: NullArgument — literal null passed.
+	get_post( null );
+	get_the_title( null );
+
+	// Warning: IntegerArgument — literal int or ->ID.
+	get_the_title( 123 );
+	get_post( $post->ID );
+	get_the_date( '', 42 );
+
+	// Error: NoPostParameter — function has no $post param.
+	get_the_ID();
+	the_ID();
 	the_content();
 	the_excerpt();
+	the_title();
+	the_date();
+	the_time();
+	the_modified_date();
+	the_modified_time();
+	the_post_thumbnail();
+	the_post_thumbnail_url();
+	post_custom();
+	permalink_anchor();
 
-	// OK: post argument provided.
-	get_post( $id );
+	// OK: variable/expression (type unknown, assume correct).
+	get_post( $post );
 	get_the_title( $post );
-
-	// OK: enough arguments for higher param positions.
 	get_the_content( '', false, $p );
-	edit_post_link( 'Edit', '<p>', '</p>', $id );
+	edit_post_link( 'Edit', '<p>', '</p>', $post );
+	get_the_date( '', $post );
 
-	// OK: method call, not a function call.
+	// OK: method/static/nullsafe — not function calls.
 	$obj->get_post();
 	SomeClass::get_the_title();
 	$obj?->get_permalink();
 
-	// Warning: fully-qualified call without post arg.
+	// Error: FQ call without arg.
 	\get_the_title();
-
-	// OK: fully-qualified call with post arg.
+	// OK: FQ call with arg.
 	\get_the_title( $p );
 
-	// Warning: not enough args for get_the_content (post is param 3).
-	get_the_content( '', false );
+	// OK: named argument.
+	get_the_content( post: $post );
+	get_the_date( post: $post );
+
+	// Warning: named argument with integer.
+	edit_post_link( post: 123 );
 }
 
-// Inside closure: WARNING.
+// Error: closure scope.
 $closure = function () {
 	get_the_title();
 };
 
-// Inside arrow function: WARNING.
+// Error: arrow function scope.
 $arrow = fn() => get_the_title();

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-02-15
+
 ### Added
 
 - `Apermo.DataStructures.ArrayComplexity` sniff: flags
@@ -20,6 +22,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   WordPress template functions (e.g. `get_the_title()`,
   `get_permalink()`) called without an explicit post
   argument inside function scopes.
+
+### Changed
+
+- **BREAKING:** `Apermo.WordPress.ImplicitPostFunction`
+  redesigned severity tiers. Severity is now based on
+  the argument passed, not the function identity.
+  New error codes: `MissingArgument` (error),
+  `NullArgument` (error), `IntegerArgument` (warning),
+  `NoPostParameter` (error). All codes are configurable
+  via standard PHPCS `<rule><type>` overrides.
+
+### Removed
+
+- **BREAKING:** `ImplicitPostFunction` error codes
+  `DirectAccess` and `MissingPostParameter`. Use
+  `MissingArgument`, `NullArgument`, or
+  `IntegerArgument` instead.
 
 ## [1.1.0] - 2026-02-14
 
@@ -61,5 +80,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[1.2.0]: https://github.com/apermo/wp-coding-standards/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/apermo/wp-coding-standards/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/apermo/wp-coding-standards/releases/tag/v1.0.0
