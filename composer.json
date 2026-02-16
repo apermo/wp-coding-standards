@@ -1,8 +1,21 @@
 {
 	"name": "apermo/wp-coding-standards",
 	"description": "Shared PHPCS coding standards for WordPress projects by Apermo.",
+	"version": "1.2.1",
 	"type": "phpcodesniffer-standard",
 	"license": "MIT",
+	"authors": [
+		{
+			"name": "Christoph Daum",
+			"homepage": "https://christoph-daum.de"
+		}
+	],
+	"homepage": "https://github.com/apermo/wp-coding-standards",
+	"support": {
+		"issues": "https://github.com/apermo/wp-coding-standards/issues",
+		"source": "https://github.com/apermo/wp-coding-standards"
+	},
+	"keywords": ["phpcs", "wordpress", "coding-standards", "static-analysis"],
 	"require": {
 		"php": ">=8.3",
 		"squizlabs/php_codesniffer": "^3.10",
@@ -19,7 +32,6 @@
 		"test": "phpunit"
 	},
 	"config": {
-		"lock": false,
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
