@@ -17,9 +17,9 @@
 	<rule ref="WordPress">
 		<!-- We use short array syntax. -->
 		<exclude name="Universal.Arrays.DisallowShortArraySyntax.Found"/>
-		<!-- Alignment of multiple statements is not enforced. -->
+		<!-- Superseded by Apermo.Formatting.ConsistentAssignmentAlignment. -->
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning"/>
-		<!-- Alignment of double arrow in arrays is not enforced. -->
+		<!-- Superseded by Apermo.Arrays.ConsistentDoubleArrowAlignment. -->
 		<exclude name="WordPress.Arrays.MultipleStatementAlignment.DoubleArrowNotAligned"/>
 		<!-- We allow the use short ternary operators. -->
 		<exclude name="Universal.Operators.DisallowShortTernary.Found"/>

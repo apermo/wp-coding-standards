@@ -1,0 +1,62 @@
+<?php
+
+// OK: single-line array (skipped).
+$a = [ 'x' => 1, 'yy' => 2, 'zzz' => 3 ];
+
+// OK: all single-space.
+$b = [
+	'x' => 1,
+	'yy' => 2,
+	'zzz' => 3,
+];
+
+// OK: all aligned (same column).
+$c = [
+	'x'   => 1,
+	'yy'  => 2,
+	'zzz' => 3,
+];
+
+// Warning: mixed alignment (majority single-space, one aligned).
+$d = [
+	'short' => 1,
+	'medium' => 2,
+	'veryLongKey' => 3,
+	'x'           => 4,
+];
+
+// Warning: mixed alignment (majority aligned, one not).
+$e = [
+	'a'   => 1,
+	'bb'  => 2,
+	'ccc' => 3,
+	'dddddd' => 4,
+];
+
+// OK: single item (no group to compare).
+$f = [
+	'only' => 1,
+];
+
+// OK: nested arrays are not checked by outer sniff.
+$g = [
+	'outer' => [
+		'a'   => 1,
+		'bbb' => 2,
+	],
+	'other' => 'value',
+];
+
+// OK: numeric array (no => tokens).
+$h = [
+	1,
+	2,
+	3,
+];
+
+// OK: long syntax aligned.
+$i = array(
+	'x'   => 1,
+	'yy'  => 2,
+	'zzz' => 3,
+);
