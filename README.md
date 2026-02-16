@@ -10,6 +10,19 @@ Shared [PHPCS](https://github.com/PHPCSStandards/PHP_CodeSniffer) ruleset for Wo
 
 ## Installation
 
+Add the GitHub repository and require the package:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/apermo/wp-coding-standards"
+        }
+    ]
+}
+```
+
 ```bash
 composer require --dev apermo/wp-coding-standards
 ```
