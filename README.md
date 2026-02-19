@@ -1,6 +1,6 @@
 # Apermo WordPress Coding Standards
 
-[![CI](https://github.com/apermo/wp-coding-standards/actions/workflows/ci.yml/badge.svg)](https://github.com/apermo/wp-coding-standards/actions/workflows/ci.yml)
+[![CI](https://github.com/apermo/apermo-coding-standards/actions/workflows/ci.yml/badge.svg)](https://github.com/apermo/apermo-coding-standards/actions/workflows/ci.yml)
 
 Shared [PHPCS](https://github.com/PHPCSStandards/PHP_CodeSniffer) ruleset for WordPress projects. Combines WordPress Coding Standards, Slevomat type hints, YoastCS, and PHPCompatibility into a single reusable standard.
 
@@ -17,14 +17,14 @@ Add the GitHub repository and require the package:
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/apermo/wp-coding-standards"
+            "url": "https://github.com/apermo/apermo-coding-standards"
         }
     ]
 }
 ```
 
 ```bash
-composer require --dev apermo/wp-coding-standards
+composer require --dev apermo/apermo-coding-standards
 ```
 
 The [Composer Installer Plugin](https://github.com/PHPCSStandards/composer-installer) automatically registers the standard with PHPCS.

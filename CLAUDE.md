@@ -1,14 +1,14 @@
-# CLAUDE.md — apermo/wp-coding-standards
+# CLAUDE.md — apermo/apermo-coding-standards
 
 Shared PHPCS coding standards package for WordPress projects by Apermo.
 
-GitHub: https://github.com/apermo/wp-coding-standards
+GitHub: https://github.com/apermo/apermo-coding-standards
 
 ## Overview
 
 This is a `phpcodesniffer-standard` Composer package. It provides a reusable PHPCS ruleset (`Apermo`) that combines WordPress Coding Standards, Slevomat type hints, YoastCS, and PHPCompatibility.
 
-Projects consume it by requiring `apermo/wp-coding-standards` and referencing `<rule ref="Apermo"/>` in their `phpcs.xml`.
+Projects consume it by requiring `apermo/apermo-coding-standards` and referencing `<rule ref="Apermo"/>` in their `phpcs.xml`.
 
 ## Package Structure
 
@@ -53,4 +53,4 @@ vendor/bin/phpcs -i
 
 1. Commit changes, push to `main`
 2. Tag a release: `git tag v1.0.0 && git push --tags`
-3. Consumer projects update via `composer update apermo/wp-coding-standards`
+3. Consumer projects update via `composer update apermo/apermo-coding-standards`
