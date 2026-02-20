@@ -37,17 +37,38 @@ Example: `Apermo/Sniffs/Naming/FunctionPrefixSniff.php` is referenced as `Apermo
 # Install dependencies
 composer install
 
+# Run all tests (unit + integration)
+composer test
+
+# Run only unit tests (per-sniff)
+vendor/bin/phpunit --testsuite=Apermo
+
+# Run only integration tests (full ruleset)
+vendor/bin/phpunit --testsuite=Integration
+
 # Test against a sample PHP file
 vendor/bin/phpcs --standard=Apermo /path/to/test-file.php
+
+# Debug a fixture manually
+vendor/bin/phpcs --standard=Apermo tests/Integration/Fixtures/ArraySyntax.inc -s
 
 # Verify the standard is registered
 vendor/bin/phpcs -i
 ```
 
+### Integration Tests
+
+Located in `tests/Integration/`, these verify that `Apermo/ruleset.xml` configuration (exclusions, severity overrides, property settings) produces the expected errors and warnings when the full standard is applied.
+
+Each test has a minimal `.inc` fixture in `tests/Integration/Fixtures/` and a corresponding test method in `RulesetIntegrationTest.php`.
+
+**Adding a new ruleset test:** Create a fixture file + add a test method. No existing tests are affected.
+
 ## Workflow
 
 - After completing each task (feature, fix, etc.), create an atomic commit immediately.
 - Do not batch multiple tasks into a single commit.
+- When a commit resolves a GitHub issue, include `Closes #<number>` in the commit body so the issue is auto-closed when the PR is merged.
 
 ## Releasing
 

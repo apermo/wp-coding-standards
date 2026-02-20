@@ -10,5 +10,8 @@
 		<testsuite name="Apermo">
 			<directory>Apermo/Tests</directory>
 		</testsuite>
+		<testsuite name="Integration">
+			<directory>tests/Integration</directory>
+		</testsuite>
 	</testsuites>
 </phpunit>

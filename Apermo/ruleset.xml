@@ -84,6 +84,20 @@
 		<exclude name="Universal.FunctionDeclarations.NoLongClosures.ExceedsRecommended"/>
 	</rule>
 
+	<!-- Forbid function-based type casts — use (int), (float), (string), (bool) casts instead. -->
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+		<properties>
+			<property name="forbiddenFunctions" type="array">
+				<element key="sizeof" value="count"/>
+				<element key="delete" value="unset"/>
+				<element key="intval" value="(int) cast"/>
+				<element key="floatval" value="(float) cast"/>
+				<element key="strval" value="(string) cast"/>
+				<element key="boolval" value="(bool) cast"/>
+			</property>
+		</properties>
+	</rule>
+
 	<!-- Enforce return types, including void -->
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
 		<properties>
