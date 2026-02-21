@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `OverAligned` error code for both alignment sniffs:
   flags groups where operators are padded beyond the
   longest left-hand side.
+- Codecov integration: test coverage reporting on
+  PHP 8.4 with PCOV, uploaded on every PR and push.
 - GitHub Actions: prerelease workflow for `release/*`
   branches via `workflow_dispatch`.
 - Release and PR validation workflows now derive version

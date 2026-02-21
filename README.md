@@ -1,6 +1,7 @@
 # Apermo WordPress Coding Standards
 
 [![CI](https://github.com/apermo/apermo-coding-standards/actions/workflows/ci.yml/badge.svg)](https://github.com/apermo/apermo-coding-standards/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/apermo/apermo-coding-standards/graph/badge.svg)](https://codecov.io/gh/apermo/apermo-coding-standards)
 [![Packagist Version](https://img.shields.io/packagist/v/apermo/apermo-coding-standards)](https://packagist.org/packages/apermo/apermo-coding-standards)
 [![PHP Version](https://img.shields.io/packagist/dependency-v/apermo/apermo-coding-standards/php)](https://packagist.org/packages/apermo/apermo-coding-standards)
 [![License](https://img.shields.io/packagist/l/apermo/apermo-coding-standards)](LICENSE)
