@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `phpcbf` auto-fix for `ConsistentAssignmentAlignment`
+  and `ConsistentDoubleArrowAlignment` sniffs.
+- `OverAligned` error code for both alignment sniffs:
+  flags groups where operators are padded beyond the
+  longest left-hand side.
 - GitHub Actions: prerelease workflow for `release/*`
   branches via `workflow_dispatch`.
 - Release and PR validation workflows now derive version

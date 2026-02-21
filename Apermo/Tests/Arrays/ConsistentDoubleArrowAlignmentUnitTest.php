@@ -22,7 +22,11 @@ class ConsistentDoubleArrowAlignmentUnitTest extends AbstractSniffUnitTest {
 	 * @return array<int, int>
 	 */
 	protected function getErrorList( $testFile = '' ) {
-		return [];
+		return [
+			66 => 1,
+			67 => 1,
+			68 => 1,
+		];
 	}
 
 	/**

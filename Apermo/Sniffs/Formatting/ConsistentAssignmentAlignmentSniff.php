@@ -132,7 +132,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  The first assignment token.
 	 *
-	 * @return array<int, array{ptr: int, spaces: int, column: int, line: int}> Group members.
+	 * @return array<int, array{ptr: int, spaces: int, column: int, line: int, lhs_end: int}> Group members.
 	 */
 	private function collectGroup( File $phpcsFile, int $stackPtr ): array {
 		$tokens  = $phpcsFile->getTokens();
@@ -144,11 +144,17 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 			$line   = $tokens[ $current ]['line'];
 			$column = $tokens[ $current ]['column'];
 
+			$prev   = $phpcsFile->findPrevious( T_WHITESPACE, $current - 1, null, true );
+			$lhsEnd = ( $prev !== false && $tokens[ $prev ]['line'] === $line )
+				? $tokens[ $prev ]['column'] + $tokens[ $prev ]['length']
+				: $column;
+
 			$group[] = [
-				'ptr'    => $current,
-				'spaces' => $spaces,
-				'column' => $column,
-				'line'   => $line,
+				'ptr'     => $current,
+				'spaces'  => $spaces,
+				'column'  => $column,
+				'line'    => $line,
+				'lhs_end' => $lhsEnd,
 			];
 
 			// Find the next line's assignment.
@@ -262,9 +268,11 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	 * @return void
 	 */
 	private function checkConsistency( File $phpcsFile, array $group ): void {
+		$tokens         = $phpcsFile->getTokens();
 		$allSingleSpace = true;
 		$allSameColumn  = true;
 		$firstColumn    = $group[0]['column'];
+		$longestLhsEnd  = 0;
 
 		foreach ( $group as $member ) {
 			if ( $member['spaces'] !== 1 ) {
@@ -274,15 +282,34 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 			if ( $member['column'] !== $firstColumn ) {
 				$allSameColumn = false;
 			}
+
+			if ( $member['lhs_end'] > $longestLhsEnd ) {
+				$longestLhsEnd = $member['lhs_end'];
+			}
 		}
 
-		// Either valid style is fully satisfied.
-		if ( $allSingleSpace || $allSameColumn ) {
+		if ( $allSingleSpace ) {
+			return;
+		}
+
+		// All operators aligned — check for over-alignment.
+		if ( $allSameColumn ) {
+			$minColumn = $longestLhsEnd + 1;
+			if ( $firstColumn > $minColumn ) {
+				foreach ( $group as $member ) {
+					$phpcsFile->addError(
+						'Assignment operators are over-aligned; reduce to single space after the longest variable',
+						$member['ptr'],
+						'OverAligned'
+					);
+				}
+			}
+
 			return;
 		}
 
 		// Mixed: determine which style has more adherents.
-		$singleCount = 0;
+		$singleCount  = 0;
 		$columnCounts = [];
 
 		foreach ( $group as $member ) {
@@ -294,26 +321,74 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 			$columnCounts[ $col ] = ( $columnCounts[ $col ] ?? 0 ) + 1;
 		}
 
-		$maxColumnCount  = max( $columnCounts );
-		$alignedColumn   = array_search( $maxColumnCount, $columnCounts, true );
-		$alignedCount    = $maxColumnCount;
+		$maxColumnCount = max( $columnCounts );
+		$alignedColumn  = array_search( $maxColumnCount, $columnCounts, true );
+		$alignedCount   = $maxColumnCount;
 
 		// Choose majority style: aligned (same column) vs single-space.
 		$useAligned = ( $alignedCount >= $singleCount );
 
-		foreach ( $group as $member ) {
-			if ( $useAligned && $member['column'] !== $alignedColumn ) {
-				$phpcsFile->addWarning(
+		if ( $useAligned ) {
+			$minColumn = $longestLhsEnd + 1;
+			if ( $alignedColumn > $minColumn ) {
+				foreach ( $group as $member ) {
+					$phpcsFile->addError(
+						'Assignment operators are over-aligned; reduce to single space after the longest variable',
+						$member['ptr'],
+						'OverAligned'
+					);
+				}
+
+				return;
+			}
+
+			foreach ( $group as $member ) {
+				if ( $member['column'] === $alignedColumn ) {
+					continue;
+				}
+
+				$targetSpaces = $alignedColumn - $member['lhs_end'];
+				if ( $targetSpaces < 1 ) {
+					$phpcsFile->addWarning(
+						'Assignment alignment is inconsistent with the rest of this group; either align all or use single spaces',
+						$member['ptr'],
+						'InconsistentAlignment'
+					);
+				} else {
+					$fix = $phpcsFile->addFixableWarning(
+						'Assignment alignment is inconsistent with the rest of this group; either align all or use single spaces',
+						$member['ptr'],
+						'InconsistentAlignment'
+					);
+
+					if ( $fix === true ) {
+						$wsPtr = $member['ptr'] - 1;
+						if ( $tokens[ $wsPtr ]['code'] === T_WHITESPACE ) {
+							$phpcsFile->fixer->replaceToken( $wsPtr, str_repeat( ' ', $targetSpaces ) );
+						} else {
+							$phpcsFile->fixer->addContentBefore( $member['ptr'], str_repeat( ' ', $targetSpaces ) );
+						}
+					}
+				}
+			}
+		} else {
+			foreach ( $group as $member ) {
+				if ( $member['spaces'] === 1 ) {
+					continue;
+				}
+
+				$fix = $phpcsFile->addFixableWarning(
 					'Assignment alignment is inconsistent with the rest of this group; either align all or use single spaces',
 					$member['ptr'],
 					'InconsistentAlignment'
 				);
-			} elseif ( ! $useAligned && $member['spaces'] !== 1 ) {
-				$phpcsFile->addWarning(
-					'Assignment alignment is inconsistent with the rest of this group; either align all or use single spaces',
-					$member['ptr'],
-					'InconsistentAlignment'
-				);
+
+				if ( $fix === true ) {
+					$wsPtr = $member['ptr'] - 1;
+					if ( $tokens[ $wsPtr ]['code'] === T_WHITESPACE ) {
+						$phpcsFile->fixer->replaceToken( $wsPtr, ' ' );
+					}
+				}
 			}
 		}
 	}

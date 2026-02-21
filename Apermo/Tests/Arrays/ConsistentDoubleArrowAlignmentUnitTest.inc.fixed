@@ -22,7 +22,7 @@ $d = [
 	'short' => 1,
 	'medium' => 2,
 	'veryLongKey' => 3,
-	'x'           => 4,
+	'x' => 4,
 ];
 
 // Warning: mixed alignment (majority aligned, one not).

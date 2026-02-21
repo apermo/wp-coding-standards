@@ -22,7 +22,11 @@ class ConsistentAssignmentAlignmentUnitTest extends AbstractSniffUnitTest {
 	 * @return array<int, int>
 	 */
 	protected function getErrorList( $testFile = '' ) {
-		return [];
+		return [
+			55 => 1,
+			56 => 1,
+			57 => 1,
+		];
 	}
 
 	/**

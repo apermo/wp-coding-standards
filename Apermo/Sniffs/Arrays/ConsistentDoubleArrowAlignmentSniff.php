@@ -75,7 +75,7 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 	 * @param int  $opener    Array opener position.
 	 * @param int  $closer    Array closer position.
 	 *
-	 * @return array<int, array{ptr: int, spaces: int, column: int}> Arrow info.
+	 * @return array<int, array{ptr: int, spaces: int, column: int, lhs_end: int}> Arrow info.
 	 */
 	private function collectTopLevelArrows( File $phpcsFile, int $opener, int $closer ): array {
 		$tokens = $phpcsFile->getTokens();
@@ -110,10 +110,16 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 
 			$spaces = $this->measureSpacesBefore( $phpcsFile, $i );
 
+			$prev   = $phpcsFile->findPrevious( T_WHITESPACE, $i - 1, null, true );
+			$lhsEnd = ( $prev !== false && $tokens[ $prev ]['line'] === $tokens[ $i ]['line'] )
+				? $tokens[ $prev ]['column'] + $tokens[ $prev ]['length']
+				: $tokens[ $i ]['column'];
+
 			$arrows[] = [
-				'ptr'    => $i,
-				'spaces' => $spaces,
-				'column' => $tokens[ $i ]['column'],
+				'ptr'     => $i,
+				'spaces'  => $spaces,
+				'column'  => $tokens[ $i ]['column'],
+				'lhs_end' => $lhsEnd,
 			];
 		}
 
@@ -159,9 +165,11 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 	 * @return void
 	 */
 	private function checkConsistency( File $phpcsFile, array $arrows ): void {
+		$tokens         = $phpcsFile->getTokens();
 		$allSingleSpace = true;
 		$allSameColumn  = true;
 		$firstColumn    = $arrows[0]['column'];
+		$longestLhsEnd  = 0;
 
 		foreach ( $arrows as $arrow ) {
 			if ( $arrow['spaces'] !== 1 ) {
@@ -171,9 +179,29 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 			if ( $arrow['column'] !== $firstColumn ) {
 				$allSameColumn = false;
 			}
+
+			if ( $arrow['lhs_end'] > $longestLhsEnd ) {
+				$longestLhsEnd = $arrow['lhs_end'];
+			}
 		}
 
-		if ( $allSingleSpace || $allSameColumn ) {
+		if ( $allSingleSpace ) {
+			return;
+		}
+
+		// All operators aligned — check for over-alignment.
+		if ( $allSameColumn ) {
+			$minColumn = $longestLhsEnd + 1;
+			if ( $firstColumn > $minColumn ) {
+				foreach ( $arrows as $arrow ) {
+					$phpcsFile->addError(
+						'Double arrows are over-aligned; reduce to single space after the longest key',
+						$arrow['ptr'],
+						'OverAligned'
+					);
+				}
+			}
+
 			return;
 		}
 
@@ -196,19 +224,67 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 
 		$useAligned = ( $alignedCount >= $singleCount );
 
-		foreach ( $arrows as $arrow ) {
-			if ( $useAligned && $arrow['column'] !== $alignedColumn ) {
-				$phpcsFile->addWarning(
+		if ( $useAligned ) {
+			$minColumn = $longestLhsEnd + 1;
+			if ( $alignedColumn > $minColumn ) {
+				foreach ( $arrows as $arrow ) {
+					$phpcsFile->addError(
+						'Double arrows are over-aligned; reduce to single space after the longest key',
+						$arrow['ptr'],
+						'OverAligned'
+					);
+				}
+
+				return;
+			}
+
+			foreach ( $arrows as $arrow ) {
+				if ( $arrow['column'] === $alignedColumn ) {
+					continue;
+				}
+
+				$targetSpaces = $alignedColumn - $arrow['lhs_end'];
+				if ( $targetSpaces < 1 ) {
+					$phpcsFile->addWarning(
+						'Double arrow alignment is inconsistent within this array; either align all or use single spaces',
+						$arrow['ptr'],
+						'InconsistentAlignment'
+					);
+				} else {
+					$fix = $phpcsFile->addFixableWarning(
+						'Double arrow alignment is inconsistent within this array; either align all or use single spaces',
+						$arrow['ptr'],
+						'InconsistentAlignment'
+					);
+
+					if ( $fix === true ) {
+						$wsPtr = $arrow['ptr'] - 1;
+						if ( $tokens[ $wsPtr ]['code'] === T_WHITESPACE ) {
+							$phpcsFile->fixer->replaceToken( $wsPtr, str_repeat( ' ', $targetSpaces ) );
+						} else {
+							$phpcsFile->fixer->addContentBefore( $arrow['ptr'], str_repeat( ' ', $targetSpaces ) );
+						}
+					}
+				}
+			}
+		} else {
+			foreach ( $arrows as $arrow ) {
+				if ( $arrow['spaces'] === 1 ) {
+					continue;
+				}
+
+				$fix = $phpcsFile->addFixableWarning(
 					'Double arrow alignment is inconsistent within this array; either align all or use single spaces',
 					$arrow['ptr'],
 					'InconsistentAlignment'
 				);
-			} elseif ( ! $useAligned && $arrow['spaces'] !== 1 ) {
-				$phpcsFile->addWarning(
-					'Double arrow alignment is inconsistent within this array; either align all or use single spaces',
-					$arrow['ptr'],
-					'InconsistentAlignment'
-				);
+
+				if ( $fix === true ) {
+					$wsPtr = $arrow['ptr'] - 1;
+					if ( $tokens[ $wsPtr ]['code'] === T_WHITESPACE ) {
+						$phpcsFile->fixer->replaceToken( $wsPtr, ' ' );
+					}
+				}
 			}
 		}
 	}
