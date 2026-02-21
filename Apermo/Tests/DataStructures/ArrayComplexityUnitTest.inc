@@ -63,3 +63,17 @@ $both = [
 
 // OK — non-associative wrapper around associative inner arrays.
 $mixed = [ [ 'a' => 1 ], [ 'b' => 2 ] ];
+
+// OK — function call inside array (close paren owner is T_STRING, not T_ARRAY).
+$config = [ 'merged' => array_merge( [ 'a' => 1 ], [ 'b' => 2 ] ) ];
+
+// OK — numeric array nested inside associative array.
+$items = [ 'list' => [ 1, 2, 3 ] ];
+
+// OK — multiple numeric arrays nested inside associative array.
+$grid = [
+	'rows' => [
+		[ 1, 2 ],
+		[ 3, 4 ],
+	],
+];
