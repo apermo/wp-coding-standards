@@ -19,11 +19,12 @@ jobs:
         run: |
           TAG="${{ github.event.release.tag_name }}"
           RELEASE_URL="${{ github.event.release.html_url }}"
+          VERSION="${TAG#v}"
 
-          PR_NUMBER=$(gh pr list --repo ${{ github.repository }} --state merged --search "$TAG" --json number --jq '.[0].number')
+          PR_NUMBER=$(gh pr list --repo ${{ github.repository }} --state merged --head "release/$VERSION" --json number --jq '.[0].number')
 
           if [ -z "$PR_NUMBER" ]; then
-            echo "No merged PR found for $TAG"
+            echo "No merged PR found for release/$VERSION"
             exit 0
           fi
 
