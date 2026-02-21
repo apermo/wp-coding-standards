@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Published package on [Packagist](https://packagist.org/packages/apermo/apermo-coding-standards).
+  VCS repository setup is no longer needed.
 - Removed `version` field from `composer.json`. Packagist
   derives versions from git tags exclusively.
 
