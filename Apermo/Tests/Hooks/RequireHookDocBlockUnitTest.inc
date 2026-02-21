@@ -87,3 +87,18 @@ apply_filters_ref_array( 'my_ref_filter_bad', $args );
  * OK: deprecated action with no extra args (only name, version, message).
  */
 do_action_deprecated( 'my_old_simple', [], '2.0.0', 'my_new_simple' );
+
+/**
+ * OK: ref_array with spaced long syntax array ( ).
+ */
+do_action_ref_array( 'my_spaced_action', array ( ) );
+
+/**
+ * OK: deprecated with spaced long syntax ARRAY( ).
+ */
+do_action_deprecated( 'my_spaced_deprecated', array(), '2.0.0', 'my_new' );
+
+/**
+ * OK: ref_array with long syntax array() no spaces.
+ */
+do_action_ref_array( 'my_long_action', array() );

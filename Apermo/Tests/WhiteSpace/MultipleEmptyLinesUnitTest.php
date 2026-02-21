@@ -22,6 +22,10 @@ class MultipleEmptyLinesUnitTest extends AbstractSniffUnitTest {
 	 * @return array<int, int>
 	 */
 	protected function getErrorList( $testFile = '' ) {
+		if ( $testFile !== 'MultipleEmptyLinesUnitTest.inc' ) {
+			return [];
+		}
+
 		return [
 			5  => 1,
 			8  => 1,

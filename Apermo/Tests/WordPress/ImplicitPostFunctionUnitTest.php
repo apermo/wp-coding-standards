@@ -44,8 +44,8 @@ class ImplicitPostFunctionUnitTest extends AbstractSniffUnitTest {
 			37 => 1,
 			38 => 1,
 			53 => 1,
-			67 => 1,
 			71 => 1,
+			75 => 1,
 		];
 	}
 
@@ -61,7 +61,7 @@ class ImplicitPostFunctionUnitTest extends AbstractSniffUnitTest {
 			21 => 1,
 			22 => 1,
 			23 => 1,
-			62 => 1,
+			66 => 1,
 		];
 	}
 }

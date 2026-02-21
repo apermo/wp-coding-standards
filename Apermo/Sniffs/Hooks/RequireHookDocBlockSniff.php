@@ -215,7 +215,7 @@ class RequireHookDocBlockSniff implements Sniff {
 			}
 
 			$raw = trim( $argsParam['raw'] );
-			if ( $raw === '[]' || strcasecmp( $raw, 'array()' ) === 0 ) {
+			if ( $raw === '[]' || preg_match( '/^array\s*\(\s*\)$/i', $raw ) === 1 ) {
 				return 0;
 			}
 

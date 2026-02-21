@@ -54,6 +54,10 @@ function test_implicit() {
 	// OK: FQ call with arg.
 	\get_the_title( $p );
 
+	// OK: non-ID property access (not $var->ID pattern).
+	get_post( $post->name );
+	get_post( $post->id );
+
 	// OK: named argument.
 	get_the_content( post: $post );
 	get_the_date( post: $post );
