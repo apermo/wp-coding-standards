@@ -22,7 +22,14 @@ class RequireHookDocBlockUnitTest extends AbstractSniffUnitTest {
 	 * @return array<int, int>
 	 */
 	protected function getErrorList( $testFile = '' ) {
-		return [];
+		return [
+			21 => 1,
+			25 => 1,
+			30 => 1,
+			37 => 1,
+			74 => 1,
+			84 => 2,
+		];
 	}
 
 	/**
@@ -33,13 +40,6 @@ class RequireHookDocBlockUnitTest extends AbstractSniffUnitTest {
 	 * @return array<int, int>
 	 */
 	protected function getWarningList( $testFile = '' ) {
-		return [
-			21 => 1,
-			25 => 1,
-			30 => 1,
-			37 => 1,
-			74 => 1,
-			84 => 2,
-		];
+		return [];
 	}
 }

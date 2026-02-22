@@ -66,7 +66,7 @@ class RequireHookDocBlockSniff implements Sniff {
 		$docBlock     = $this->findDocBlock( $phpcsFile, $statementStart );
 
 		if ( $docBlock === null ) {
-			$phpcsFile->addWarning(
+			$phpcsFile->addError(
 				'Hook invocation %s() must be preceded by a PHPDoc block',
 				$stackPtr,
 				'Missing',
@@ -174,7 +174,7 @@ class RequireHookDocBlockSniff implements Sniff {
 		$hookArgs = $this->countHookArguments( $phpcsFile, $stackPtr, $funcName );
 
 		if ( $hookArgs > 0 && $paramCount === 0 ) {
-			$phpcsFile->addWarning(
+			$phpcsFile->addError(
 				'Hook doc block is missing @param tags for the hook arguments',
 				$stackPtr,
 				'MissingParam'
@@ -182,7 +182,7 @@ class RequireHookDocBlockSniff implements Sniff {
 		}
 
 		if ( $hookType === 'filter' && ! $hasReturn ) {
-			$phpcsFile->addWarning(
+			$phpcsFile->addError(
 				'Filter doc block must include a @return tag describing the filtered value',
 				$stackPtr,
 				'MissingReturn'
