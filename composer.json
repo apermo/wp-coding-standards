@@ -16,7 +16,7 @@
 	},
 	"keywords": ["phpcs", "wordpress", "coding-standards", "static-analysis"],
 	"require": {
-		"php": ">=8.3",
+		"php": ">=7.4",
 		"squizlabs/php_codesniffer": "^3.10",
 		"wp-coding-standards/wpcs": "^3.0",
 		"slevomat/coding-standard": "^8.0",
@@ -32,6 +32,9 @@
 	"scripts": {
 		"test": "phpunit",
 		"analyse": "phpstan analyse"
+	},
+	"autoload": {
+		"files": ["Apermo/polyfills.php"]
 	},
 	"config": {
 		"allow-plugins": {
