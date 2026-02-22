@@ -10,7 +10,7 @@ Shared [PHPCS](https://github.com/PHPCSStandards/PHP_CodeSniffer) ruleset for Wo
 
 ## Requirements
 
-- PHP 8.3+
+- PHP 7.4+
 
 ## Installation
 
@@ -376,7 +376,7 @@ The sniff checks:
 | `MissingParam` | Hook passes arguments but doc block has no `@param` tags |
 | `MissingReturn` | `apply_filters*` call without a `@return` tag |
 
-All violations are warnings.
+All violations are errors.
 
 ```php
 // Bad — no documentation
@@ -570,6 +570,10 @@ composer analyse       # Run PHPStan static analysis
 3. Open a PR — CI runs tests, PHPStan, and validates the changelog
 4. Merge the PR — GitHub Actions creates a draft release with the tag
 5. Review and publish the draft release on GitHub
+
+## Disclaimer
+
+This project is developed with major assistance from AI tooling. Projects with stricter rules regarding the use of AI-generated code should refrain from forking or reusing code from this repository.
 
 ## License
 
