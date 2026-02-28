@@ -212,6 +212,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 12, 'Concat at start of line should be allowed.' );
 	}
 
+	public function testRequireNullCoalesceOperator(): void {
+		$file = $this->processFixture( 'NullCoalesce.inc' );
+		$this->assertErrorOnLine( $file, 7, 'RequireNullCoalesceOperator', 'isset() ternary should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 9, 'Null coalesce should be allowed.' );
+	}
+
 	public function testAlternativeSyntaxDisallowed(): void {
 		$file = $this->processFixture( 'AlternativeSyntax.inc' );
 		$this->assertErrorOnLine( $file, 5, 'DisallowAlternativeSyntax', 'Alternative if/endif should be flagged.' );
