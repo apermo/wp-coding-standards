@@ -241,9 +241,9 @@ class RulesetIntegrationTest extends TestCase {
 
 	public function testMinimumVariableNameLength(): void {
 		$file = $this->processFixture( 'VariableNameLength.inc' );
-		$this->assertWarningOnLine( $file, 6, 'MinimumVariableNameLength', 'Short variable should warn.' );
-		$this->assertNoWarningsOnLine( $file, 8, 'Allowed short name should pass.' );
-		$this->assertNoWarningsOnLine( $file, 10, 'Long enough name should pass.' );
+		$this->assertWarningOnLine( $file, 7, 'MinimumVariableNameLength', 'Short variable should warn.' );
+		$this->assertNoWarningsOnLine( $file, 9, 'Allowed short name should pass.' );
+		$this->assertNoWarningsOnLine( $file, 11, 'Long enough name should pass.' );
 	}
 
 	public function testExitUsage(): void {
