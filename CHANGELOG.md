@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `require`/`include` statements with relative paths.
   Use absolute paths (`__DIR__ . '/...'`) for
   predictable file resolution.
+- `Apermo.WordPress.PreferWpdbIdentifierPlaceholder`
+  sniff: warns when `%s` is used for SQL identifiers in
+  `$wpdb->prepare()`. Use `%i` (WP 6.2+) instead.
 - `Apermo.WordPress.NoHardcodedTableNames` sniff: warns
   on hardcoded `wp_` table names in SQL strings. Use
   `$wpdb->tablename` or `$wpdb->prefix` instead.

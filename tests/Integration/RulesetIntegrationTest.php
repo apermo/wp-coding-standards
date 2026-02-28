@@ -375,6 +375,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoWarningsOnLine( $file, 16, 'update_option with autoload should be allowed.' );
 	}
 
+	public function testPreferWpdbIdentifierPlaceholder(): void {
+		$file = $this->processFixture( 'WpdbIdentifierPlaceholder.inc' );
+		$this->assertWarningOnLine( $file, 6, 'PreferWpdbIdentifierPlaceholder', 'FROM %s should warn.' );
+		$this->assertNoWarningsOnLine( $file, 9, '%i should be allowed.' );
+	}
+
 	public function testNoHardcodedTableNames(): void {
 		$file = $this->processFixture( 'HardcodedTableNames.inc' );
 		$this->assertWarningOnLine( $file, 5, 'NoHardcodedTableNames', 'wp_posts should warn.' );
