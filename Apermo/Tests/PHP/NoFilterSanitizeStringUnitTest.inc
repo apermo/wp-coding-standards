@@ -27,6 +27,9 @@ Filters::FILTER_SANITIZE_STRING();
 // OK: nullsafe method call.
 $obj?->FILTER_SANITIZE_STRING();
 
+// OK: bare function call (user-defined function named FILTER_SANITIZE_STRING).
+FILTER_SANITIZE_STRING();
+
 // OK: function definition.
 function FILTER_SANITIZE_STRING() {
 	return true;
