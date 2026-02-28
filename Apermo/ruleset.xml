@@ -172,6 +172,13 @@
 		<exclude-pattern phpcbf-only="true"/>
 	</rule>
 
+	<!-- Flag unused local variables. -->
+	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+		<properties>
+			<property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
+		</properties>
+	</rule>
+
 	<!-- Enforce alphabetically ordered import use statements. -->
 	<rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses">
 		<properties>
