@@ -110,6 +110,9 @@
 	<!-- Enforce short type hints: integer → int, boolean → bool. -->
 	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
 
+	<!-- Enforce null type hint at end of union types: ?string or string|null, not null|string. -->
+	<rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition"/>
+
 	<!-- Enforce return types, including void -->
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
 		<properties>
