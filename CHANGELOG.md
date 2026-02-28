@@ -46,6 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `SlevomatCodingStandard.Classes.ClassStructure`:
   enforces consistent class member ordering (uses,
   constants, properties, constructor, methods).
+- Pre-commit hook (`.githooks/pre-commit`) running
+  PHPStan and PHPUnit with coverage. Auto-configured
+  via Composer `post-install-cmd`/`post-update-cmd`.
 
 ## [2.4.0] - 2026-02-28
 
