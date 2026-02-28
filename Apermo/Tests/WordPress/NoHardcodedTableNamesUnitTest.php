@@ -36,12 +36,14 @@ class NoHardcodedTableNamesUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getWarningList( $testFile = '' ) {
 		return [
-			6  => 1, // wp_posts.
-			9  => 1, // wp_options.
-			12 => 1, // wp_postmeta.
-			15 => 1, // wp_users.
-			18 => 1, // wp_my_custom_table.
-			21 => 1, // wp_cron in a string.
+			6  => 1, // FROM wp_posts.
+			9  => 1, // FROM wp_options.
+			12 => 1, // FROM wp_my_custom_table.
+			15 => 1, // FROM myapp_posts (custom prefix).
+			18 => 1, // JOIN wp_postmeta.
+			21 => 1, // INTO custom_table.
+			24 => 1, // UPDATE wp_users.
+			47 => 1, // $wpdb->prefix interpolation (warnPrefix on).
 		];
 	}
 }

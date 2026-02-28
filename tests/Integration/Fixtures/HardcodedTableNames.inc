@@ -1,11 +1,11 @@
 <?php
 // phpcs:set Apermo.NamingConventions.MinimumVariableNameLength minLength 1
 
-// WARNING: hardcoded wp_posts.
+// WARNING: hardcoded table name after FROM.
 $s = 'SELECT * FROM wp_posts';
 
-// WARNING: hardcoded custom table.
-$s = 'SELECT * FROM wp_my_custom_table';
+// WARNING: custom prefix is equally hardcoded.
+$s = 'SELECT * FROM myapp_posts';
 
-// OK: no wp_ prefix.
-$s = 'SELECT * FROM custom_table';
+// OK: placeholder, not a hardcoded name.
+$s = 'SELECT * FROM %i WHERE id = 1';

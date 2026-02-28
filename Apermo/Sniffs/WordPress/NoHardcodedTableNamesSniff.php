@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag hardcoded WordPress table names in SQL.
+ * Flag hardcoded table names in SQL strings.
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -13,23 +13,46 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Flags SQL strings containing hardcoded WordPress table names
- * (e.g. wp_posts, wp_my_custom_table) instead of $wpdb->prefix
- * or $wpdb->tablename properties.
+ * Flags SQL strings containing hardcoded table names after SQL
+ * keywords (FROM, JOIN, INTO, UPDATE, TABLE) instead of using
+ * $wpdb->tablename or the %i placeholder.
  *
- * Any hardcoded wp_ prefix breaks when the table prefix is customized.
+ * Optionally also flags $wpdb->prefix concatenation when
+ * $warnPrefix is enabled (use $wpdb->tablename or %i instead).
  *
  * Error codes:
- * - Found: hardcoded wp_ table name in SQL string
+ * - Found:        hardcoded table name in SQL string
+ * - PrefixConcat: $wpdb->prefix concatenation detected
  */
 class NoHardcodedTableNamesSniff implements Sniff {
 
 	/**
-	 * Regex matching any hardcoded wp_ prefixed table name.
+	 * SQL keywords after which a bare identifier is a table name.
+	 * Matches the keyword followed by a hardcoded identifier that is
+	 * not a placeholder (%s, %i, %1$s) or an interpolation ({$...}).
 	 *
 	 * @var string
 	 */
-	private const PATTERN = '/\bwp_(\w+)\b/i';
+	private const PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|TABLE)\s+(?!%[sid]|%\d+\$[sid])([a-zA-Z_]\w*)\b/i';
+
+	/**
+	 * Matches $wpdb->prefix interpolation followed by a table name
+	 * in double-quoted strings: "{$wpdb->prefix}tablename".
+	 *
+	 * @var string
+	 */
+	private const PREFIX_PATTERN = '/\{\$wpdb->prefix\}(\w+)/';
+
+	/**
+	 * Whether to flag $wpdb->prefix concatenation.
+	 *
+	 * When true, using $wpdb->prefix . 'table' or
+	 * "{$wpdb->prefix}table" is flagged. Use $wpdb->tablename
+	 * or the %i placeholder instead.
+	 *
+	 * @var bool
+	 */
+	public $warnPrefix = false;
 
 	/**
 	 * Returns an array of tokens this sniff listens for.
@@ -52,15 +75,25 @@ class NoHardcodedTableNamesSniff implements Sniff {
 		$tokens  = $phpcsFile->getTokens();
 		$content = $tokens[ $stackPtr ]['content'];
 
-		if ( preg_match( self::PATTERN, $content, $matches ) !== 1 ) {
+		// Check for hardcoded table names after SQL keywords.
+		if ( preg_match( self::PATTERN, $content, $matches ) === 1 ) {
+			$phpcsFile->addWarning(
+				'Hardcoded table name "%s" detected; use $wpdb->tablename or %%i placeholder instead',
+				$stackPtr,
+				'Found',
+				[ $matches[1] ],
+			);
 			return;
 		}
 
-		$phpcsFile->addWarning(
-			'Hardcoded table name "%s" detected; use $wpdb->prefix or $wpdb->tablename instead',
-			$stackPtr,
-			'Found',
-			[ 'wp_' . $matches[1] ],
-		);
+		// Check for $wpdb->prefix interpolation in double-quoted strings.
+		if ( $this->warnPrefix && preg_match( self::PREFIX_PATTERN, $content, $matches ) === 1 ) {
+			$phpcsFile->addWarning(
+				'$wpdb->prefix concatenation detected for table "%s"; use $wpdb->tablename or %%i placeholder instead',
+				$stackPtr,
+				'PrefixConcat',
+				[ $matches[1] ],
+			);
+		}
 	}
 }

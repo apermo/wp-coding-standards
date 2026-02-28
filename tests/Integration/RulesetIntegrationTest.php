@@ -390,8 +390,8 @@ class RulesetIntegrationTest extends TestCase {
 	public function testNoHardcodedTableNames(): void {
 		$file = $this->processFixture( 'HardcodedTableNames.inc' );
 		$this->assertWarningOnLine( $file, 5, 'NoHardcodedTableNames', 'wp_posts should warn.' );
-		$this->assertWarningOnLine( $file, 8, 'NoHardcodedTableNames', 'wp_my_custom_table should warn.' );
-		$this->assertNoWarningsOnLine( $file, 11, 'Non-wp_ table should be allowed.' );
+		$this->assertWarningOnLine( $file, 8, 'NoHardcodedTableNames', 'Custom prefix should warn.' );
+		$this->assertNoWarningsOnLine( $file, 11, 'Placeholder should be allowed.' );
 	}
 
 	public function testSwitchToBlogRequiresRestore(): void {
