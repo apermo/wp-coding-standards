@@ -27,7 +27,8 @@ To add a custom sniff:
 
 1. Create a PHP class in `Apermo/Sniffs/<Category>/<SniffName>Sniff.php`
 2. The class must implement `PHP_CodeSniffer\Sniffs\Sniff`
-3. PHPCS discovers it automatically by convention
+3. Every PHP file must start with `declare(strict_types=1);` after the opening `<?php` tag
+4. PHPCS discovers it automatically by convention
 
 Example: `Apermo/Sniffs/Naming/FunctionPrefixSniff.php` is referenced as `Apermo.Naming.FunctionPrefix` in ruleset XML.
 
