@@ -359,6 +359,13 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 8, 'Non-ajax hook should be allowed.' );
 	}
 
+	public function testRequireAbsoluteIncludePath(): void {
+		$file = $this->processFixture( 'AbsoluteIncludePath.inc' );
+		$this->assertErrorOnLine( $file, 5, 'RequireAbsoluteIncludePath', 'Relative path should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 8, '__DIR__ path should be allowed.' );
+		$this->assertNoErrorsOnLine( $file, 11, 'Constant path should be allowed.' );
+	}
+
 	public function testRequireOptionAutoload(): void {
 		$file = $this->processFixture( 'OptionAutoload.inc' );
 		$this->assertWarningOnLine( $file, 7, 'RequireOptionAutoload', 'add_option without autoload should warn.' );
