@@ -107,6 +107,9 @@
 		</properties>
 	</rule>
 
+	<!-- Enforce short type hints: integer → int, boolean → bool. -->
+	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+
 	<!-- Enforce return types, including void -->
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
 		<properties>

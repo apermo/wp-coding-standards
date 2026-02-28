@@ -212,6 +212,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 12, 'Concat at start of line should be allowed.' );
 	}
 
+	public function testLongTypeHintsFlagged(): void {
+		$file = $this->processFixture( 'LongTypeHints.inc' );
+		$this->assertErrorOnLine( $file, 11, 'LongTypeHints', '@param integer should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 22, '@param int should be allowed.' );
+	}
+
 	public function testRequireNullCoalesceOperator(): void {
 		$file = $this->processFixture( 'NullCoalesce.inc' );
 		$this->assertErrorOnLine( $file, 7, 'RequireNullCoalesceOperator', 'isset() ternary should be flagged.' );
