@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `strpos()`/`strstr()` comparison patterns replaceable
   by `str_contains()` or `str_starts_with()` (PHP 8.0+).
   Configurable as error (default) or warning.
+- `Apermo.WordPress.NoAdminAjax` sniff: flags
+  `add_action()` calls registering `wp_ajax_*` hooks.
+  Admin-ajax is slower and harder to debug than the
+  REST API. Use `register_rest_route()` instead.
 
 ## [2.4.0] - 2026-02-28
 

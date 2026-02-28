@@ -353,6 +353,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 11, 'strpos without comparison should be allowed.' );
 	}
 
+	public function testNoAdminAjax(): void {
+		$file = $this->processFixture( 'NoAdminAjax.inc' );
+		$this->assertErrorOnLine( $file, 5, 'NoAdminAjax', 'wp_ajax_ hook should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 8, 'Non-ajax hook should be allowed.' );
+	}
+
 	public function testRequireOptionAutoload(): void {
 		$file = $this->processFixture( 'OptionAutoload.inc' );
 		$this->assertWarningOnLine( $file, 7, 'RequireOptionAutoload', 'add_option without autoload should warn.' );
