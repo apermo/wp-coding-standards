@@ -212,6 +212,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 12, 'Concat at start of line should be allowed.' );
 	}
 
+	public function testStaticClosureRequired(): void {
+		$file = $this->processFixture( 'StaticClosure.inc' );
+		$this->assertErrorOnLine( $file, 8, 'StaticClosure', 'Non-static closure should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 13, 'Static closure should be allowed.' );
+	}
+
 	public function testRequireTrailingCommaInCall(): void {
 		$file = $this->processFixture( 'TrailingCommaInCall.inc' );
 		$this->assertErrorOnLine( $file, 9, 'RequireTrailingCommaInCall', 'Missing trailing comma should be flagged.' );

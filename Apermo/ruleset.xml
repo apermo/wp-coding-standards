@@ -88,6 +88,9 @@
 	<!-- Require trailing comma in multi-line function calls. -->
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
 
+	<!-- Require static closures when $this is not used. -->
+	<rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+
 	<!-- Forbid long closures. Use named functions instead. -->
 	<rule ref="Universal.FunctionDeclarations.NoLongClosures">
 		<properties>
