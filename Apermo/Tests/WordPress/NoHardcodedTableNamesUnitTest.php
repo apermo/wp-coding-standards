@@ -40,6 +40,8 @@ class NoHardcodedTableNamesUnitTest extends AbstractSniffUnitTest {
 			9  => 1, // wp_options.
 			12 => 1, // wp_postmeta.
 			15 => 1, // wp_users.
+			18 => 1, // wp_my_custom_table.
+			21 => 1, // wp_cron in a string.
 		];
 	}
 }

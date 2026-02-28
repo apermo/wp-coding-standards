@@ -14,10 +14,10 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
  * Flags SQL strings containing hardcoded WordPress table names
- * (e.g. wp_posts, wp_options) instead of $wpdb->prefix or
- * $wpdb->tablename properties.
+ * (e.g. wp_posts, wp_my_custom_table) instead of $wpdb->prefix
+ * or $wpdb->tablename properties.
  *
- * Hardcoded table names break when the prefix is customized.
+ * Any hardcoded wp_ prefix breaks when the table prefix is customized.
  *
  * Error codes:
  * - Found: hardcoded wp_ table name in SQL string
@@ -25,31 +25,11 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class NoHardcodedTableNamesSniff implements Sniff {
 
 	/**
-	 * Known WordPress core table base names (without prefix).
-	 *
-	 * @var array<string>
-	 */
-	private const TABLE_NAMES = [
-		'posts',
-		'postmeta',
-		'comments',
-		'commentmeta',
-		'terms',
-		'term_taxonomy',
-		'term_relationships',
-		'termmeta',
-		'options',
-		'links',
-		'users',
-		'usermeta',
-	];
-
-	/**
-	 * Regex pattern matching hardcoded wp_ table names.
+	 * Regex matching any hardcoded wp_ prefixed table name.
 	 *
 	 * @var string
 	 */
-	private string $pattern = '';
+	private const PATTERN = '/\bwp_(\w+)\b/i';
 
 	/**
 	 * Returns an array of tokens this sniff listens for.
@@ -57,9 +37,6 @@ class NoHardcodedTableNamesSniff implements Sniff {
 	 * @return array<int|string>
 	 */
 	public function register() {
-		$names         = implode( '|', self::TABLE_NAMES );
-		$this->pattern = '/\bwp_(' . $names . ')\b/i';
-
 		return [ T_CONSTANT_ENCAPSED_STRING, T_DOUBLE_QUOTED_STRING ];
 	}
 
@@ -75,15 +52,15 @@ class NoHardcodedTableNamesSniff implements Sniff {
 		$tokens  = $phpcsFile->getTokens();
 		$content = $tokens[ $stackPtr ]['content'];
 
-		if ( preg_match( $this->pattern, $content, $matches ) !== 1 ) {
+		if ( preg_match( self::PATTERN, $content, $matches ) !== 1 ) {
 			return;
 		}
 
 		$phpcsFile->addWarning(
-			'Hardcoded table name "%s" detected; use $wpdb->%s or $wpdb->prefix instead',
+			'Hardcoded table name "%s" detected; use $wpdb->prefix or $wpdb->tablename instead',
 			$stackPtr,
 			'Found',
-			[ 'wp_' . $matches[1], $matches[1] ],
+			[ 'wp_' . $matches[1] ],
 		);
 	}
 }

@@ -4,5 +4,8 @@
 // WARNING: hardcoded wp_posts.
 $s = 'SELECT * FROM wp_posts';
 
-// OK: no hardcoded table name.
+// WARNING: hardcoded custom table.
+$s = 'SELECT * FROM wp_my_custom_table';
+
+// OK: no wp_ prefix.
 $s = 'SELECT * FROM custom_table';
