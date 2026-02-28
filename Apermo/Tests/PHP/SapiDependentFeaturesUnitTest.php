@@ -40,6 +40,7 @@ class SapiDependentFeaturesUnitTest extends AbstractSniffUnitTest {
 		return [
 			9  => 1, // INPUT_SERVER.
 			12 => 1, // INPUT_ENV.
+			33 => 1, // \INPUT_SERVER with leading backslash.
 		];
 	}
 }

@@ -81,7 +81,7 @@ class SwitchToBlogRequiresRestoreSniff implements Sniff {
 
 		// Walk up to find the enclosing function/method/closure scope.
 		foreach ( $tokens[ $stackPtr ]['conditions'] as $ptr => $code ) {
-			if ( in_array( $code, [ T_FUNCTION, T_CLOSURE ], true ) ) {
+			if ( in_array( $code, [ T_FUNCTION, T_CLOSURE, T_FN ], true ) ) {
 				return $tokens[ $ptr ]['scope_closer'];
 			}
 		}

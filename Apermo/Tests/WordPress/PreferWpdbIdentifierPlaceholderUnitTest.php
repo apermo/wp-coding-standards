@@ -39,6 +39,7 @@ class PreferWpdbIdentifierPlaceholderUnitTest extends AbstractSniffUnitTest {
 			6  => 1, // FROM %s.
 			9  => 1, // JOIN %s.
 			12 => 1, // INTO %s.
+			36 => 1, // FROM %1$s (numbered placeholder).
 		];
 	}
 }

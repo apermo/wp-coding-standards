@@ -140,7 +140,7 @@ class RequireWpErrorHandlingSniff implements Sniff {
 		$tokens = $phpcsFile->getTokens();
 
 		foreach ( $tokens[ $stackPtr ]['conditions'] as $ptr => $code ) {
-			if ( in_array( $code, [ T_FUNCTION, T_CLOSURE ], true ) ) {
+			if ( in_array( $code, [ T_FUNCTION, T_CLOSURE, T_FN ], true ) ) {
 				return $tokens[ $ptr ]['scope_closer'];
 			}
 		}

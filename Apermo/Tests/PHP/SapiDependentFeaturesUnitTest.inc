@@ -28,3 +28,6 @@ Filters::filter_input( INPUT_SERVER, 'key' );
 
 // OK: filter_input with no arguments (edge case).
 $val = filter_input();
+
+// WARNING: INPUT_SERVER with leading backslash.
+$val = filter_input( \INPUT_SERVER, 'REQUEST_URI' );

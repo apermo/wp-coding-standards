@@ -65,7 +65,7 @@ class SapiDependentFeaturesSniff implements Sniff {
 			return;
 		}
 
-		$typeValue = strtoupper( trim( $type['clean'] ) );
+		$typeValue = strtoupper( ltrim( trim( $type['clean'] ), '\\' ) );
 
 		if ( $typeValue === 'INPUT_REQUEST' ) {
 			$phpcsFile->addError(

@@ -31,3 +31,9 @@ $sql = $callback( 'SELECT * FROM %s' );
 
 // OK: function called 'prepare' but no -> before it.
 $sql = prepare( 'SELECT * FROM %s', $table );
+
+// WARNING: numbered placeholder %1$s in identifier position.
+$sql = $wpdb->prepare( 'SELECT * FROM %1$s WHERE id = %2$d', $wpdb->posts, $id );
+
+// OK: not $wpdb (other object with prepare method).
+$sql = $other->prepare( 'SELECT * FROM %s WHERE id = %d', $table, $id );

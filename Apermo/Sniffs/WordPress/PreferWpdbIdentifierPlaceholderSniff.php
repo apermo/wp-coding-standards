@@ -27,7 +27,7 @@ class PreferWpdbIdentifierPlaceholderSniff implements Sniff {
 	 *
 	 * @var string
 	 */
-	private const IDENTIFIER_PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|TABLE)\s+%s\b/i';
+	private const IDENTIFIER_PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|TABLE)\s+%(?:\d+\$)?s\b/i';
 
 	/**
 	 * Returns an array of tokens this sniff listens for.
@@ -102,6 +102,12 @@ class PreferWpdbIdentifierPlaceholderSniff implements Sniff {
 		// The token before 'prepare' should be '->'.
 		$arrow = $phpcsFile->findPrevious( T_WHITESPACE, $funcName - 1, null, true );
 		if ( $arrow === false || $tokens[ $arrow ]['code'] !== T_OBJECT_OPERATOR ) {
+			return false;
+		}
+
+		// The token before '->' should be $wpdb.
+		$object = $phpcsFile->findPrevious( T_WHITESPACE, $arrow - 1, null, true );
+		if ( $object === false || $tokens[ $object ]['content'] !== '$wpdb' ) {
 			return false;
 		}
 
