@@ -69,6 +69,96 @@ vendor/bin/phpcs
 - Hook invocations (`do_action`, `apply_filters`) require PHPDoc blocks
 - Assignment alignment must be consistent within groups (all aligned or all single-space)
 - Nested closures and arrow functions are warned
+- `exit()` enforced over `die` and bare `exit`
+- Variable names must be at least 4 characters (configurable allowlist)
+- Closures must be `static` when not using `$this`
+- Trailing comma required in multi-line function calls
+- Functions limited to 50 lines, classes to 500 lines
+- Cognitive complexity flagged (warning > 15, error > 30)
+- Unused local variables flagged
+- Implicit array creation (`$a[] =` on undefined) flagged
+- `??` required instead of `isset()` ternary
+- Short type hints enforced in PHPDoc (`int` not `integer`)
+- `null` must be last in union types (`string|null` not `null|string`)
+- `and`/`or` operators disallowed (use `&&`/`||`)
+- Alternative control syntax (`endif`, `endwhile`) disallowed
+
+### Exit Usage (`Apermo.PHP.ExitUsage`)
+
+Enforces `exit()` as the canonical form. Flags `die`, `die()`, and bare `exit` (without parentheses). Auto-fixable with `phpcbf`.
+
+```php
+// Bad
+die;
+die();
+die( 'message' );
+exit;
+
+// Good
+exit();
+exit( 1 );
+exit( 'message' );
+```
+
+**Customization** via `phpcs.xml`:
+
+```xml
+<!-- Allow die (only flag bare exit) -->
+<rule ref="Apermo.PHP.ExitUsage.DieFound">
+    <severity>0</severity>
+</rule>
+```
+
+### Minimum Variable Name Length (`Apermo.NamingConventions.MinimumVariableNameLength`)
+
+Warns on variable names shorter than 4 characters (excluding `$`). Common short names are allowed by default: `i`, `id`, `key`, `url`, `row`, `tag`, `map`, `max`, `min`, `sql`, `raw`.
+
+```php
+// Bad
+$pt = get_post_type();
+$cb = function () {};
+
+// Good
+$post_type = get_post_type();
+$callback = function () {};
+$id = get_the_ID(); // allowed (in default allowlist)
+```
+
+**Customization** via `phpcs.xml`:
+
+```xml
+<!-- Change minimum length -->
+<rule ref="Apermo.NamingConventions.MinimumVariableNameLength">
+    <properties>
+        <property name="minLength" value="3"/>
+    </properties>
+</rule>
+
+<!-- Append to the default allowlist -->
+<rule ref="Apermo.NamingConventions.MinimumVariableNameLength">
+    <properties>
+        <property name="allowedShortNames" type="array"
+                  extend="true">
+            <element value="hex"/>
+            <element value="css"/>
+        </property>
+    </properties>
+</rule>
+```
+
+### Text Domain Validation
+
+`WordPress.WP.I18n` text domain checking is active via the WordPress ruleset. Configure your project's text domain in your `phpcs.xml`:
+
+```xml
+<rule ref="WordPress.WP.I18n">
+    <properties>
+        <property name="text_domain" type="array">
+            <element value="my-plugin"/>
+        </property>
+    </properties>
+</rule>
+```
 
 ### Forbidden Nested Closures (`Apermo.Functions.ForbiddenNestedClosure`)
 

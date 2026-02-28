@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - Unreleased
+
+### Added
+
+- `Apermo.PHP.ExitUsage` sniff: enforces `exit()` over
+  `die`, `die()`, and bare `exit`. Auto-fixable.
+- `Apermo.NamingConventions.MinimumVariableNameLength`
+  sniff: warns on variable names shorter than 4 characters.
+  Configurable allowlist with `extend="true"` support.
+- `SlevomatCodingStandard.Functions.StaticClosure`: flags
+  closures that do not use `$this`.
+- `SlevomatCodingStandard.Functions.RequireTrailingCommaInCall`:
+  requires trailing comma in multi-line function calls.
+- `SlevomatCodingStandard.Functions.FunctionLength`: flags
+  functions longer than 50 lines.
+- `SlevomatCodingStandard.Classes.ClassLength`: flags
+  classes longer than 500 lines.
+- `SlevomatCodingStandard.Complexity.Cognitive`: flags
+  overly complex methods (warning at 15, error at 30).
+- `SlevomatCodingStandard.Variables.UnusedVariable`: flags
+  unused local variables with foreach key-only exemption.
+- `SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation`:
+  flags appending to undefined variables.
+- `SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator`:
+  flags `isset()` ternaries replaceable with `??`.
+- `SlevomatCodingStandard.TypeHints.LongTypeHints`: flags
+  `integer` → `int`, `boolean` → `bool` in annotations.
+- `SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition`:
+  flags `null|string` in favor of `string|null`.
+- `Universal.Operators.DisallowLogicalAndOr`: flags `and`
+  / `or` in favor of `&&` / `||`.
+- `Universal.ControlStructures.DisallowAlternativeSyntax`:
+  flags `endif`, `endwhile`, `endfor`, etc.
+- Text domain validation: documented `WordPress.WP.I18n`
+  `text_domain` configuration in ruleset with integration
+  test.
+
 ## [2.2.0] - 2026-02-22
 
 ### Changed
@@ -236,6 +273,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[2.3.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.0.2...v2.1.0
 [2.0.2]: https://github.com/apermo/apermo-coding-standards/compare/v2.0.1...v2.0.2
