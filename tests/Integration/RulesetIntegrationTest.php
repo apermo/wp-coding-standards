@@ -212,6 +212,14 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 12, 'Concat at start of line should be allowed.' );
 	}
 
+	public function testExitUsage(): void {
+		$file = $this->processFixture( 'ExitUsage.inc' );
+		$this->assertErrorOnLine( $file, 7, 'ExitUsage', 'die should be flagged.' );
+		$this->assertErrorOnLine( $file, 9, 'ExitUsage', 'die() should be flagged.' );
+		$this->assertErrorOnLine( $file, 11, 'ExitUsage', 'bare exit should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 13, 'exit() should be allowed.' );
+	}
+
 	public function testUnusedVariable(): void {
 		$file = $this->processFixture( 'UnusedVariable.inc' );
 		$this->assertErrorOnLine( $file, 9, 'UnusedVariable', 'Unused variable should be flagged.' );
