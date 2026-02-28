@@ -375,6 +375,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoWarningsOnLine( $file, 16, 'update_option with autoload should be allowed.' );
 	}
 
+	public function testSwitchToBlogRequiresRestore(): void {
+		$file = $this->processFixture( 'SwitchToBlogRestore.inc' );
+		$this->assertErrorOnLine( $file, 8, 'SwitchToBlogRequiresRestore', 'Missing restore should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 14, 'With restore should be allowed.' );
+	}
+
 	public function testSapiDependentFeatures(): void {
 		$file = $this->processFixture( 'SapiDependentFeatures.inc' );
 		$this->assertErrorOnLine( $file, 6, 'SapiDependentFeatures', 'INPUT_REQUEST should be an error.' );
