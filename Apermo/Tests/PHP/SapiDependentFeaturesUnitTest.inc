@@ -25,3 +25,6 @@ $obj->filter_input( INPUT_SERVER, 'key' );
 
 // OK: static method call.
 Filters::filter_input( INPUT_SERVER, 'key' );
+
+// OK: filter_input with no arguments (edge case).
+$val = filter_input();

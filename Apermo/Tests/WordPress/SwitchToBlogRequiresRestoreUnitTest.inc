@@ -24,3 +24,6 @@ function method_call( int $blog_id, object $ms ): void {
 function static_call( int $blog_id ): void {
 	MS::switch_to_blog( $blog_id );
 }
+
+// ERROR: top-level switch_to_blog without restore.
+switch_to_blog( 2 );

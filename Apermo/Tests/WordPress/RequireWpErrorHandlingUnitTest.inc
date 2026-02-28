@@ -46,3 +46,12 @@ function method_call( string $url, object $client ): void {
 function static_call( string $url ): void {
 	$response = HTTP::wp_remote_get( $url );
 }
+
+// OK: assigned to array key (non-variable target, can't track).
+function array_assign( string $url ): array {
+	$results['response'] = wp_remote_get( $url );
+	return $results;
+}
+
+// WARNING: top-level code without is_wp_error() check.
+$response = wp_remote_get( 'https://example.com' );

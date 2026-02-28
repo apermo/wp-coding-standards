@@ -25,7 +25,8 @@ class SwitchToBlogRequiresRestoreUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getErrorList( $testFile = '' ) {
 		return [
-			7 => 1, // switch_to_blog without restore.
+			7  => 1, // switch_to_blog without restore.
+			29 => 1, // top-level switch_to_blog without restore.
 		];
 	}
 

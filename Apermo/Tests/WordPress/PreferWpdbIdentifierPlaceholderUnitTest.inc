@@ -22,3 +22,12 @@ $sql = sprintf( 'SELECT * FROM %s WHERE id = %d', 'posts', $id );
 
 // OK: no identifier position.
 $sql = $wpdb->prepare( 'SELECT %s FROM %i', $col, $wpdb->posts );
+
+// OK: pattern match but not inside parentheses.
+$sql = 'SELECT * FROM %s WHERE id = 1';
+
+// OK: inside parentheses but not a function call (variable call).
+$sql = $callback( 'SELECT * FROM %s' );
+
+// OK: function called 'prepare' but no -> before it.
+$sql = prepare( 'SELECT * FROM %s', $table );

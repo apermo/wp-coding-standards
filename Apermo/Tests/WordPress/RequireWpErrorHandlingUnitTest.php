@@ -38,6 +38,7 @@ class RequireWpErrorHandlingUnitTest extends AbstractSniffUnitTest {
 		return [
 			7  => 1, // wp_remote_get without check.
 			27 => 1, // wp_insert_post without check.
+			57 => 1, // top-level wp_remote_get without check.
 		];
 	}
 }
