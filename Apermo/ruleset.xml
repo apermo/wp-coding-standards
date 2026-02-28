@@ -99,6 +99,13 @@
 	<!-- Require trailing comma in multi-line function calls. -->
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
 
+	<!-- Flag functions/methods longer than 50 lines. -->
+	<rule ref="SlevomatCodingStandard.Functions.FunctionLength">
+		<properties>
+			<property name="maxLinesLength" value="50"/>
+		</properties>
+	</rule>
+
 	<!-- Require static closures when $this is not used. -->
 	<rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
 

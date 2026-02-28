@@ -212,6 +212,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 12, 'Concat at start of line should be allowed.' );
 	}
 
+	public function testFunctionLength(): void {
+		$file = $this->processFixture( 'FunctionLength.inc' );
+		$this->assertNoErrorsOnLine( $file, 9, 'Short function should be allowed.' );
+		$this->assertErrorOnLine( $file, 15, 'FunctionLength', 'Long function should be flagged.' );
+	}
+
 	public function testCognitiveComplexity(): void {
 		$file = $this->processFixture( 'CognitiveComplexity.inc' );
 		$this->assertNoErrorsOnLine( $file, 8, 'Simple function should pass.' );
