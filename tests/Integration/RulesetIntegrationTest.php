@@ -375,6 +375,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoWarningsOnLine( $file, 16, 'update_option with autoload should be allowed.' );
 	}
 
+	public function testNoHardcodedTableNames(): void {
+		$file = $this->processFixture( 'HardcodedTableNames.inc' );
+		$this->assertWarningOnLine( $file, 5, 'NoHardcodedTableNames', 'wp_posts should warn.' );
+		$this->assertNoWarningsOnLine( $file, 8, 'Custom table should be allowed.' );
+	}
+
 	public function testSwitchToBlogRequiresRestore(): void {
 		$file = $this->processFixture( 'SwitchToBlogRestore.inc' );
 		$this->assertErrorOnLine( $file, 8, 'SwitchToBlogRequiresRestore', 'Missing restore should be flagged.' );
