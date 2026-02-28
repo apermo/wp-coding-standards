@@ -8,3 +8,8 @@ $id = 42;
 $key = 'test';
 $url = 'https://example.com';
 $this_is_fine = true;
+class Example {
+	public function test() {
+		$this->value = 1;
+	}
+}

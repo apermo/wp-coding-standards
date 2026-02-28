@@ -65,11 +65,11 @@ class MinimumVariableNameLengthSniff implements Sniff {
 		$tokens = $phpcsFile->getTokens();
 		$name   = ltrim( $tokens[ $stackPtr ]['content'], '$' );
 
-		if ( strlen( $name ) >= $this->minLength ) {
+		if ( $name === 'this' ) {
 			return;
 		}
 
-		if ( $name === 'this' ) {
+		if ( strlen( $name ) >= $this->minLength ) {
 			return;
 		}
 
