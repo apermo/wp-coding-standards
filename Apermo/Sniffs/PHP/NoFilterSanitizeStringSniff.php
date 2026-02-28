@@ -17,7 +17,7 @@ use PHP_CodeSniffer\Sniffs\Sniff;
  * sense of security. Use sanitize_text_field() or a specific sanitizer.
  *
  * Error codes:
- * - Found: FILTER_SANITIZE_STRING constant usage detected
+ * - Found: deprecated filter constant usage detected
  */
 class NoFilterSanitizeStringSniff implements Sniff {
 
@@ -28,7 +28,7 @@ class NoFilterSanitizeStringSniff implements Sniff {
 	 */
 	private const FORBIDDEN_CONSTANTS = [
 		'FILTER_SANITIZE_STRING'       => 'sanitize_text_field()',
-		'FILTER_SANITIZE_STRIPPED'      => 'sanitize_text_field()',
+		'FILTER_SANITIZE_STRIPPED'     => 'sanitize_text_field()',
 		'FILTER_SANITIZE_MAGIC_QUOTES' => 'wp_slash()',
 	];
 

@@ -17,7 +17,7 @@ use PHPCSUtils\Utils\PassedParameters;
  * silently loads the option on every page load — a common
  * performance footgun.
  *
- * Error codes:
+ * Warning codes:
  * - MissingAutoload: autoload parameter not provided
  */
 class RequireOptionAutoloadSniff implements Sniff {
@@ -28,8 +28,14 @@ class RequireOptionAutoloadSniff implements Sniff {
 	 * @var array<string, array{position: int, name: string}>
 	 */
 	private const OPTION_FUNCTIONS = [
-		'add_option'    => [ 'position' => 4, 'name' => 'autoload' ],
-		'update_option' => [ 'position' => 3, 'name' => 'autoload' ],
+		'add_option'    => [
+			'position' => 4,
+			'name'     => 'autoload',
+		],
+		'update_option' => [
+			'position' => 3,
+			'name'     => 'autoload',
+		],
 	];
 
 	/**

@@ -116,8 +116,8 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	 *
 	 * Scans the token range of the args parameter for the string
 	 * 'permission_callback' used as an array key (followed by =>).
-	 * Also checks for variable-passed args that reference a known
-	 * array containing the key.
+	 * Non-literal args (variables, function calls) are assumed
+	 * correct since they cannot be verified statically.
 	 *
 	 * @param File                                    $phpcsFile The file being scanned.
 	 * @param array{start: int, end: int, raw: string} $param     Parameter info from PassedParameters.
@@ -126,7 +126,6 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	 */
 	private function containsPermissionCallback( File $phpcsFile, array $param ): bool {
 		$tokens = $phpcsFile->getTokens();
-		$raw    = trim( $param['raw'] );
 
 		// If the arg is a variable or function call, we can't statically
 		// verify the contents — give the benefit of the doubt.
