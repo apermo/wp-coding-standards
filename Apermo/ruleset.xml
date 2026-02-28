@@ -68,6 +68,28 @@
 		<severity>0</severity>
 	</rule>
 
+	<!-- Enforce consistent class member ordering. -->
+	<rule ref="SlevomatCodingStandard.Classes.ClassStructure">
+		<properties>
+			<property name="groups" type="array">
+				<element value="uses"/>
+				<element value="enum cases"/>
+				<element value="public constants, protected constants, private constants"/>
+				<element value="public static properties, protected static properties, private static properties"/>
+				<element value="public properties, protected properties, private properties"/>
+				<element value="constructor"/>
+				<element value="static constructors"/>
+				<element value="destructor"/>
+				<element value="public static abstract methods, protected static abstract methods"/>
+				<element value="public static final methods, protected static final methods"/>
+				<element value="public static methods, protected static methods, private static methods"/>
+				<element value="public abstract methods, protected abstract methods"/>
+				<element value="public final methods, protected final methods"/>
+				<element value="public methods, magic methods, protected methods, private methods"/>
+			</property>
+		</properties>
+	</rule>
+
 	<!-- Flag god classes with more than 500 lines. -->
 	<rule ref="SlevomatCodingStandard.Classes.ClassLength">
 		<properties>

@@ -374,4 +374,10 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoWarningsOnLine( $file, 10, 'add_option with autoload should be allowed.' );
 		$this->assertNoWarningsOnLine( $file, 16, 'update_option with autoload should be allowed.' );
 	}
+
+	public function testClassStructure(): void {
+		$file = $this->processFixture( 'ClassStructure.inc' );
+		$this->assertErrorOnLine( $file, 12, 'ClassStructure', 'Property after method should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 18, 'Correct class structure should be allowed.' );
+	}
 }
