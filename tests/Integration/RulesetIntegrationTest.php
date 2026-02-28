@@ -25,23 +25,25 @@ class RulesetIntegrationTest extends TestCase {
 
 	private static string $fixtures_dir;
 
+	private static string $installed_paths;
+
 	public static function setUpBeforeClass(): void {
 		self::$fixtures_dir = __DIR__ . '/Fixtures/';
 
 		// Read installed_paths directly from CodeSniffer.conf because ConfigDouble
 		// (used by unit tests) clears the static config data cache.
 		$config_file = dirname( __DIR__, 2 ) . '/vendor/squizlabs/php_codesniffer/CodeSniffer.conf';
-		$installed_paths = '';
+		self::$installed_paths = '';
 		if ( file_exists( $config_file ) ) {
 			include $config_file;
-			$installed_paths = $phpCodeSnifferConfig['installed_paths'] ?? '';
+			self::$installed_paths = $phpCodeSnifferConfig['installed_paths'] ?? '';
 		}
 
 		self::$config = new ConfigDouble( [
 			'--standard=Apermo',
 			'--runtime-set',
 			'installed_paths',
-			$installed_paths,
+			self::$installed_paths,
 		] );
 
 		self::$ruleset = new Ruleset( self::$config );
@@ -210,5 +212,118 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'ConcatPosition.inc' );
 		$this->assertErrorOnLine( $file, 7, 'ConcatPosition', 'Concat at end of line should be flagged.' );
 		$this->assertNoErrorsOnLine( $file, 12, 'Concat at start of line should be allowed.' );
+	}
+
+	public function testTextDomainValidation(): void {
+		$config = new ConfigDouble( [
+			'--standard=Apermo',
+			'--runtime-set',
+			'installed_paths',
+			self::$installed_paths,
+			'--runtime-set',
+			'text_domain',
+			'test-domain',
+		] );
+
+		$ruleset = new Ruleset( $config );
+		$file    = new LocalFile(
+			self::$fixtures_dir . 'TextDomain.inc',
+			$ruleset,
+			$config,
+		);
+		$file->process();
+
+		$this->assertErrorOnLine( $file, 5, 'TextDomainMismatch', 'Wrong text domain should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 7, 'Correct text domain should be allowed.' );
+	}
+
+	public function testMinimumVariableNameLength(): void {
+		$file = $this->processFixture( 'VariableNameLength.inc' );
+		$this->assertWarningOnLine( $file, 6, 'MinimumVariableNameLength', 'Short variable should warn.' );
+		$this->assertNoWarningsOnLine( $file, 8, 'Allowed short name should pass.' );
+		$this->assertNoWarningsOnLine( $file, 10, 'Long enough name should pass.' );
+	}
+
+	public function testExitUsage(): void {
+		$file = $this->processFixture( 'ExitUsage.inc' );
+		$this->assertErrorOnLine( $file, 7, 'ExitUsage', 'die should be flagged.' );
+		$this->assertErrorOnLine( $file, 9, 'ExitUsage', 'die() should be flagged.' );
+		$this->assertErrorOnLine( $file, 11, 'ExitUsage', 'bare exit should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 13, 'exit() should be allowed.' );
+	}
+
+	public function testUnusedVariable(): void {
+		$file = $this->processFixture( 'UnusedVariable.inc' );
+		$this->assertErrorOnLine( $file, 9, 'UnusedVariable', 'Unused variable should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 15, 'Used variable should be allowed.' );
+		$this->assertNoErrorsOnLine( $file, 23, 'Unused foreach value with used key should be allowed.' );
+	}
+
+	public function testClassLength(): void {
+		$file = $this->processFixture( 'ClassLength.inc' );
+		$this->assertNoErrorsOnLine( $file, 8, 'Short class should be allowed.' );
+		$this->assertErrorOnLine( $file, 13, 'ClassLength', 'Long class should be flagged.' );
+	}
+
+	public function testFunctionLength(): void {
+		$file = $this->processFixture( 'FunctionLength.inc' );
+		$this->assertNoErrorsOnLine( $file, 9, 'Short function should be allowed.' );
+		$this->assertErrorOnLine( $file, 15, 'FunctionLength', 'Long function should be flagged.' );
+	}
+
+	public function testCognitiveComplexity(): void {
+		$file = $this->processFixture( 'CognitiveComplexity.inc' );
+		$this->assertNoErrorsOnLine( $file, 8, 'Simple function should pass.' );
+		$this->assertErrorOnLine( $file, 13, 'Cognitive', 'Complex function should be flagged.' );
+	}
+
+	public function testDisallowImplicitArrayCreation(): void {
+		$file = $this->processFixture( 'ImplicitArrayCreation.inc' );
+		$this->assertErrorOnLine( $file, 9, 'DisallowImplicitArrayCreation', 'Implicit array creation should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 16, 'Append to declared array should be allowed.' );
+	}
+
+	public function testStaticClosureRequired(): void {
+		$file = $this->processFixture( 'StaticClosure.inc' );
+		$this->assertErrorOnLine( $file, 8, 'StaticClosure', 'Non-static closure should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 13, 'Static closure should be allowed.' );
+	}
+
+	public function testRequireTrailingCommaInCall(): void {
+		$file = $this->processFixture( 'TrailingCommaInCall.inc' );
+		$this->assertErrorOnLine( $file, 9, 'RequireTrailingCommaInCall', 'Missing trailing comma should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 15, 'Trailing comma should be allowed.' );
+	}
+
+	public function testNullTypeHintOnLastPosition(): void {
+		$file = $this->processFixture( 'NullTypeHintPosition.inc' );
+		$this->assertErrorOnLine( $file, 12, 'NullTypeHintOnLastPosition', 'null|string should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 19, 'string|null should be allowed.' );
+	}
+
+	public function testLongTypeHintsFlagged(): void {
+		$file = $this->processFixture( 'LongTypeHints.inc' );
+		$this->assertErrorOnLine( $file, 11, 'LongTypeHints', '@param integer should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 22, '@param int should be allowed.' );
+	}
+
+	public function testRequireNullCoalesceOperator(): void {
+		$file = $this->processFixture( 'NullCoalesce.inc' );
+		$this->assertErrorOnLine( $file, 7, 'RequireNullCoalesceOperator', 'isset() ternary should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 9, 'Null coalesce should be allowed.' );
+	}
+
+	public function testAlternativeSyntaxDisallowed(): void {
+		$file = $this->processFixture( 'AlternativeSyntax.inc' );
+		$this->assertErrorOnLine( $file, 5, 'DisallowAlternativeSyntax', 'Alternative if/endif should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 9, 'Standard braces should be allowed.' );
+	}
+
+	public function testLogicalAndOrDisallowed(): void {
+		$file = $this->processFixture( 'LogicalOperators.inc' );
+		$this->assertErrorOnLine( $file, 4, 'DisallowLogicalAndOr', '"and" should be flagged.' );
+		$this->assertErrorOnLine( $file, 6, 'DisallowLogicalAndOr', '"or" should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 8, '&& should be allowed.' );
+		$this->assertNoErrorsOnLine( $file, 10, '|| should be allowed.' );
 	}
 }

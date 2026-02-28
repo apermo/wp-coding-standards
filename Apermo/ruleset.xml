@@ -47,6 +47,19 @@
 		<exclude name="Yoast.Commenting.FileComment.CopyrightTagOrder"/>
 	</rule>
 
+	<!--
+		Text domain validation (WordPress.WP.I18n) is active via the WordPress ruleset.
+		Configure your project's text domain in your phpcs.xml:
+
+		<rule ref="WordPress.WP.I18n">
+			<properties>
+				<property name="text_domain" type="array">
+					<element value="my-plugin"/>
+				</property>
+			</properties>
+		</rule>
+	-->
+
 	<!-- Superseded by Apermo.PHP.RequireNotInclude. -->
 	<rule ref="PEAR.Files.IncludingFile.UseRequire">
 		<severity>0</severity>
@@ -54,6 +67,24 @@
 	<rule ref="PEAR.Files.IncludingFile.UseRequireOnce">
 		<severity>0</severity>
 	</rule>
+
+	<!-- Flag god classes with more than 500 lines. -->
+	<rule ref="SlevomatCodingStandard.Classes.ClassLength">
+		<properties>
+			<property name="maxLinesLength" value="500"/>
+		</properties>
+	</rule>
+
+	<!-- Flag overly complex methods by cognitive complexity score. -->
+	<rule ref="SlevomatCodingStandard.Complexity.Cognitive">
+		<properties>
+			<property name="warningThreshold" value="15"/>
+			<property name="errorThreshold" value="30"/>
+		</properties>
+	</rule>
+
+	<!-- Disallow implicit array creation via $a[] = or $a['key'] = on undefined variable. -->
+	<rule ref="SlevomatCodingStandard.Arrays.DisallowImplicitArrayCreation"/>
 
 	<!-- Disallow long array syntax. -->
 	<rule ref="Generic.Arrays.DisallowLongArraySyntax">
@@ -76,6 +107,28 @@
 	<!-- Enforce concatenation operators at start of line in multi-line. -->
 	<rule ref="Universal.Operators.ConcatPosition"/>
 
+	<!-- Disallow 'and'/'or' — use && / || instead. -->
+	<rule ref="Universal.Operators.DisallowLogicalAndOr"/>
+
+	<!-- Disallow alternative control structure syntax (endif, endwhile, etc.). -->
+	<rule ref="Universal.ControlStructures.DisallowAlternativeSyntax"/>
+
+	<!-- Require null coalesce operator ?? instead of isset() ternary. -->
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+
+	<!-- Require trailing comma in multi-line function calls. -->
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+
+	<!-- Flag functions/methods longer than 50 lines. -->
+	<rule ref="SlevomatCodingStandard.Functions.FunctionLength">
+		<properties>
+			<property name="maxLinesLength" value="50"/>
+		</properties>
+	</rule>
+
+	<!-- Require static closures when $this is not used. -->
+	<rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+
 	<!-- Forbid long closures. Use named functions instead. -->
 	<rule ref="Universal.FunctionDeclarations.NoLongClosures">
 		<properties>
@@ -97,6 +150,12 @@
 			</property>
 		</properties>
 	</rule>
+
+	<!-- Enforce short type hints: integer → int, boolean → bool. -->
+	<rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+
+	<!-- Enforce null type hint at end of union types: ?string or string|null, not null|string. -->
+	<rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition"/>
 
 	<!-- Enforce return types, including void -->
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHint">
@@ -124,6 +183,13 @@
 		<exclude name="SlevomatCodingStandard.TypeHints.PropertyTypeHint.UselessAnnotation"/>
 		<exclude name="SlevomatCodingStandard.TypeHints.ReturnTypeHint.UselessAnnotation"/>
 		<exclude-pattern phpcbf-only="true"/>
+	</rule>
+
+	<!-- Flag unused local variables. -->
+	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+		<properties>
+			<property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
+		</properties>
 	</rule>
 
 	<!-- Enforce alphabetically ordered import use statements. -->
