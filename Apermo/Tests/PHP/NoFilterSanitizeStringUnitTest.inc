@@ -20,3 +20,14 @@ $value = filter_var( $input, FILTER_SANITIZE_NUMBER_INT );
 
 // OK: used as a string in a different context (method name).
 $obj->FILTER_SANITIZE_STRING();
+
+// OK: static method call.
+Filters::FILTER_SANITIZE_STRING();
+
+// OK: nullsafe method call.
+$obj?->FILTER_SANITIZE_STRING();
+
+// OK: function definition.
+function FILTER_SANITIZE_STRING() {
+	return true;
+}

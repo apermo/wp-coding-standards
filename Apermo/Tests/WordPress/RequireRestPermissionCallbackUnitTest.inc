@@ -59,3 +59,11 @@ register_rest_route( 'myplugin/v1', '/items', [
 
 // OK: function call result as args.
 register_rest_route( 'myplugin/v1', '/items', build_args() );
+
+// OK: function definition named register_rest_route.
+function register_rest_route( $ns, $route, $args ) {
+	return true;
+}
+
+// OK: nullsafe method call.
+$router?->register_rest_route( 'ns', '/path', [] );

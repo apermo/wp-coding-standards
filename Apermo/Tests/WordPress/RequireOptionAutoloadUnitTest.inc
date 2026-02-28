@@ -27,3 +27,11 @@ $store->update_option( 'key', 'val' );
 
 // WARNING: add_option with 3 args (deprecated param, no autoload).
 add_option( 'my_option', 'value', '' );
+
+// OK: function definition named add_option.
+function add_option( $key, $val ) {
+	return true;
+}
+
+// OK: nullsafe method call.
+$store?->update_option( 'key', 'val' );
