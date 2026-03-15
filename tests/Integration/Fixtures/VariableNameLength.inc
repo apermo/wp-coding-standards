@@ -9,3 +9,5 @@ $x = 1;
 $id = 42;
 // Long enough name should pass (line 10).
 $count = 5;
+// $ids should be allowed by default (line 12).
+$ids = [ 1, 2, 3 ];

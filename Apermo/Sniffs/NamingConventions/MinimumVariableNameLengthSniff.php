@@ -44,6 +44,7 @@ class MinimumVariableNameLengthSniff implements Sniff {
 		'min',
 		'sql',
 		'raw',
+		'ids',
 	];
 
 	/**

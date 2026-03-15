@@ -5,6 +5,35 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - Unreleased
+
+### Added
+
+- `Apermo.Operators.DisallowPreIncrementDecrement` sniff:
+  flags `++$var` and `--$var` in favor of `$var++` and
+  `$var--`. Auto-fixable. Handles complex identifiers
+  like `$obj->prop`, `self::$var`, and `$arr['key']`.
+- `SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators`:
+  restricts `++`/`--` to standalone statements and
+  loop contexts only.
+- `SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly`:
+  force explicit `use` imports instead of inline FQN.
+- `SlevomatCodingStandard.Namespaces.UseFromSameNamespace`:
+  prevent redundant `use` for same-namespace classes.
+- `SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions`:
+  require `\function_exists()` in namespaced code.
+- `SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants`:
+  require `\PHP_VERSION` in namespaced code.
+- `ids` added to `MinimumVariableNameLength` default
+  allowlist. Common in WordPress for post/term/attachment
+  ID collections.
+
+### Changed
+
+- Excluded `Universal.Operators.DisallowStandalonePostIncrementDecrement`
+  from WordPress block. We enforce post-increment
+  over pre-increment.
+
 ## [2.5.0] - 2026-03-01
 
 ### Added
@@ -338,6 +367,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[2.6.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.5.0...v2.6.0
 [2.5.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.4.0...v2.5.0
 [2.4.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.3.0...v2.4.0
 [2.3.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.2.0...v2.3.0

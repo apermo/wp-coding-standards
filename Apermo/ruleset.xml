@@ -25,6 +25,8 @@
 		<exclude name="Universal.Operators.DisallowShortTernary.Found"/>
 		<!-- We disallow Yoda conditions. -->
 		<exclude name="WordPress.PHP.YodaConditions"/>
+		<!-- We enforce post-increment, not pre-increment. -->
+		<exclude name="Universal.Operators.DisallowStandalonePostIncrementDecrement"/>
 		<!-- We allow short open tags. -->
 		<exclude name="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
 		<!-- We allow short open tags. -->
@@ -140,6 +142,9 @@
 	<!-- Disallow alternative control structure syntax (endif, endwhile, etc.). -->
 	<rule ref="Universal.ControlStructures.DisallowAlternativeSyntax"/>
 
+	<!-- Only allow increment/decrement as standalone statements or in for()/while(). -->
+	<rule ref="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators"/>
+
 	<!-- Require null coalesce operator ?? instead of isset() ternary. -->
 	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
 
@@ -233,6 +238,23 @@
 			<property name="searchAnnotations" value="true"/>
 		</properties>
 	</rule>
+
+	<!-- Force explicit use imports instead of inline FQN references. -->
+	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
+		<properties>
+			<property name="allowFullyQualifiedGlobalConstants" value="true"/>
+			<property name="allowFullyQualifiedGlobalFunctions" value="true"/>
+		</properties>
+	</rule>
+
+	<!-- Prevent redundant use for same-namespace classes. -->
+	<rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+
+	<!-- Require backslash for global functions in namespaced code. -->
+	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/>
+
+	<!-- Require backslash for global constants in namespaced code. -->
+	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants"/>
 
 	<!-- For namespaced functions/constants: import the namespace, not the function/constant. -->
 	<rule ref="Universal.UseStatements.DisallowUseConst"/>

@@ -244,6 +244,7 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertWarningOnLine( $file, 7, 'MinimumVariableNameLength', 'Short variable should warn.' );
 		$this->assertNoWarningsOnLine( $file, 9, 'Allowed short name should pass.' );
 		$this->assertNoWarningsOnLine( $file, 11, 'Long enough name should pass.' );
+		$this->assertNoWarningsOnLine( $file, 13, '$ids should be allowed by default.' );
 	}
 
 	public function testExitUsage(): void {
@@ -412,6 +413,24 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'ExcessiveParameterCount.inc' );
 		$this->assertWarningOnLine( $file, 6, 'ExcessiveParameterCount', '7 params should warn.' );
 		$this->assertNoWarningsOnLine( $file, 11, '3 params should be allowed.' );
+	}
+
+	public function testNamespaceHygieneRules(): void {
+		$file = $this->processFixture( 'NamespaceHygiene.inc' );
+		$this->assertErrorOnLine( $file, 17, 'UseFromSameNamespace', 'Same-namespace use should be flagged.' );
+		$this->assertErrorOnLine( $file, 22, 'ReferenceUsedNamesOnly', 'Inline FQN should be flagged.' );
+		$this->assertErrorOnLine( $file, 24, 'FullyQualifiedGlobalFunctions', 'Global function without backslash should be flagged.' );
+		$this->assertErrorOnLine( $file, 26, 'FullyQualifiedGlobalConstants', 'Global constant without backslash should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 28, 'Imported class should be allowed.' );
+	}
+
+	public function testIncrementDecrementEnforcement(): void {
+		$file = $this->processFixture( 'IncrementDecrement.inc' );
+		$this->assertErrorOnLine( $file, 12, 'PreIncrementFound', 'Pre-increment should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 14, 'Standalone post-increment should be allowed.' );
+		$this->assertNoErrorsOnLine( $file, 16, 'Post-increment in for() should be allowed.' );
+		$this->assertErrorOnLine( $file, 18, 'RequireOnlyStandaloneIncrementAndDecrementOperators', 'Non-standalone increment should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 20, 'Post-decrement standalone should be allowed.' );
 	}
 
 	public function testClassStructure(): void {
