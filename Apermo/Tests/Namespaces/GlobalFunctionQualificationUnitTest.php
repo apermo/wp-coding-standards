@@ -24,6 +24,10 @@ class GlobalFunctionQualificationUnitTest extends AbstractSniffUnitTest {
 	 * @return array<int, int>
 	 */
 	protected function getErrorList( $testFile = '' ) {
+		if ( $testFile === 'GlobalFunctionQualificationUnitTest.1.inc' ) {
+			return [];
+		}
+
 		return [
 			6  => 1, // strlen without backslash
 			12 => 1, // \plugin_dir_path with backslash
