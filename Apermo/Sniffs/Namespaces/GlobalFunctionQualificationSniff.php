@@ -20,6 +20,13 @@ use PHP_CodeSniffer\Sniffs\Sniff;
 class GlobalFunctionQualificationSniff implements Sniff {
 
 	/**
+	 * Cache for native function checks.
+	 *
+	 * @var array<string, bool>
+	 */
+	private static array $native_cache = [];
+
+	/**
 	 * Tokens that indicate the T_STRING is not a function call.
 	 *
 	 * @var list<int|string>
@@ -152,15 +159,20 @@ class GlobalFunctionQualificationSniff implements Sniff {
 	 * @return bool
 	 */
 	private function isPhpNativeFunction( string $name ): bool {
+		$lower = \strtolower( $name );
+		if ( isset( self::$native_cache[ $lower ] ) ) {
+			return self::$native_cache[ $lower ];
+		}
+
 		if ( ! \function_exists( $name ) ) {
-			return false;
+			return self::$native_cache[ $lower ] = false;
 		}
 
 		try {
 			$ref = new \ReflectionFunction( $name );
-			return $ref->isInternal();
+			return self::$native_cache[ $lower ] = $ref->isInternal();
 		} catch ( \ReflectionException $e ) {
-			return false;
+			return self::$native_cache[ $lower ] = false;
 		}
 	}
 }
