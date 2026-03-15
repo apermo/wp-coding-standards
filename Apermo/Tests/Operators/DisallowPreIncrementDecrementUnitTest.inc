@@ -10,7 +10,7 @@ $a--;
 // Pre-increment on property — flagged.
 ++$obj->prop;
 // Pre-decrement on static property — flagged.
-++self::$count;
+--self::$count;
 // Pre-increment on array access — flagged.
 ++$arr['key'];
 // Post-increment on property — allowed.

@@ -13,14 +13,16 @@
 
 namespace App\Test;
 
-// Inline FQN instead of use import — flagged (line 16).
-$obj = new \App\Service\Mailer();
-// use from same namespace — flagged (line 18).
+// use from same namespace — flagged (line 17).
 use App\Test\Helper;
-// Global function without backslash — flagged (line 20).
-$exists = function_exists( 'my_function' );
-// Global constant without backslash — flagged (line 22).
-$version = PHP_VERSION;
-// Properly imported class — allowed (line 24).
+// Properly imported class — allowed (line 19).
 use App\Service\Logger;
+
+// Inline FQN instead of use import — flagged (line 22).
+$obj = new \App\Service\Mailer();
+// Global function without backslash — flagged (line 24).
+$exists = function_exists( 'my_function' );
+// Global constant without backslash — flagged (line 26).
+$version = PHP_VERSION;
+// Imported class — allowed (line 28).
 $logger = new Logger();
