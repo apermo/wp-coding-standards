@@ -5,7 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.6.2] - Unreleased
+## [2.6.3] - Unreleased
+
+### Fixed
+
+- `Apermo.Hooks.RequireHookDocBlock`: accept `@see` as valid
+  documentation for hooks documented elsewhere (e.g. WP core).
+  A doc block with `@see` no longer requires `@param`/`@return`.
+
+## [2.6.2] - 2026-03-22
 
 ### Fixed
 
@@ -390,6 +398,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[2.6.3]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.2...v2.6.3
 [2.6.2]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.1...v2.6.2
 [2.6.1]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.0...v2.6.1
 [2.6.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.5.0...v2.6.0

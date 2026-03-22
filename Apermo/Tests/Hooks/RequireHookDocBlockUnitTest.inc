@@ -102,3 +102,12 @@ do_action_deprecated( 'my_spaced_deprecated', array(), '2.0.0', 'my_new' );
  * OK: ref_array with long syntax array() no spaces.
  */
 do_action_ref_array( 'my_long_action', array() );
+
+/** @see wp-includes/post-template.php the_content() */
+apply_filters( 'the_content', $content );
+
+/** @see wp-includes/plugin.php do_action() */
+do_action( 'init', $arg1, $arg2 );
+
+/** @see wp-includes/post.php wp_insert_post() */
+apply_filters_ref_array( 'wp_insert_post_data', $data );

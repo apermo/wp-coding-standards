@@ -130,6 +130,7 @@ class RequireHookDocBlockSniff implements Sniff {
 		$tokens     = $phpcsFile->getTokens();
 		$paramCount = 0;
 		$hasReturn  = false;
+		$hasSee     = false;
 
 		for ( $i = $docBlock['open']; $i <= $docBlock['close']; $i++ ) {
 			if ( $tokens[ $i ]['code'] === T_DOC_COMMENT_TAG ) {
@@ -138,8 +139,15 @@ class RequireHookDocBlockSniff implements Sniff {
 					$paramCount++;
 				} elseif ( $tagContent === '@return' ) {
 					$hasReturn = true;
+				} elseif ( $tagContent === '@see' ) {
+					$hasSee = true;
 				}
 			}
+		}
+
+		// @see indicates the hook is documented elsewhere (e.g. WP core).
+		if ( $hasSee ) {
+			return;
 		}
 
 		$hookArgs = $this->countHookArguments( $phpcsFile, $stackPtr, $funcName );
