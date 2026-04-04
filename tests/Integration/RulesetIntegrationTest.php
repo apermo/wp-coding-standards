@@ -452,4 +452,14 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertErrorOnLine( $file, 19, 'NoPostParameter', 'the_post_thumbnail() without argument should be flagged.' );
 		$this->assertErrorOnLine( $file, 24, 'NoPostParameter', 'the_post_thumbnail() with size should still be flagged.' );
 	}
+
+	public function testBooleanOperators(): void {
+		$file = $this->processFixture( 'BooleanOperators.inc' );
+		$this->assertErrorOnLine( $file, 15, 'BooleanOperatorPlacement', 'Operator at end of line should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 23, 'Operator at start of line should be allowed.' );
+		$this->assertErrorOnLine( $file, 33, 'RequireMultiLineCondition', 'Partially-split condition should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 43, 'Fully-split condition should be allowed.' );
+		$this->assertErrorOnLine( $file, 53, 'RequireExplicitBooleanOperatorPrecedence', 'Mixed operators without parens should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 58, 'Mixed operators with parens should be allowed.' );
+	}
 }
