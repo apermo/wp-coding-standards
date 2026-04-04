@@ -135,6 +135,24 @@
 	<!-- Disallow Yoda conditions. -->
 	<rule ref="Generic.ControlStructures.DisallowYodaConditions"/>
 
+	<!-- Boolean operators must appear at the start of the line in multi-line conditions. -->
+	<rule ref="PSR12.ControlStructures.BooleanOperatorPlacement">
+		<properties>
+			<property name="allowOnly" value="first"/>
+		</properties>
+	</rule>
+
+	<!-- Each condition part must be on its own line, operator at start of next line. -->
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireMultiLineCondition">
+		<properties>
+			<property name="alwaysSplitAllConditionParts" value="true"/>
+			<property name="booleanOperatorOnPreviousLine" value="false"/>
+		</properties>
+	</rule>
+
+	<!-- Require parentheses when mixing && and || to clarify precedence. -->
+	<rule ref="Generic.CodeAnalysis.RequireExplicitBooleanOperatorPrecedence"/>
+
 	<!-- Enforce concatenation operators at start of line in multi-line. -->
 	<rule ref="Universal.Operators.ConcatPosition"/>
 

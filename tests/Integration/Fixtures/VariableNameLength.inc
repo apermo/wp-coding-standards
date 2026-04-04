@@ -11,3 +11,9 @@ $id = 42;
 $count = 5;
 // $ids should be allowed by default (line 12).
 $ids = [ 1, 2, 3 ];
+// $ip should be allowed by default (line 14).
+$ip = '127.0.0.1';
+// $ttl should be allowed by default (line 16).
+$ttl = 3600;
+// $uri should be allowed by default (line 18).
+$uri = '/path';

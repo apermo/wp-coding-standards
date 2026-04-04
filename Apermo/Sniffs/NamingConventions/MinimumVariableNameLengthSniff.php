@@ -35,16 +35,19 @@ class MinimumVariableNameLengthSniff implements Sniff {
 	public array $allowedShortNames = [
 		'i',
 		'id',
+		'ids',
+		'ip',
 		'key',
-		'url',
-		'row',
-		'tag',
 		'map',
 		'max',
 		'min',
-		'sql',
 		'raw',
-		'ids',
+		'row',
+		'sql',
+		'tag',
+		'ttl',
+		'uri',
+		'url',
 	];
 
 	/**

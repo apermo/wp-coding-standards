@@ -245,6 +245,9 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoWarningsOnLine( $file, 9, 'Allowed short name should pass.' );
 		$this->assertNoWarningsOnLine( $file, 11, 'Long enough name should pass.' );
 		$this->assertNoWarningsOnLine( $file, 13, '$ids should be allowed by default.' );
+		$this->assertNoWarningsOnLine( $file, 15, '$ip should be allowed by default.' );
+		$this->assertNoWarningsOnLine( $file, 17, '$ttl should be allowed by default.' );
+		$this->assertNoWarningsOnLine( $file, 19, '$uri should be allowed by default.' );
 	}
 
 	public function testExitUsage(): void {
@@ -440,5 +443,23 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'ClassStructure.inc' );
 		$this->assertErrorOnLine( $file, 12, 'ClassStructure', 'Property after method should be flagged.' );
 		$this->assertNoErrorsOnLine( $file, 18, 'Correct class structure should be allowed.' );
+	}
+
+	public function testImplicitPostFunction(): void {
+		$file = $this->processFixture( 'ImplicitPostFunction.inc' );
+		$this->assertErrorOnLine( $file, 9, 'MissingArgument', 'get_post_format() without post should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 14, 'get_post_format() with post should be allowed.' );
+		$this->assertErrorOnLine( $file, 19, 'NoPostParameter', 'the_post_thumbnail() without argument should be flagged.' );
+		$this->assertErrorOnLine( $file, 24, 'NoPostParameter', 'the_post_thumbnail() with size should still be flagged.' );
+	}
+
+	public function testBooleanOperators(): void {
+		$file = $this->processFixture( 'BooleanOperators.inc' );
+		$this->assertErrorOnLine( $file, 15, 'BooleanOperatorPlacement', 'Operator at end of line should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 23, 'Operator at start of line should be allowed.' );
+		$this->assertErrorOnLine( $file, 33, 'RequireMultiLineCondition', 'Partially-split condition should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 43, 'Fully-split condition should be allowed.' );
+		$this->assertErrorOnLine( $file, 53, 'RequireExplicitBooleanOperatorPrecedence', 'Mixed operators without parens should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 58, 'Mixed operators with parens should be allowed.' );
 	}
 }
