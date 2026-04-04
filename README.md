@@ -42,6 +42,64 @@ Then run:
 vendor/bin/phpcs
 ```
 
+## Project Configuration
+
+The Apermo standard includes rules that require project-specific settings. Without these, you either get false positives
+or miss valid warnings. Copy [`phpcs.xml.dist.example`](phpcs.xml.dist.example) as a starting point, or add the
+properties below to your existing `phpcs.xml`.
+
+### Text Domain (`text_domain`)
+
+`WordPress.WP.I18n` validates that all translation calls use the correct text domain. Set this to your plugin or
+theme slug:
+
+```xml
+<rule ref="WordPress.WP.I18n">
+    <properties>
+        <property name="text_domain" type="array">
+            <element value="my-plugin"/>
+        </property>
+    </properties>
+</rule>
+```
+
+### Global Prefixes (`prefixes`)
+
+`WordPress.NamingConventions.PrefixAllGlobals` checks that global functions, hooks, constants, and namespace
+declarations use your project prefix. Two entries are needed because the namespace root is PascalCase while the
+function/hook prefix is snake_case:
+
+```xml
+<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+    <properties>
+        <property name="prefixes" type="array">
+            <element value="My_Plugin"/>
+            <element value="my_plugin"/>
+        </property>
+    </properties>
+</rule>
+```
+
+The PascalCase entry allows `namespace My_Plugin\Admin;` but flags `namespace Other\Admin;`. The snake_case entry
+validates function names like `my_plugin_init()` and hook names like `my_plugin_loaded`.
+
+For nested namespace roots (e.g. a vendor namespace), set the full root:
+
+```xml
+<element value="Acme\My_Plugin"/>
+```
+
+This allows `namespace Acme\My_Plugin\Admin;` but flags `namespace Acme\Other;`.
+
+### Minimum WordPress Version (`minimum_wp_version`)
+
+Controls which WordPress functions are flagged as deprecated. Set this to the oldest WordPress version your project
+supports:
+
+```xml
+<config name="minimum_wp_version" value="6.2"/>
+```
+
 ## What's Included
 
 | Standard | Purpose |
@@ -241,17 +299,7 @@ $id = get_the_ID(); // allowed (in default allowlist)
 
 ### Text Domain Validation
 
-`WordPress.WP.I18n` text domain checking is active via the WordPress ruleset. Configure your project's text domain in your `phpcs.xml`:
-
-```xml
-<rule ref="WordPress.WP.I18n">
-    <properties>
-        <property name="text_domain" type="array">
-            <element value="my-plugin"/>
-        </property>
-    </properties>
-</rule>
-```
+`WordPress.WP.I18n` text domain checking is active via the WordPress ruleset. See [Project Configuration](#project-configuration) for setup instructions.
 
 ### Forbidden Nested Closures (`Apermo.Functions.ForbiddenNestedClosure`)
 
