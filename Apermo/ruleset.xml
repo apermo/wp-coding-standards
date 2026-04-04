@@ -260,10 +260,12 @@
 	</rule>
 
 	<!-- Force explicit use imports instead of inline FQN references. -->
+	<!-- Skip no-namespace files: use statements are pointless there. -->
 	<rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly">
 		<properties>
 			<property name="allowFullyQualifiedGlobalConstants" value="true"/>
 			<property name="allowFullyQualifiedGlobalFunctions" value="true"/>
+			<property name="allowWhenNoNamespace" value="false"/>
 		</properties>
 	</rule>
 

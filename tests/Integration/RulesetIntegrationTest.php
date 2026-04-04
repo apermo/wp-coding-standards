@@ -462,4 +462,10 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertErrorOnLine( $file, 53, 'RequireExplicitBooleanOperatorPrecedence', 'Mixed operators without parens should be flagged.' );
 		$this->assertNoErrorsOnLine( $file, 58, 'Mixed operators with parens should be allowed.' );
 	}
+
+	public function testFqnAllowedInNoNamespaceFiles(): void {
+		$file = $this->processFixture( 'FqnInNoNamespace.inc' );
+		$this->assertNoErrorsOnLine( $file, 9, 'FQN class in no-namespace file should be allowed.' );
+		$this->assertNoErrorsOnLine( $file, 10, 'FQN interface in no-namespace file should be allowed.' );
+	}
 }
