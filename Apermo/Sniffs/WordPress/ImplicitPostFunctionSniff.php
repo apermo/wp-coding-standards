@@ -42,6 +42,7 @@ class ImplicitPostFunctionSniff extends AbstractPostContextSniff {
 	private const POST_FUNCTIONS = [
 		// Functions with a $post parameter.
 		'get_post'                          => [ 'position' => 1, 'name' => 'post' ],
+		'get_post_format'                   => [ 'position' => 1, 'name' => 'post' ],
 		'get_the_title'                     => [ 'position' => 1, 'name' => 'post' ],
 		'get_the_excerpt'                   => [ 'position' => 1, 'name' => 'post' ],
 		'get_permalink'                     => [ 'position' => 1, 'name' => 'post' ],

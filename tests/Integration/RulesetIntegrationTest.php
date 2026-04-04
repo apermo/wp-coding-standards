@@ -444,4 +444,12 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertErrorOnLine( $file, 12, 'ClassStructure', 'Property after method should be flagged.' );
 		$this->assertNoErrorsOnLine( $file, 18, 'Correct class structure should be allowed.' );
 	}
+
+	public function testImplicitPostFunction(): void {
+		$file = $this->processFixture( 'ImplicitPostFunction.inc' );
+		$this->assertErrorOnLine( $file, 9, 'MissingArgument', 'get_post_format() without post should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 14, 'get_post_format() with post should be allowed.' );
+		$this->assertErrorOnLine( $file, 19, 'NoPostParameter', 'the_post_thumbnail() without argument should be flagged.' );
+		$this->assertErrorOnLine( $file, 24, 'NoPostParameter', 'the_post_thumbnail() with size should still be flagged.' );
+	}
 }
