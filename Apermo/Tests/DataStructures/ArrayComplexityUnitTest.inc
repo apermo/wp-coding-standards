@@ -5,27 +5,36 @@ $flat = [ 'a' => 1, 'b' => 2 ];
 // OK — nested but numeric (list of lists).
 $grid = [ [ 1, 2 ], [ 3, 4 ] ];
 
-// OK — 2 associative levels (equals warnDepth=2, not exceeded).
-$shallow = [ 'db' => [ 'host' => 'localhost' ] ];
-
-// WARNING TooDeep — 3 associative levels.
-$deep = [ 'a' => [ 'b' => [ 'c' => 1 ] ] ];
-
-// ERROR TooDeepError — 5 associative levels.
-$veryDeep = [ 'a' => [ 'b' => [ 'c' => [ 'd' => [ 'e' => 1 ] ] ] ] ];
-
-// WARNING TooManyKeys — 6 keys.
-$user = [
-	'id'       => 1,
-	'name'     => 'John',
-	'email'    => 'john@example.com',
-	'role'     => 'admin',
-	'active'   => true,
-	'verified' => true,
+// OK — 3 associative levels (equals warnDepth=3, not exceeded).
+// Mirrors WP_Query's `meta_query` shape, which is canonical WP usage.
+$wp_query_with_meta = [
+	'post_type'  => 'post',
+	'meta_query' => [
+		'relation' => 'AND',
+		[ 'key' => 'foo', 'compare' => 'EXISTS' ],
+		[ 'key' => 'bar', 'compare' => 'EXISTS' ],
+	],
 ];
 
-// ERROR TooManyKeysError — 11 keys.
-$big = [
+// OK — typical WP_Query arg set (7 keys, below warnKeys=10).
+$query_args = [
+	'post_type'      => 'any',
+	'post_status'    => 'any',
+	'posts_per_page' => -1,
+	'fields'         => 'ids',
+	'meta_key'       => 'x',
+	'meta_value'     => 'y',
+	'no_found_rows'  => true,
+];
+
+// WARNING TooDeep — 4 associative levels.
+$deep4 = [ 'a' => [ 'b' => [ 'c' => [ 'd' => 1 ] ] ] ];
+
+// ERROR TooDeepError — 6 associative levels.
+$deep6 = [ 'a' => [ 'b' => [ 'c' => [ 'd' => [ 'e' => [ 'f' => 1 ] ] ] ] ] ];
+
+// WARNING TooManyKeys — 11 keys.
+$many11 = [
 	'k1'  => 1,
 	'k2'  => 2,
 	'k3'  => 3,
@@ -39,41 +48,75 @@ $big = [
 	'k11' => 11,
 ];
 
+// ERROR TooManyKeysError — 21 keys.
+$many21 = [
+	'k01' => 1,
+	'k02' => 2,
+	'k03' => 3,
+	'k04' => 4,
+	'k05' => 5,
+	'k06' => 6,
+	'k07' => 7,
+	'k08' => 8,
+	'k09' => 9,
+	'k10' => 10,
+	'k11' => 11,
+	'k12' => 12,
+	'k13' => 13,
+	'k14' => 14,
+	'k15' => 15,
+	'k16' => 16,
+	'k17' => 17,
+	'k18' => 18,
+	'k19' => 19,
+	'k20' => 20,
+	'k21' => 21,
+];
+
 // OK — numeric array with many elements.
-$numbers = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ];
+$numbers = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
 
 // OK — array() long syntax, few keys.
-$longSyntax = array( 'a' => 1, 'b' => 2 );
+$long_syntax = array( 'a' => 1, 'b' => 2 );
 
 // OK — empty array.
 $empty = [];
 
-// WARNING TooDeep — long syntax, 3 associative levels.
-$deepLong = array( 'a' => array( 'b' => array( 'c' => 1 ) ) );
+// WARNING TooDeep — long syntax, 4 associative levels.
+$deep_long4 = array( 'a' => array( 'b' => array( 'c' => array( 'd' => 1 ) ) ) );
 
 // WARNING TooDeep + WARNING TooManyKeys — both checks fire independently.
 $both = [
-	'a' => [ 'b' => [ 'c' => 1 ] ],
-	'd' => 2,
-	'e' => 3,
-	'f' => 4,
-	'g' => 5,
-	'h' => 6,
+	'a'   => [ 'b' => [ 'c' => [ 'd' => 1 ] ] ],
+	'k2'  => 2,
+	'k3'  => 3,
+	'k4'  => 4,
+	'k5'  => 5,
+	'k6'  => 6,
+	'k7'  => 7,
+	'k8'  => 8,
+	'k9'  => 9,
+	'k10' => 10,
+	'k11' => 11,
 ];
 
 // OK — non-associative wrapper around associative inner arrays.
 $mixed = [ [ 'a' => 1 ], [ 'b' => 2 ] ];
 
-// OK — function call inside array (close paren owner is T_STRING, not T_ARRAY).
+// OK — function call inside array.
 $config = [ 'merged' => array_merge( [ 'a' => 1 ], [ 'b' => 2 ] ) ];
 
 // OK — numeric array nested inside associative array.
 $items = [ 'list' => [ 1, 2, 3 ] ];
 
-// OK — multiple numeric arrays nested inside associative array.
-$grid = [
-	'rows' => [
-		[ 1, 2 ],
-		[ 3, 4 ],
-	],
+// OK — variable-extraction pattern: complex sub-array is lifted to its own variable,
+// keeping both literals within warnDepth=3.
+$meta_query_body = [
+	'relation' => 'AND',
+	[ 'key' => 'foo', 'compare' => 'EXISTS' ],
+	[ 'key' => 'bar', 'compare' => 'EXISTS' ],
+];
+$extracted_args = [
+	'post_type'  => 'any',
+	'meta_query' => $meta_query_body,
 ];

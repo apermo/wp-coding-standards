@@ -25,8 +25,8 @@ class ArrayComplexityUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getErrorList( $testFile = '' ) {
 		return [
-			15 => 1,
-			28 => 1,
+			34 => 1,
+			52 => 1,
 		];
 	}
 
@@ -39,10 +39,10 @@ class ArrayComplexityUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getWarningList( $testFile = '' ) {
 		return [
-			12 => 1,
-			18 => 1,
-			52 => 1,
-			55 => 2,
+			31 => 1,
+			37 => 1,
+			86 => 1,
+			89 => 2,
 		];
 	}
 }

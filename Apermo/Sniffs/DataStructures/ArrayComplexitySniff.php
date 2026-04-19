@@ -28,30 +28,37 @@ class ArrayComplexitySniff implements Sniff {
 	/**
 	 * Associative nesting depth that triggers a warning.
 	 *
+	 * Depth 3 is the shape of a `WP_Query` call with a `meta_query` — idiomatic
+	 * WordPress usage. The default stays silent on that pattern; deeper
+	 * nesting is the author's own design and warrants a nudge.
+	 *
 	 * @var int
 	 */
-	public int $warnDepth = 2;
+	public int $warnDepth = 3;
 
 	/**
 	 * Associative nesting depth that triggers an error.
 	 *
 	 * @var int
 	 */
-	public int $errorDepth = 3;
+	public int $errorDepth = 5;
 
 	/**
 	 * Number of top-level keys that triggers a warning.
 	 *
+	 * Typical `WP_Query` arg sets land in the 5–8 range; 10 keeps normal
+	 * WordPress API calls silent while flagging larger ad-hoc arrays.
+	 *
 	 * @var int
 	 */
-	public int $warnKeys = 5;
+	public int $warnKeys = 10;
 
 	/**
 	 * Number of top-level keys that triggers an error.
 	 *
 	 * @var int
 	 */
-	public int $errorKeys = 10;
+	public int $errorKeys = 20;
 
 	/**
 	 * Returns an array of tokens this sniff listens for.
