@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/PHPCSStandards/PHP_CodeSniffer/master/phpcs.xsd">
+
+    <description>PHPCS configuration for my-plugin.</description>
+
+    <file>.</file>
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+
+    <rule ref="Apermo"/>
+
+    <!-- Project text domain for i18n validation. -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="my-plugin"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!--
+        Project prefixes for global functions, hooks, constants, and namespace roots.
+        Two entries are needed because the namespace root is PascalCase while the
+        function/hook prefix is snake_case.
+    -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="My_Plugin"/>
+                <element value="my_plugin"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Minimum supported WordPress version (controls deprecated function warnings). -->
+    <config name="minimum_wp_version" value="6.2"/>
+</ruleset>

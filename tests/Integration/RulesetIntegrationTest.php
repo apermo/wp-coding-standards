@@ -207,7 +207,7 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'UseStatements.inc' );
 		$this->assertErrorOnLine( $file, 7, 'UnusedUses', 'Unused use statement should be flagged.' );
 		$this->assertErrorOnLine( $file, 9, 'DisallowUseConst', 'use const should be flagged.' );
-		$this->assertErrorOnLine( $file, 11, 'DisallowUseFunction', 'use function should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 11, 'use function should be allowed.' );
 	}
 
 	public function testConcatAtStartOfLine(): void {
@@ -461,5 +461,27 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 43, 'Fully-split condition should be allowed.' );
 		$this->assertErrorOnLine( $file, 53, 'RequireExplicitBooleanOperatorPrecedence', 'Mixed operators without parens should be flagged.' );
 		$this->assertNoErrorsOnLine( $file, 58, 'Mixed operators with parens should be allowed.' );
+	}
+
+	public function testUseFunctionAllowed(): void {
+		$file = $this->processFixture( 'UseFunctionAllowed.inc' );
+		$this->assertNoErrorsOnLine( $file, 15, 'use function should be allowed.' );
+		$this->assertErrorOnLine( $file, 18, 'DisallowUseConst', 'use const should still be disallowed.' );
+	}
+
+	public function testDocCommentDescription(): void {
+		$file = $this->processFixture( 'DocCommentDescription.inc' );
+		$this->assertNoErrorsOnLine( $file, 6, '@see should satisfy the short description.' );
+		$this->assertNoErrorsOnLine( $file, 10, '@phpstan-ignore-next-line should satisfy.' );
+		$this->assertNoErrorsOnLine( $file, 14, '@phpstan-ignore should satisfy.' );
+		$this->assertErrorOnLine( $file, 18, 'MissingShort', '@param without short desc should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 22, 'Normal short description should pass.' );
+		$this->assertNoErrorsOnLine( $file, 26, 'Empty doc comment should not be flagged.' );
+	}
+
+	public function testFqnAllowedInNoNamespaceFiles(): void {
+		$file = $this->processFixture( 'FqnInNoNamespace.inc' );
+		$this->assertNoErrorsOnLine( $file, 9, 'FQN class in no-namespace file should be allowed.' );
+		$this->assertNoErrorsOnLine( $file, 10, 'FQN interface in no-namespace file should be allowed.' );
 	}
 }

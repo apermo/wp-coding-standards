@@ -7,7 +7,7 @@ namespace Apermo\Tests\Integration\Fixtures;
 use RuntimeException;
 // use const — should be flagged (line 9).
 use const PHP_EOL;
-// use function — should be flagged (line 11).
+// use function — should be allowed (line 11).
 use function array_map;
 
 class UseStatementFixture {

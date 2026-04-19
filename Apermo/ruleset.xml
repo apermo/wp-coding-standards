@@ -13,6 +13,11 @@
 		<severity>0</severity>
 	</rule>
 
+	<!-- Superseded by Apermo.Commenting.DocCommentDescription. -->
+	<rule ref="Generic.Commenting.DocComment.MissingShort">
+		<severity>0</severity>
+	</rule>
+
 	<!-- WordPress Ruleset -->
 	<rule ref="WordPress">
 		<!-- We use short array syntax. -->
@@ -264,6 +269,8 @@
 		<properties>
 			<property name="allowFullyQualifiedGlobalConstants" value="true"/>
 			<property name="allowFullyQualifiedGlobalFunctions" value="true"/>
+			<!-- Counterintuitive: "false" means "do NOT enforce when no namespace"; "true" forces it. -->
+			<property name="allowWhenNoNamespace" value="false"/>
 		</properties>
 	</rule>
 
@@ -279,9 +286,8 @@
 	<!-- Require backslash for global constants in namespaced code. -->
 	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants"/>
 
-	<!-- For namespaced functions/constants: import the namespace, not the function/constant. -->
+	<!-- For namespaced constants: import the namespace, not the constant. -->
 	<rule ref="Universal.UseStatements.DisallowUseConst"/>
-	<rule ref="Universal.UseStatements.DisallowUseFunction"/>
 
 	<rule ref="PSR1.Classes.ClassDeclaration"/>
 

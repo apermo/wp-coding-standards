@@ -10,7 +10,7 @@ This is a `phpcodesniffer-standard` Composer package providing a shared PHPCS ru
 - Flag commented-out code.
 - Do not flag docblocks — these may be required by coding standards even when the function is self-explanatory.
 - Flag new code that duplicates existing functionality in the repository.
-- Every PHP file must start with `declare(strict_types=1);` after the opening `<?php` tag.
+- Every PHP file must start with `declare(strict_types=1);` after the opening `<?php` tag. Exception: PHPCS test fixtures (`tests/**/Fixtures/*.inc`) are intentionally minimal and omit it.
 - Prefer post-increment (`$var++`) over pre-increment (`++$var`).
 - In namespaced code, fully qualify PHP native functions (`\strlen()`, `\in_array()`) for performance. Do not fully qualify WordPress functions (`plugin_dir_path()`, `wp_remote_get()`) — it breaks mocking in unit tests.
 
