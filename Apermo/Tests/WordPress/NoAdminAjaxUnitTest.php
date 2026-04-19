@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the NoAdminAjax sniff.
+ * Tests the NoAdminAjax sniff.
  *
  * @package Apermo\Tests\WordPress
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\WordPress;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.WordPress.NoAdminAjax.
+ * Tests Apermo.WordPress.NoAdminAjax.
  */
 class NoAdminAjaxUnitTest extends AbstractSniffUnitTest {
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the RequireRestPermissionCallback sniff.
+ * Tests the RequireRestPermissionCallback sniff.
  *
  * @package Apermo\Tests\WordPress
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\WordPress;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.WordPress.RequireRestPermissionCallback.
+ * Tests Apermo.WordPress.RequireRestPermissionCallback.
  */
 class RequireRestPermissionCallbackUnitTest extends AbstractSniffUnitTest {
 

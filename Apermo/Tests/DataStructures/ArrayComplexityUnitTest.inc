@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable Apermo.Commenting.DocSummaryStyle -- Test markers (ERROR/OK) aren't real docblocks.
 // OK — flat with few keys.
 $flat = [ 'a' => 1, 'b' => 2 ];
 

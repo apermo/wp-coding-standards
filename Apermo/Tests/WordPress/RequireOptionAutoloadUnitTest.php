@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the RequireOptionAutoload sniff.
+ * Tests the RequireOptionAutoload sniff.
  *
  * @package Apermo\Tests\WordPress
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\WordPress;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.WordPress.RequireOptionAutoload.
+ * Tests Apermo.WordPress.RequireOptionAutoload.
  */
 class RequireOptionAutoloadUnitTest extends AbstractSniffUnitTest {
 

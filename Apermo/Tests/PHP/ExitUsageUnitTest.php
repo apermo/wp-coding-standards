@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ExitUsage sniff.
+ * Tests the ExitUsage sniff.
  *
  * @package Apermo\Tests\PHP
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\PHP;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.PHP.ExitUsage.
+ * Tests Apermo.PHP.ExitUsage.
  */
 class ExitUsageUnitTest extends AbstractSniffUnitTest {
 

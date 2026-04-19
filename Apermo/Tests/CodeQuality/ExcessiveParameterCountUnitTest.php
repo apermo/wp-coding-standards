@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ExcessiveParameterCount sniff.
+ * Tests the ExcessiveParameterCount sniff.
  *
  * @package Apermo\Tests\CodeQuality
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\CodeQuality;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.CodeQuality.ExcessiveParameterCount.
+ * Tests Apermo.CodeQuality.ExcessiveParameterCount.
  */
 class ExcessiveParameterCountUnitTest extends AbstractSniffUnitTest {
 

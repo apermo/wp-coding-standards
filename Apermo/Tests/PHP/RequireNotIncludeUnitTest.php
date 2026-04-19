@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the RequireNotInclude sniff.
+ * Tests the RequireNotInclude sniff.
  *
  * @package Apermo\Tests\PHP
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\PHP;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.PHP.RequireNotInclude.
+ * Tests Apermo.PHP.RequireNotInclude.
  */
 class RequireNotIncludeUnitTest extends AbstractSniffUnitTest {
 

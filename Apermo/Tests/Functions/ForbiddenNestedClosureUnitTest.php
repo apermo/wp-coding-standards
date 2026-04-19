@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ForbiddenNestedClosure sniff.
+ * Tests the ForbiddenNestedClosure sniff.
  *
  * @package Apermo\Tests\Functions
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\Functions;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.Functions.ForbiddenNestedClosure.
+ * Tests Apermo.Functions.ForbiddenNestedClosure.
  */
 class ForbiddenNestedClosureUnitTest extends AbstractSniffUnitTest {
 

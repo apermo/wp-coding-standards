@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable Apermo.Commenting.DocSummaryStyle -- Summary keywords (Disabled, Kept, …) are the fixture under test.
 // Normal prose comment about the application logic.
 $a = 1;
 

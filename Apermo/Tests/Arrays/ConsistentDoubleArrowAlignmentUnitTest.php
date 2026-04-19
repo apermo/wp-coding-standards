@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ConsistentDoubleArrowAlignment sniff.
+ * Tests the ConsistentDoubleArrowAlignment sniff.
  *
  * @package Apermo\Tests\Arrays
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\Arrays;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.Arrays.ConsistentDoubleArrowAlignment.
+ * Tests Apermo.Arrays.ConsistentDoubleArrowAlignment.
  */
 class ConsistentDoubleArrowAlignmentUnitTest extends AbstractSniffUnitTest {
 

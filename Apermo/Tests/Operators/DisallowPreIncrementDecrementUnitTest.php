@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the DisallowPreIncrementDecrement sniff.
+ * Tests the DisallowPreIncrementDecrement sniff.
  *
  * @package Apermo\Tests\Operators
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\Operators;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.Operators.DisallowPreIncrementDecrement.
+ * Tests Apermo.Operators.DisallowPreIncrementDecrement.
  */
 class DisallowPreIncrementDecrementUnitTest extends AbstractSniffUnitTest {
 

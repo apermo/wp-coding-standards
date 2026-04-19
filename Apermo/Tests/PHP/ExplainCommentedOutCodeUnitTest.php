@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ExplainCommentedOutCode sniff.
+ * Tests the ExplainCommentedOutCode sniff.
  *
  * @package Apermo\Tests\PHP
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\PHP;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.PHP.ExplainCommentedOutCode.
+ * Tests Apermo.PHP.ExplainCommentedOutCode.
  */
 class ExplainCommentedOutCodeUnitTest extends AbstractSniffUnitTest {
 
@@ -25,13 +25,13 @@ class ExplainCommentedOutCodeUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getErrorList( $testFile = '' ) {
 		return [
-			29 => 1,
-			35 => 1,
-			38 => 1,
-			42 => 1,
-			46 => 1,
-			49 => 1,
-			58 => 1,
+			30 => 1,
+			36 => 1,
+			39 => 1,
+			43 => 1,
+			47 => 1,
+			50 => 1,
+			59 => 1,
 		];
 	}
 

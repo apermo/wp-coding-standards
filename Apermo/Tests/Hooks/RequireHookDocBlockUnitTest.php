@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the RequireHookDocBlock sniff.
+ * Tests the RequireHookDocBlock sniff.
  *
  * @package Apermo\Tests\Hooks
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\Hooks;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.Hooks.RequireHookDocBlock.
+ * Tests Apermo.Hooks.RequireHookDocBlock.
  */
 class RequireHookDocBlockUnitTest extends AbstractSniffUnitTest {
 
@@ -25,12 +25,12 @@ class RequireHookDocBlockUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getErrorList( $testFile = '' ) {
 		return [
-			21 => 1,
-			25 => 1,
-			30 => 1,
-			37 => 1,
-			74 => 1,
-			84 => 2,
+			22 => 1,
+			26 => 1,
+			31 => 1,
+			38 => 1,
+			75 => 1,
+			85 => 2,
 		];
 	}
 

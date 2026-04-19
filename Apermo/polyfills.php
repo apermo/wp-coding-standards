@@ -7,7 +7,7 @@
 
 if ( ! function_exists( 'str_ends_with' ) ) {
 	/**
-	 * Polyfill for str_ends_with() (PHP 8.0+).
+	 * Backports str_ends_with() for PHP < 8.0.
 	 *
 	 * @param string $haystack The string to search in.
 	 * @param string $needle   The substring to search for.

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the GlobalFunctionQualification sniff.
+ * Tests the GlobalFunctionQualification sniff.
  *
  * @package Apermo\Tests\Namespaces
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\Namespaces;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.Namespaces.GlobalFunctionQualification.
+ * Tests Apermo.Namespaces.GlobalFunctionQualification.
  */
 class GlobalFunctionQualificationUnitTest extends AbstractSniffUnitTest {
 

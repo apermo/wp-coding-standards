@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Integration tests for the Apermo PHPCS ruleset.
+ * Runs integration tests for the Apermo PHPCS ruleset.
  *
  * Verifies that ruleset.xml configuration (exclusions, severity overrides,
  * property settings) produces the expected errors and warnings when the
@@ -52,7 +52,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Process a fixture file through the full Apermo ruleset.
+	 * Processes a fixture file through the full Apermo ruleset.
 	 *
 	 * @param string $fixture_name Fixture filename (e.g. "ArraySyntax.inc").
 	 *
@@ -69,7 +69,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has at least one error from a sniff whose source contains the given substring.
+	 * Asserts that a specific line has at least one error from a sniff whose source contains the given substring.
 	 */
 	private function assertErrorOnLine( LocalFile $file, int $line, string $source_contains, string $message = '' ): void {
 		$errors = $file->getErrors();
@@ -81,7 +81,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has at least one warning from a sniff whose source contains the given substring.
+	 * Asserts that a specific line has at least one warning from a sniff whose source contains the given substring.
 	 */
 	private function assertWarningOnLine( LocalFile $file, int $line, string $source_contains, string $message = '' ): void {
 		$warnings = $file->getWarnings();
@@ -93,7 +93,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has no errors.
+	 * Asserts that a specific line has no errors.
 	 */
 	private function assertNoErrorsOnLine( LocalFile $file, int $line, string $message = '' ): void {
 		$errors = $file->getErrors();
@@ -101,7 +101,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has no warnings.
+	 * Asserts that a specific line has no warnings.
 	 */
 	private function assertNoWarningsOnLine( LocalFile $file, int $line, string $message = '' ): void {
 		$warnings = $file->getWarnings();
@@ -109,7 +109,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Collect all sniff source codes from a line's violations.
+	 * Collects all sniff source codes from a line's violations.
 	 *
 	 * @param array $columns Column-indexed array of violations.
 	 *
@@ -126,7 +126,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Check if any source string contains the given substring.
+	 * Checks if any source string contains the given substring.
 	 */
 	private function sourceContains( array $sources, string $substring ): bool {
 		foreach ( $sources as $source ) {
