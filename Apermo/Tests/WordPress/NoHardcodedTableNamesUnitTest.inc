@@ -65,3 +65,15 @@ $html = '<table class="wp-list-table widefat fixed striped">';
 
 // OK: HTML <table> with id — not SQL.
 $html = '<table id="users-table">';
+
+// OK: English prose containing "from a" — not SQL.
+$msg = 'Lessons from a distributed team are instructive.';
+
+// OK: English prose containing "from the" — not SQL.
+$msg = 'Deactivate the plugin to hide these posts from the admin.';
+
+// OK: WP UI label starting with "Update" but no SET — not SQL.
+$label = 'Update Revision Tag';
+
+// OK: Prose mentioning "update" followed by noun — not SQL.
+$msg = 'Update the configuration before deploying.';

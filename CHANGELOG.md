@@ -52,6 +52,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   ambiguous to act as a SQL anchor; it now only qualifies when
   preceded by a DDL verb (`CREATE`, `DROP`, `ALTER`, `TRUNCATE`,
   `RENAME`), with optional `IF [NOT] EXISTS`. Closes #101.
+- `Apermo.WordPress.NoHardcodedTableNames.Found` no longer fires
+  on English prose or WP UI labels that happen to contain
+  FROM/UPDATE/etc. next to another word (e.g. `"lessons from a
+  team"`, `"Update Revision Tag"`). A string must now also
+  contain a secondary SQL marker (`SELECT`, `WHERE`, `SET`,
+  `VALUES`, `ORDER BY`, `GROUP BY`, `HAVING`, `LIMIT`, or a DDL
+  `TABLE` clause) before the table-name regex runs. Closes #102.
 
 ## [2.7.0] - Unreleased
 

@@ -40,6 +40,21 @@ class NoHardcodedTableNamesSniff implements Sniff {
 	private const PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|(?:CREATE(?:\s+TEMPORARY)?|DROP|ALTER|TRUNCATE|RENAME)\s+TABLE(?:\s+IF\s+(?:NOT\s+)?EXISTS)?)\s+(?!%[sid]|%\d+\$[sid])([a-zA-Z_]\w*)\b/i';
 
 	/**
+	 * SQL-context precondition. Only run the table-name regex when the
+	 * string actually looks like SQL — i.e. contains SELECT/WHERE/SET/
+	 * VALUES/HAVING/LIMIT/ORDER BY/GROUP BY, or a double-word idiom like
+	 * INSERT INTO / DELETE FROM / UPDATE {name} SET, or a DDL TABLE clause.
+	 *
+	 * Eliminates false positives on English prose ("lessons from a team",
+	 * "posts from the admin") and WP UI labels ("Update Revision Tag")
+	 * that happen to contain one of the FROM/JOIN/INTO/UPDATE anchors
+	 * next to another word.
+	 *
+	 * @var string
+	 */
+	private const SQL_CONTEXT_PATTERN = '/\b(?:SELECT|INSERT\s+INTO|DELETE\s+FROM|UPDATE\s+\S+\s+SET|WHERE|VALUES|ORDER\s+BY|GROUP\s+BY|LIMIT|HAVING|(?:CREATE(?:\s+TEMPORARY)?|DROP|ALTER|TRUNCATE|RENAME)\s+TABLE)\b/i';
+
+	/**
 	 * Matches $wpdb->prefix interpolation followed by a table name
 	 * in double-quoted strings: "{$wpdb->prefix}tablename".
 	 *
@@ -78,6 +93,11 @@ class NoHardcodedTableNamesSniff implements Sniff {
 	public function process( File $phpcsFile, $stackPtr ) {
 		$tokens  = $phpcsFile->getTokens();
 		$content = $tokens[ $stackPtr ]['content'];
+
+		// Fast-fail for strings that clearly are not SQL.
+		if ( preg_match( self::SQL_CONTEXT_PATTERN, $content ) !== 1 ) {
+			return;
+		}
 
 		// Check for hardcoded table names after SQL keywords.
 		if ( preg_match( self::PATTERN, $content, $matches ) === 1 ) {
