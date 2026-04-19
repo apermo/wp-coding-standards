@@ -97,9 +97,6 @@ class ArrayComplexitySniff implements Sniff {
 	/**
 	 * Analyze an array for associative nesting depth and key count.
 	 *
-	 * Walks tokens between opener and closer in a single pass, tracking
-	 * depth and whether each level is associative (contains T_DOUBLE_ARROW).
-	 *
 	 * @param File                    $phpcsFile The file being scanned.
 	 * @param int                     $stackPtr  The position of the array token (for reporting).
 	 * @param array<int, array<mixed>> $tokens    Token stack.
@@ -107,6 +104,23 @@ class ArrayComplexitySniff implements Sniff {
 	 * @param int                     $closer    Position of the array closer.
 	 */
 	private function analyze( File $phpcsFile, int $stackPtr, array $tokens, int $opener, int $closer ): void {
+		$result = $this->countArrayComplexity( $tokens, $opener, $closer );
+
+		$this->checkDepth( $phpcsFile, $stackPtr, $result['depth'] );
+		$this->checkKeys( $phpcsFile, $stackPtr, $result['keys'] );
+	}
+
+	/**
+	 * Walks tokens between an array opener and closer in a single pass,
+	 * tracking associative nesting depth and top-level key count.
+	 *
+	 * @param array<int, array<mixed>> $tokens Token stack.
+	 * @param int                      $opener Position of the array opener.
+	 * @param int                      $closer Position of the array closer.
+	 *
+	 * @return array{depth: int, keys: int}
+	 */
+	private function countArrayComplexity( array $tokens, int $opener, int $closer ): array {
 		$depth         = 1;
 		$depthIsAssoc  = [ 1 => false ];
 		$assocCount    = 0;
@@ -174,8 +188,10 @@ class ArrayComplexitySniff implements Sniff {
 			}
 		}
 
-		$this->checkDepth( $phpcsFile, $stackPtr, $maxAssocCount );
-		$this->checkKeys( $phpcsFile, $stackPtr, $topLevelKeys );
+		return [
+			'depth' => $maxAssocCount,
+			'keys'  => $topLevelKeys,
+		];
 	}
 
 	/**
