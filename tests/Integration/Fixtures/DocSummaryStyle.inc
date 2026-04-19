@@ -67,3 +67,23 @@ const MAX_RETRIES = 3;
 // Bare variable with noun-form docblock skipped (line 69).
 /** The current timestamp. */
 $now = 0;
+
+// @param tag first on a function (not a property) — skipped, no summary to check.
+/** @param string $x */
+function tag_first_fn( string $x ): void {}
+
+// Summary is only a backtick-quoted code reference — cleaned content is empty, skip.
+/** `wp_foo()` */
+function only_code_ref(): void {}
+
+// Summary contains no letters (only digits and punctuation) — skip.
+/** 123 — ??? */
+function no_letters(): void {}
+
+// Two back-to-back docblocks: first has no declaration before the next docblock opens.
+/** Runs first. */
+/** Displays the result. */
+function after_two_docs(): void {}
+
+// Trailing docblock at EOF with no attached declaration — walks off the end.
+/** Ends here. */

@@ -232,10 +232,7 @@ class DocSummaryStyleSniff implements Sniff {
 	 * @return string Cleaned summary.
 	 */
 	private function cleanSummary( string $summary ): string {
-		$cleaned = preg_replace( '/^`[^`]*`\s*/', '', $summary );
-		if ( $cleaned === null ) {
-			$cleaned = $summary;
-		}
+		$cleaned = preg_replace( '/^`[^`]*`\s*/', '', $summary ) ?? $summary;
 		return ltrim( $cleaned, " \t\"'*([{" );
 	}
 }
