@@ -30,6 +30,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `errorKeys`  10 → 20
   Consumers can still tighten via `<property>` overrides. Closes #97.
 
+### Fixed
+
+- `Apermo.WordPress.RequireWpErrorHandling.Unchecked` no longer
+  warns on `wp_delete_post()`, `wp_mail()`, and
+  `wp_upload_bits()` — none of these return `WP_Error`
+  (`WP_Post|false|null`, `bool`, and `array` respectively).
+  Closes #95.
+
 ## [2.7.0] - Unreleased
 
 ### Added
@@ -57,11 +65,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   no longer fires in files without a namespace declaration.
   FQN like `\Throwable` or `\RuntimeException` are valid
   in no-namespace files where `use` statements are pointless.
-- `Apermo.WordPress.RequireWpErrorHandling.Unchecked` no longer
-  warns on `wp_delete_post()`, `wp_mail()`, and
-  `wp_upload_bits()` — none of these return `WP_Error`
-  (`WP_Post|false|null`, `bool`, and `array` respectively).
-  Closes #95.
 
 ## [2.6.4] - Unreleased
 
