@@ -472,6 +472,26 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertErrorOnLine( $file, 18, 'DisallowUseConst', 'use const should still be disallowed.' );
 	}
 
+	public function testDocSummaryStyle(): void {
+		$file = $this->processFixture( 'DocSummaryStyle.inc' );
+
+		$this->assertNoWarningsOnLine( $file, 6, 'Third-person singular "Displays" should pass.' );
+		$this->assertNoWarningsOnLine( $file, 10, 'Whitelisted "Callback" should pass.' );
+		$this->assertNoWarningsOnLine( $file, 14, 'Irregular third-person "Is" should pass.' );
+
+		$this->assertWarningOnLine( $file, 18, 'DocSummaryStyle.AntiPattern', '"Allows you to" should warn.' );
+		$this->assertWarningOnLine( $file, 22, 'DocSummaryStyle.AntiPattern', '"Lets you" should warn.' );
+		$this->assertWarningOnLine( $file, 26, 'DocSummaryStyle.BareInfinitive', 'Bare "Process" should warn.' );
+		$this->assertWarningOnLine( $file, 30, 'DocSummaryStyle.BareInfinitive', 'Bare "Fix" should warn.' );
+		$this->assertWarningOnLine( $file, 34, 'DocSummaryStyle.NotThirdPerson', 'Bare "Display" should warn.' );
+		$this->assertWarningOnLine( $file, 38, 'DocSummaryStyle.NotThirdPerson', 'Bare "Get" should warn.' );
+
+		$this->assertNoWarningsOnLine( $file, 42, 'Tag-first docblock should pass.' );
+		$this->assertNoWarningsOnLine( $file, 46, '{@inheritDoc} should pass.' );
+		$this->assertNoWarningsOnLine( $file, 50, 'Empty docblock should pass.' );
+		$this->assertNoWarningsOnLine( $file, 54, 'Backtick code ref then third-person verb should pass.' );
+	}
+
 	public function testDocCommentDescription(): void {
 		$file = $this->processFixture( 'DocCommentDescription.inc' );
 		$this->assertNoErrorsOnLine( $file, 6, '@see should satisfy the short description.' );

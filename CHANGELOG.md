@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `Apermo.Commenting.DocSummaryStyle` sniff: flags WordPress
+  docblock summaries that violate the third-person singular
+  style. Three layered checks: a configurable whitelist of
+  noun-lead openers (`Callback`, `Wrapper`, …), a blacklist of
+  known anti-patterns (`Allows you to`, `Lets you`, …), and a
+  default `first-word-ends-in-s` check with a closer list for
+  bare infinitives whose third-person form adds `-es`
+  (`Process`, `Fix`, `Access`, …). All warnings.
+  Closes #96.
 - `Apermo.DataStructures.ArrayComplexity.ComplexParameterKeys` and
   `ComplexParameterDepth` (error): flag custom function, method,
   and closure parameters whose default value or PHPStan/Psalm
