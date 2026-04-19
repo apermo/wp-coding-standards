@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag global $post usage inside functions.
+ * Flags global $post usage inside functions.
  *
  * @package Apermo\Sniffs\WordPress
  */

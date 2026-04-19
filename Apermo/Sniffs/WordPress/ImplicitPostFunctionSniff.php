@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag WordPress functions that implicitly access global $post.
+ * Flags WordPress functions that implicitly access global $post.
  *
  * @package Apermo\Sniffs\WordPress
  */

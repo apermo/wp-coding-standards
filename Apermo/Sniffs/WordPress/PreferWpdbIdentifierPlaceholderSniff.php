@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag %s placeholder for identifiers in $wpdb->prepare().
+ * Flags %s placeholder for identifiers in $wpdb->prepare().
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -67,7 +67,7 @@ class PreferWpdbIdentifierPlaceholderSniff implements Sniff {
 	}
 
 	/**
-	 * Check if the token is part of a $wpdb->prepare() call.
+	 * Checks if the token is part of a $wpdb->prepare() call.
 	 *
 	 * Walks back to find $wpdb->prepare pattern before the current
 	 * string token.

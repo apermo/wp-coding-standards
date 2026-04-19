@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Discourage (object) casts that produce stdClass instances.
+ * Discourages (object) casts that produce stdClass instances.
  *
  * @package Apermo\Sniffs\PHP
  */

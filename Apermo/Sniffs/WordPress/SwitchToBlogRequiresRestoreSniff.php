@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag switch_to_blog() without restore_current_blog().
+ * Flags switch_to_blog() without restore_current_blog().
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -69,7 +69,7 @@ class SwitchToBlogRequiresRestoreSniff implements Sniff {
 	}
 
 	/**
-	 * Find the end of the enclosing scope.
+	 * Finds the end of the enclosing scope.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Current position.
@@ -91,7 +91,7 @@ class SwitchToBlogRequiresRestoreSniff implements Sniff {
 	}
 
 	/**
-	 * Check if restore_current_blog() is called after $stackPtr within the scope.
+	 * Checks if restore_current_blog() is called after $stackPtr within the scope.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Position of switch_to_blog().

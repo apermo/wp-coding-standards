@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Discourage overly complex array structures.
+ * Discourages overly complex array structures.
  *
  * @package Apermo\Sniffs\DataStructures
  */
@@ -142,7 +142,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Analyze an array for associative nesting depth and key count.
+	 * Analyzes an array for associative nesting depth and key count.
 	 *
 	 * @param File                    $phpcsFile The file being scanned.
 	 * @param int                     $stackPtr  The position of the array token (for reporting).
@@ -242,7 +242,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Report on associative nesting depth.
+	 * Reports on associative nesting depth.
 	 *
 	 * @param File $phpcsFile     The file being scanned.
 	 * @param int  $stackPtr      The position to report at.
@@ -267,7 +267,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Report on top-level key count.
+	 * Reports on top-level key count.
 	 *
 	 * @param File $phpcsFile    The file being scanned.
 	 * @param int  $stackPtr     The position to report at.
@@ -292,7 +292,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Inspect a function/method/closure signature for complex parameter shapes.
+	 * Inspects a function/method/closure signature for complex parameter shapes.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Position of the T_FUNCTION / T_CLOSURE token.
@@ -303,7 +303,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Flag parameters whose default value is a complex array literal.
+	 * Flags parameters whose default value is a complex array literal.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Position of the T_FUNCTION / T_CLOSURE token.
@@ -345,7 +345,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Flag parameters whose `@param array{...}` docblock shape is complex.
+	 * Flags parameters whose `@param array{...}` docblock shape is complex.
 	 *
 	 * Parses PHPStan/Psalm shape syntax — splits top-level entries by
 	 * comma (respecting nested braces) for the key count, and recurses
@@ -402,7 +402,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Report parameter-shape violations.
+	 * Reports parameter-shape violations.
 	 *
 	 * @param File                          $phpcsFile The file being scanned.
 	 * @param int                           $reportAt  Token position to attach the message to.
@@ -430,7 +430,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Concatenate all T_DOC_COMMENT_STRING tokens belonging to a single tag.
+	 * Concatenates all T_DOC_COMMENT_STRING tokens belonging to a single tag.
 	 *
 	 * Multi-line tag values (e.g. a shape split across lines) are joined
 	 * with spaces, so `extractArrayShapeBody()` can operate on a single
@@ -456,7 +456,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Extract the body of the first `array{...}` or `list{...}` shape in $content.
+	 * Extracts the body of the first `array{...}` or `list{...}` shape in $content.
 	 *
 	 * Returns the content between the outer `{` and its matching `}`,
 	 * or null if no shape is present or the braces are unbalanced.
@@ -485,7 +485,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Extract the first `$name` token from $content.
+	 * Extracts the first `$name` token from $content.
 	 */
 	private function extractParamName( string $content ): string {
 		if ( preg_match( '/\$(\w+)/', $content, $match ) === 1 ) {
@@ -496,7 +496,7 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Count top-level entries and max nesting depth of an array-shape body.
+	 * Counts top-level entries and max nesting depth of an array-shape body.
 	 *
 	 * Walks $body character by character, tracking brace depth. Commas at
 	 * depth 0 separate top-level entries. Nested `{...}` blocks are

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enforce a minimum variable name length.
+ * Enforces a minimum variable name length.
  *
  * @package Apermo\Sniffs\NamingConventions
  */

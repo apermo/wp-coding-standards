@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag strpos/strstr comparison patterns replaceable by modern PHP 8 functions.
+ * Flags strpos/strstr comparison patterns replaceable by modern PHP 8 functions.
  *
  * @package Apermo\Sniffs\PHP
  */
@@ -83,7 +83,7 @@ class PreferModernStringFunctionsSniff implements Sniff {
 	}
 
 	/**
-	 * Check for pattern: strpos/strstr(...) === false|0.
+	 * Checks for pattern: strpos/strstr(...) === false|0.
 	 *
 	 * @param File   $phpcsFile The file being scanned.
 	 * @param int    $stackPtr  Position of the function name token.
@@ -113,7 +113,7 @@ class PreferModernStringFunctionsSniff implements Sniff {
 	}
 
 	/**
-	 * Check for reversed pattern: false|0 === strpos/strstr(...).
+	 * Checks for reversed pattern: false|0 === strpos/strstr(...).
 	 *
 	 * @param File   $phpcsFile The file being scanned.
 	 * @param int    $stackPtr  Position of the function name token.
@@ -142,7 +142,7 @@ class PreferModernStringFunctionsSniff implements Sniff {
 	}
 
 	/**
-	 * Check the operand and report a violation if it matches false or 0.
+	 * Checks the operand and report a violation if it matches false or 0.
 	 *
 	 * @param File   $phpcsFile The file being scanned.
 	 * @param int    $stackPtr  Position of the function name token.
@@ -184,7 +184,7 @@ class PreferModernStringFunctionsSniff implements Sniff {
 	}
 
 	/**
-	 * Report a violation as error or warning based on configuration.
+	 * Reports a violation as error or warning based on configuration.
 	 *
 	 * @param File   $phpcsFile The file being scanned.
 	 * @param int    $stackPtr  Position to report on.

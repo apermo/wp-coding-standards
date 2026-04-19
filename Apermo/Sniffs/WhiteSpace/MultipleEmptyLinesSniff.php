@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Disallow multiple consecutive empty lines outside functions.
+ * Disallows multiple consecutive empty lines outside functions.
  *
  * @package Apermo\Sniffs\WhiteSpace
  */

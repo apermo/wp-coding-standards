@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag functions with too many parameters.
+ * Flags functions with too many parameters.
  *
  * @package Apermo\Sniffs\CodeQuality
  */

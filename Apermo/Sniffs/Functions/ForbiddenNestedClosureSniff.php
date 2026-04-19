@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Forbid nested closures and arrow functions.
+ * Forbids nested closures and arrow functions.
  *
  * @package Apermo\Sniffs\Functions
  */

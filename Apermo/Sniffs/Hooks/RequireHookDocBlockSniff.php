@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Require PHPDoc blocks before WordPress hook invocations.
+ * Requires PHPDoc blocks before WordPress hook invocations.
  *
  * @package Apermo\Sniffs\Hooks
  */
@@ -84,7 +84,7 @@ class RequireHookDocBlockSniff implements Sniff {
 	}
 
 	/**
-	 * Search backward from statement start for a doc block.
+	 * Searches backward from statement start for a doc block.
 	 *
 	 * @param File $phpcsFile      The file being scanned.
 	 * @param int  $statementStart The position of the statement start.
@@ -116,7 +116,7 @@ class RequireHookDocBlockSniff implements Sniff {
 	}
 
 	/**
-	 * Validate the doc block has required @param and @return tags.
+	 * Validates the doc block has required @param and @return tags.
 	 *
 	 * @param File                        $phpcsFile The file being scanned.
 	 * @param int                         $stackPtr  The hook function token position.
@@ -170,7 +170,7 @@ class RequireHookDocBlockSniff implements Sniff {
 	}
 
 	/**
-	 * Count hook arguments beyond the hook name.
+	 * Counts hook arguments beyond the hook name.
 	 *
 	 * For _ref_array and _deprecated variants, the second arg is an
 	 * args array. Empty array literals ([] or array()) are treated

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Require permission_callback in register_rest_route() calls.
+ * Requires permission_callback in register_rest_route() calls.
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -84,7 +84,7 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	}
 
 	/**
-	 * Check if the args parameter contains a 'permission_callback' key.
+	 * Checks if the args parameter contains a 'permission_callback' key.
 	 *
 	 * Handles both single route definitions and nested multi-route arrays.
 	 * For nested arrays, every sub-array must contain the key.
@@ -121,7 +121,7 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	}
 
 	/**
-	 * Check that every inner array in a nested route definition has permission_callback.
+	 * Checks that every inner array in a nested route definition has permission_callback.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $opener    The outer array opener token position.
@@ -167,7 +167,7 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	}
 
 	/**
-	 * Scan a token range for 'permission_callback' used as an array key.
+	 * Scans a token range for 'permission_callback' used as an array key.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $start     Start token position.
@@ -198,7 +198,7 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	}
 
 	/**
-	 * Get the opener and closer positions of the array in a parameter.
+	 * Gets the opener and closer positions of the array in a parameter.
 	 *
 	 * @param File                                    $phpcsFile The file being scanned.
 	 * @param array{start: int, end: int, raw: string} $param     Parameter info.
@@ -223,7 +223,7 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	}
 
 	/**
-	 * Check if the parameter contains an array literal ([ or array().
+	 * Checks if the parameter contains an array literal ([ or array().
 	 *
 	 * @param File                                    $phpcsFile The file being scanned.
 	 * @param array{start: int, end: int, raw: string} $param     Parameter info.
@@ -246,7 +246,7 @@ class RequireRestPermissionCallbackSniff implements Sniff {
 	}
 
 	/**
-	 * Strip surrounding quotes from a string token.
+	 * Strips surrounding quotes from a string token.
 	 *
 	 * @param string $content The token content.
 	 *

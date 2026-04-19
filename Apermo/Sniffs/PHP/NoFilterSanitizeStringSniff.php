@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag deprecated FILTER_SANITIZE_STRING usage.
+ * Flags deprecated FILTER_SANITIZE_STRING usage.
  *
  * @package Apermo\Sniffs\PHP
  */

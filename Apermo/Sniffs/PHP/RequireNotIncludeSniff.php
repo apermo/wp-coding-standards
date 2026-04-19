@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enforce require/require_once over include/include_once.
+ * Enforces require/require_once over include/include_once.
  *
  * @package Apermo\Sniffs\PHP
  */

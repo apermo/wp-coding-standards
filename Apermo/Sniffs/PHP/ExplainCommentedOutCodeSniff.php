@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Require explained doc-blocks before commented-out code.
+ * Requires explained doc-blocks before commented-out code.
  *
  * @package Apermo\Sniffs\PHP
  */
@@ -103,7 +103,7 @@ class ExplainCommentedOutCodeSniff implements Sniff {
 	}
 
 	/**
-	 * Collect consecutive // comment lines into a single block.
+	 * Collects consecutive // comment lines into a single block.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Starting token position.
@@ -146,7 +146,7 @@ class ExplainCommentedOutCodeSniff implements Sniff {
 	}
 
 	/**
-	 * Search backwards for a doc-block within the allowed gap.
+	 * Searches backwards for a doc-block within the allowed gap.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Position of the first code comment token.
@@ -202,7 +202,7 @@ class ExplainCommentedOutCodeSniff implements Sniff {
 	}
 
 	/**
-	 * Check if the doc-block content starts with a recognized keyword.
+	 * Checks if the doc-block content starts with a recognized keyword.
 	 *
 	 * @param string $doc_content The extracted doc-block text.
 	 *
@@ -219,7 +219,7 @@ class ExplainCommentedOutCodeSniff implements Sniff {
 	}
 
 	/**
-	 * Determine if stripped comment content looks like PHP code.
+	 * Determines if stripped comment content looks like PHP code.
 	 *
 	 * Uses the same heuristic as Squiz.PHP.CommentedOutCode.
 	 *

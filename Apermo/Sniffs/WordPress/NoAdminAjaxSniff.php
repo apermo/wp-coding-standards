@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag add_action() calls registering wp_ajax_ hooks.
+ * Flags add_action() calls registering wp_ajax_ hooks.
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -78,7 +78,7 @@ class NoAdminAjaxSniff implements Sniff {
 	}
 
 	/**
-	 * Extract the hook name string from the parameter tokens.
+	 * Extracts the hook name string from the parameter tokens.
 	 *
 	 * Handles single-quoted and double-quoted strings. Returns null for
 	 * variable or dynamic hook names that cannot be statically analyzed.

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag hardcoded table names in SQL strings.
+ * Flags hardcoded table names in SQL strings.
  *
  * @package Apermo\Sniffs\WordPress
  */

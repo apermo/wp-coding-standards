@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Require explicit autoload parameter on option functions.
+ * Requires explicit autoload parameter on option functions.
  *
  * @package Apermo\Sniffs\WordPress
  */
