@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag hardcoded table names in SQL strings.
+ * Flags hardcoded table names in SQL strings.
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -28,12 +28,31 @@ class NoHardcodedTableNamesSniff implements Sniff {
 
 	/**
 	 * SQL keywords after which a bare identifier is a table name.
-	 * Matches the keyword followed by a hardcoded identifier that is
+	 *
+	 * `TABLE` alone is too ambiguous (matches `<table class=...>` HTML),
+	 * so it only qualifies when preceded by a DDL verb
+	 * (CREATE/DROP/ALTER/TRUNCATE/RENAME), with an optional `IF [NOT] EXISTS`
+	 * clause. Matches the keyword followed by a hardcoded identifier that is
 	 * not a placeholder (%s, %i, %1$s) or an interpolation ({$...}).
 	 *
 	 * @var string
 	 */
-	private const PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|TABLE)\s+(?!%[sid]|%\d+\$[sid])([a-zA-Z_]\w*)\b/i';
+	private const PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|(?:CREATE(?:\s+TEMPORARY)?|DROP|ALTER|TRUNCATE|RENAME)\s+TABLE(?:\s+IF\s+(?:NOT\s+)?EXISTS)?)\s+(?!%[sid]|%\d+\$[sid])([a-zA-Z_]\w*)\b/i';
+
+	/**
+	 * SQL-context precondition. Only run the table-name regex when the
+	 * string actually looks like SQL — i.e. contains SELECT/WHERE/SET/
+	 * VALUES/HAVING/LIMIT/ORDER BY/GROUP BY, or a double-word idiom like
+	 * INSERT INTO / DELETE FROM / UPDATE {name} SET, or a DDL TABLE clause.
+	 *
+	 * Eliminates false positives on English prose ("lessons from a team",
+	 * "posts from the admin") and WP UI labels ("Update Revision Tag")
+	 * that happen to contain one of the FROM/JOIN/INTO/UPDATE anchors
+	 * next to another word.
+	 *
+	 * @var string
+	 */
+	private const SQL_CONTEXT_PATTERN = '/\b(?:SELECT|INSERT\s+INTO|DELETE\s+FROM|UPDATE\s+\S+\s+SET|WHERE|VALUES|ORDER\s+BY|GROUP\s+BY|LIMIT|HAVING|(?:CREATE(?:\s+TEMPORARY)?|DROP|ALTER|TRUNCATE|RENAME)\s+TABLE)\b/i';
 
 	/**
 	 * Matches $wpdb->prefix interpolation followed by a table name
@@ -74,6 +93,11 @@ class NoHardcodedTableNamesSniff implements Sniff {
 	public function process( File $phpcsFile, $stackPtr ) {
 		$tokens  = $phpcsFile->getTokens();
 		$content = $tokens[ $stackPtr ]['content'];
+
+		// Fast-fail for strings that clearly are not SQL.
+		if ( preg_match( self::SQL_CONTEXT_PATTERN, $content ) !== 1 ) {
+			return;
+		}
 
 		// Check for hardcoded table names after SQL keywords.
 		if ( preg_match( self::PATTERN, $content, $matches ) === 1 ) {

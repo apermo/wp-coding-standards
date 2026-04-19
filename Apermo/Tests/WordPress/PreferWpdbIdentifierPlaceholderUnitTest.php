@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the PreferWpdbIdentifierPlaceholder sniff.
+ * Tests the PreferWpdbIdentifierPlaceholder sniff.
  *
  * @package Apermo\Tests\WordPress
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\WordPress;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.WordPress.PreferWpdbIdentifierPlaceholder.
+ * Tests Apermo.WordPress.PreferWpdbIdentifierPlaceholder.
  */
 class PreferWpdbIdentifierPlaceholderUnitTest extends AbstractSniffUnitTest {
 

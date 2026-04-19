@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Abstract base for post-context sniffs.
+ * Provides the abstract base for post-context sniffs.
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -13,7 +13,7 @@ use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Sniffs\Sniff;
 
 /**
- * Shared utilities for sniffs that check implicit global $post access.
+ * Provides shared utilities for sniffs that check implicit global $post access.
  *
  * Provides scope detection and argument counting helpers used by
  * GlobalPostAccessSniff and ImplicitPostFunctionSniff.

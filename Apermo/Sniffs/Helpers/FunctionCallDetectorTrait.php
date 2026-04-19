@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Trait for detecting genuine function calls vs. definitions and method calls.
+ * Detects genuine function calls vs. definitions and method calls.
  *
  * @package Apermo\Sniffs\Helpers
  */

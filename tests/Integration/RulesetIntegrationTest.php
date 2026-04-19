@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Integration tests for the Apermo PHPCS ruleset.
+ * Runs integration tests for the Apermo PHPCS ruleset.
  *
  * Verifies that ruleset.xml configuration (exclusions, severity overrides,
  * property settings) produces the expected errors and warnings when the
@@ -52,7 +52,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Process a fixture file through the full Apermo ruleset.
+	 * Processes a fixture file through the full Apermo ruleset.
 	 *
 	 * @param string $fixture_name Fixture filename (e.g. "ArraySyntax.inc").
 	 *
@@ -69,7 +69,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has at least one error from a sniff whose source contains the given substring.
+	 * Asserts that a specific line has at least one error from a sniff whose source contains the given substring.
 	 */
 	private function assertErrorOnLine( LocalFile $file, int $line, string $source_contains, string $message = '' ): void {
 		$errors = $file->getErrors();
@@ -81,7 +81,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has at least one warning from a sniff whose source contains the given substring.
+	 * Asserts that a specific line has at least one warning from a sniff whose source contains the given substring.
 	 */
 	private function assertWarningOnLine( LocalFile $file, int $line, string $source_contains, string $message = '' ): void {
 		$warnings = $file->getWarnings();
@@ -93,7 +93,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has no errors.
+	 * Asserts that a specific line has no errors.
 	 */
 	private function assertNoErrorsOnLine( LocalFile $file, int $line, string $message = '' ): void {
 		$errors = $file->getErrors();
@@ -101,7 +101,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Assert that a specific line has no warnings.
+	 * Asserts that a specific line has no warnings.
 	 */
 	private function assertNoWarningsOnLine( LocalFile $file, int $line, string $message = '' ): void {
 		$warnings = $file->getWarnings();
@@ -109,7 +109,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Collect all sniff source codes from a line's violations.
+	 * Collects all sniff source codes from a line's violations.
 	 *
 	 * @param array $columns Column-indexed array of violations.
 	 *
@@ -126,7 +126,7 @@ class RulesetIntegrationTest extends TestCase {
 	}
 
 	/**
-	 * Check if any source string contains the given substring.
+	 * Checks if any source string contains the given substring.
 	 */
 	private function sourceContains( array $sources, string $substring ): bool {
 		foreach ( $sources as $source ) {
@@ -383,6 +383,9 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'WpErrorHandling.inc' );
 		$this->assertWarningOnLine( $file, 8, 'RequireWpErrorHandling', 'Unchecked wp_remote_get should warn.' );
 		$this->assertNoWarningsOnLine( $file, 14, 'Checked with is_wp_error should be allowed.' );
+		$this->assertNoWarningsOnLine( $file, 23, 'wp_delete_post returns WP_Post|false|null, never WP_Error.' );
+		$this->assertNoWarningsOnLine( $file, 28, 'wp_mail returns bool, never WP_Error.' );
+		$this->assertNoWarningsOnLine( $file, 33, 'wp_upload_bits returns an array, never WP_Error.' );
 	}
 
 	public function testPreferWpdbIdentifierPlaceholder(): void {
@@ -467,6 +470,29 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'UseFunctionAllowed.inc' );
 		$this->assertNoErrorsOnLine( $file, 15, 'use function should be allowed.' );
 		$this->assertErrorOnLine( $file, 18, 'DisallowUseConst', 'use const should still be disallowed.' );
+	}
+
+	public function testDocSummaryStyle(): void {
+		$file = $this->processFixture( 'DocSummaryStyle.inc' );
+
+		$this->assertNoWarningsOnLine( $file, 6, 'Third-person singular "Displays" should pass.' );
+		$this->assertNoWarningsOnLine( $file, 10, 'Whitelisted "Callback" should pass.' );
+		$this->assertNoWarningsOnLine( $file, 14, 'Irregular third-person "Is" should pass.' );
+
+		$this->assertWarningOnLine( $file, 18, 'DocSummaryStyle.AntiPattern', '"Allows you to" should warn.' );
+		$this->assertWarningOnLine( $file, 22, 'DocSummaryStyle.AntiPattern', '"Lets you" should warn.' );
+		$this->assertWarningOnLine( $file, 26, 'DocSummaryStyle.BareInfinitive', 'Bare "Process" should warn.' );
+		$this->assertWarningOnLine( $file, 30, 'DocSummaryStyle.BareInfinitive', 'Bare "Fix" should warn.' );
+		$this->assertWarningOnLine( $file, 34, 'DocSummaryStyle.NotThirdPerson', 'Bare "Display" should warn.' );
+		$this->assertWarningOnLine( $file, 38, 'DocSummaryStyle.NotThirdPerson', 'Bare "Get" should warn.' );
+
+		$this->assertNoWarningsOnLine( $file, 42, 'Tag-first docblock should pass.' );
+		$this->assertNoWarningsOnLine( $file, 46, '{@inheritDoc} should pass.' );
+		$this->assertNoWarningsOnLine( $file, 50, 'Empty docblock should pass.' );
+		$this->assertNoWarningsOnLine( $file, 54, 'Backtick code ref then third-person verb should pass.' );
+		$this->assertNoWarningsOnLine( $file, 59, 'Property docblock should be skipped.' );
+		$this->assertNoWarningsOnLine( $file, 64, 'Constant docblock should be skipped.' );
+		$this->assertNoWarningsOnLine( $file, 68, 'Bare variable docblock should be skipped.' );
 	}
 
 	public function testDocCommentDescription(): void {

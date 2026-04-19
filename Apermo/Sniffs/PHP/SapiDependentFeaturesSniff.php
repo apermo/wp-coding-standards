@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag SAPI-dependent PHP features.
+ * Flags SAPI-dependent PHP features.
  *
  * @package Apermo\Sniffs\PHP
  */

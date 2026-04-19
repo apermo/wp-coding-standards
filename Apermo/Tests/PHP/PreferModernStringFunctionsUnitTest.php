@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the PreferModernStringFunctions sniff.
+ * Tests the PreferModernStringFunctions sniff.
  *
  * @package Apermo\Tests\PHP
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\PHP;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.PHP.PreferModernStringFunctions.
+ * Tests Apermo.PHP.PreferModernStringFunctions.
  */
 class PreferModernStringFunctionsUnitTest extends AbstractSniffUnitTest {
 

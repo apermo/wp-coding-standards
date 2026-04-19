@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Require a short description in doc comments, with exceptions.
+ * Requires a short description in doc comments, with exceptions.
  *
  * @package Apermo\Sniffs\Commenting
  */

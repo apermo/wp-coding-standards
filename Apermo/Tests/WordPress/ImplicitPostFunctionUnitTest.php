@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ImplicitPostFunction sniff.
+ * Tests the ImplicitPostFunction sniff.
  *
  * @package Apermo\Tests\WordPress
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\WordPress;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.WordPress.ImplicitPostFunction.
+ * Tests Apermo.WordPress.ImplicitPostFunction.
  */
 class ImplicitPostFunctionUnitTest extends AbstractSniffUnitTest {
 

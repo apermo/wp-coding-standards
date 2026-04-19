@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enforce correct function qualification in namespaced code.
+ * Enforces correct function qualification in namespaced code.
  *
  * @package Apermo\Sniffs\Namespaces
  */
@@ -130,7 +130,7 @@ class GlobalFunctionQualificationSniff implements Sniff {
 	}
 
 	/**
-	 * Check if the token is inside a namespace declaration.
+	 * Checks if the token is inside a namespace declaration.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  The position of the current token.
@@ -152,7 +152,7 @@ class GlobalFunctionQualificationSniff implements Sniff {
 	}
 
 	/**
-	 * Check if a function is a PHP native (internal) function.
+	 * Checks if a function is a PHP native (internal) function.
 	 *
 	 * @param string $name The function name.
 	 *

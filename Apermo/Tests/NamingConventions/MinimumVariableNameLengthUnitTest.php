@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the MinimumVariableNameLength sniff.
+ * Tests the MinimumVariableNameLength sniff.
  *
  * @package Apermo\Tests\NamingConventions
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\NamingConventions;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.NamingConventions.MinimumVariableNameLength.
+ * Tests Apermo.NamingConventions.MinimumVariableNameLength.
  */
 class MinimumVariableNameLengthUnitTest extends AbstractSniffUnitTest {
 

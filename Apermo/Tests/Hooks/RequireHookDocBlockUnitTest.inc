@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable Apermo.Commenting.DocSummaryStyle -- Test markers (OK) aren't real docblocks.
 
 /**
  * Fires after a post is saved.

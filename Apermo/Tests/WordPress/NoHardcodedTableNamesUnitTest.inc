@@ -50,3 +50,30 @@ $sql = "SELECT * FROM {$wpdb->prefix}custom_table WHERE id = 1";
 $sql = "SELECT * FROM {$wpdb->posts} WHERE id = 1";
 
 // phpcs:set Apermo.WordPress.NoHardcodedTableNames warnPrefix false
+
+// WARNING: hardcoded CREATE TABLE target.
+$sql = 'CREATE TABLE wp_custom (id INT PRIMARY KEY)';
+
+// WARNING: hardcoded DROP TABLE IF EXISTS target.
+$sql = 'DROP TABLE IF EXISTS wp_obsolete';
+
+// WARNING: hardcoded ALTER TABLE target.
+$sql = 'ALTER TABLE wp_users ADD COLUMN foo VARCHAR(50)';
+
+// OK: HTML <table> with CSS class — not SQL.
+$html = '<table class="wp-list-table widefat fixed striped">';
+
+// OK: HTML <table> with id — not SQL.
+$html = '<table id="users-table">';
+
+// OK: English prose containing "from a" — not SQL.
+$msg = 'Lessons from a distributed team are instructive.';
+
+// OK: English prose containing "from the" — not SQL.
+$msg = 'Deactivate the plugin to hide these posts from the admin.';
+
+// OK: WP UI label starting with "Update" but no SET — not SQL.
+$label = 'Update Revision Tag';
+
+// OK: Prose mentioning "update" followed by noun — not SQL.
+$msg = 'Update the configuration before deploying.';

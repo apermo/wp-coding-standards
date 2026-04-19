@@ -143,6 +143,7 @@ supports:
 - `register_rest_route()` must include `permission_callback`
 - `FILTER_SANITIZE_STRING` and related deprecated constants flagged
 - `add_option()`/`update_option()` must include explicit autoload parameter
+- Docblock summaries must be third-person singular per the WordPress documentation standard (`Displays…` not `Display…`, no `Allows you to…` / `Lets you…` anti-patterns)
 
 ### REST Permission Callback (`Apermo.WordPress.RequireRestPermissionCallback`)
 
@@ -442,43 +443,61 @@ Separate error codes (`IncludeFound`, `IncludeOnceFound`) allow independent conf
 
 Flags deeply nested or wide associative arrays that would benefit from typed objects (DTOs, value objects). Arrays with many string keys or deep nesting often indicate data structures that should be classes.
 
-Two independent checks, each with a warning and error threshold:
+Three independent checks. The first two apply to array literals (advisory, since literals often mirror external WordPress API shapes the caller does not own). The third applies to custom function, method, and closure parameters whose default value or PHPStan/Psalm `@param array{...}` shape is complex — those are errors, because the signature author owns the shape and can refactor to a DTO.
 
-| Check | Warning | Error | Default |
-|---|---|---|---|
-| Nesting depth | `TooDeep` | `TooDeepError` | warn > 2, error > 3 |
-| Key count | `TooManyKeys` | `TooManyKeysError` | warn > 5, error > 10 |
+| Check | Warning | Error | Default threshold | Applies to |
+|---|---|---|---|---|
+| Literal nesting depth | `TooDeep` | `TooDeepError` | warn > 3, error > 5 | Array literals |
+| Literal key count | `TooManyKeys` | `TooManyKeysError` | warn > 10, error > 20 | Array literals |
+| Parameter shape | — | `ComplexParameterKeys` / `ComplexParameterDepth` | error > 5 keys, error > 2 depth | Custom function/method/closure params |
 
-Only outermost arrays are checked — nested sub-arrays are not reported separately. Numeric arrays (without `=>`) are ignored entirely.
+Default thresholds for literals are tuned so idiomatic WordPress usage (a `WP_Query` call with `meta_query`, a 7-key arg set to `register_post_type`, etc.) stays silent. Genuinely monolithic shapes still surface.
+
+Only outermost literal arrays are checked — nested sub-arrays are not reported separately. Numeric arrays (without `=>`) are ignored entirely. The canonical fix for a literal `TooDeep` warning is to extract the complex sub-array into its own variable.
 
 ```php
-// Warning — 3 levels of associative nesting
+// Warning — 4 levels of associative nesting (literal)
 $order = [
     'customer' => [
         'address' => [
-            'city' => 'Berlin',
+            'details' => [
+                'city' => 'Berlin',
+            ],
         ],
     ],
 ];
 
-// Warning — 6 associative keys
+// Warning — 11 associative keys (literal)
 $user = [
-    'id'       => 1,
-    'name'     => 'John',
-    'email'    => 'john@example.com',
-    'role'     => 'admin',
-    'active'   => true,
-    'verified' => true,
+    'id' => 1, 'name' => 'John', 'email' => 'j@example.tld',
+    'role' => 'admin', 'active' => true, 'verified' => true,
+    'locale' => 'en', 'tz' => 'UTC', 'theme' => 'dark',
+    'mfa' => true, 'notifications' => 'email',
 ];
 
 // OK — numeric arrays are ignored
 $grid = [ [ 1, 2 ], [ 3, 4 ] ];
+
+// Error — parameter default with 6 top-level keys (ComplexParameterKeys)
+function make( array $opts = [
+    'a' => 1, 'b' => 2, 'c' => 3,
+    'd' => 4, 'e' => 5, 'f' => 6,
+] ): void {}
+
+// Error — @param shape exceeds parameterMaxDepth (ComplexParameterDepth)
+/**
+ * @param array{a: array{b: array{c: int}}} $opts
+ */
+function handle( array $opts ): void {}
+
+// Good — refactor to a DTO
+function handle( Options $opts ): void {}
 ```
 
 **Customization** via `phpcs.xml`:
 
 ```xml
-<!-- Adjust thresholds -->
+<!-- Adjust literal thresholds -->
 <rule ref="Apermo.DataStructures.ArrayComplexity">
     <properties>
         <property name="warnDepth" value="3"/>
@@ -488,11 +507,27 @@ $grid = [ [ 1, 2 ], [ 3, 4 ] ];
     </properties>
 </rule>
 
+<!-- Loosen or tighten the parameter-shape check -->
+<rule ref="Apermo.DataStructures.ArrayComplexity">
+    <properties>
+        <property name="parameterMaxKeys" value="8"/>
+        <property name="parameterMaxDepth" value="3"/>
+    </properties>
+</rule>
+
 <!-- Disable key count checks entirely -->
 <rule ref="Apermo.DataStructures.ArrayComplexity.TooManyKeys">
     <severity>0</severity>
 </rule>
 <rule ref="Apermo.DataStructures.ArrayComplexity.TooManyKeysError">
+    <severity>0</severity>
+</rule>
+
+<!-- Disable parameter-shape checks entirely -->
+<rule ref="Apermo.DataStructures.ArrayComplexity.ComplexParameterKeys">
+    <severity>0</severity>
+</rule>
+<rule ref="Apermo.DataStructures.ArrayComplexity.ComplexParameterDepth">
     <severity>0</severity>
 </rule>
 ```
@@ -651,6 +686,78 @@ apply_filters( 'my_title', $title );
     <severity>0</severity>
 </rule>
 <rule ref="Apermo.Hooks.RequireHookDocBlock.MissingReturn">
+    <severity>0</severity>
+</rule>
+```
+
+### Docblock Summary Style (`Apermo.Commenting.DocSummaryStyle`)
+
+Enforces third-person singular docblock summaries per the [WordPress PHP Documentation Standards](https://developer.wordpress.org/coding-standards/inline-documentation-standards/php/#1-summary). The rule of thumb: prepending "It" to the summary must read grammatically — `Displays the post title.` ("It displays…") passes; `Display the post title.` ("It display…") does not.
+
+Applies to function, method, class, interface, trait, and enum docblocks. Property, constant, and bare-variable docblocks are skipped — their summaries are idiomatically noun-form.
+
+Three layered checks, evaluated in order. First match wins.
+
+| Code | When |
+|---|---|
+| `AntiPattern` | First phrase matches a known bad opener (`Allows you to…`, `Lets you…`, `Used to…`, `This function/method/class…`) |
+| `BareInfinitive` | First word is a bare-infinitive verb whose third-person form adds `-es` (`Process`, `Pass`, `Fix`, `Focus`, `Access`, …) |
+| `NotThirdPerson` | First word does not end in `s` and is not on the whitelist |
+
+Whitelist (pass-through): `Callback`, `Wrapper`, `Helper`, `Utility`, `Alias`, `Shortcut`. Common noun-lead openers that WordPress style tolerates.
+
+All violations are warnings. No autofixer — rewriting verb forms reliably requires handling irregulars (`Do`→`Does`, `Have`→`Has`, `Go`→`Goes`) that a naive `+s` rule gets wrong.
+
+```php
+// Warning — "Display" doesn't end in s (NotThirdPerson)
+/** Display the date. */
+function render_date(): void {}
+
+// Warning — "Process" is a bare infinitive (BareInfinitive)
+/** Process the queue. */
+function handle_queue(): void {}
+
+// Warning — "Allows you to" is an anti-pattern (AntiPattern)
+/** Allows you to modify the post content. */
+
+// Good — third-person singular
+/** Displays the last modified date for a post. */
+function render_date(): void {}
+
+/** Filters the post content before rendering. */
+
+/** Fires after the plugin is initialized. */
+
+/** Callback for the save_post action. */  // whitelist passes
+
+// Skipped — property docblock (noun-form is idiomatic)
+class User {
+    /** The user's display name. */
+    public string $name = '';
+}
+```
+
+**Customization** via `phpcs.xml`:
+
+```xml
+<!-- Extend the whitelist of accepted noun-lead openers -->
+<rule ref="Apermo.Commenting.DocSummaryStyle">
+    <properties>
+        <property name="whitelist" type="array"
+                  value="Callback,Wrapper,Helper,Utility,Alias,Shortcut,Handler,Matcher"/>
+    </properties>
+</rule>
+
+<!-- Extend the anti-pattern list -->
+<rule ref="Apermo.Commenting.DocSummaryStyle">
+    <properties>
+        <property name="antiPatterns" type="array"
+                  value="Allows you to,Lets you,Used to,This function,This method,This class,Meant to"/>
+    </properties>
+</rule>
+
+<!-- Disable a specific error code -->
+<rule ref="Apermo.Commenting.DocSummaryStyle.AntiPattern">
     <severity>0</severity>
 </rule>
 ```

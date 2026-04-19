@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ConsistentAssignmentAlignment sniff.
+ * Tests the ConsistentAssignmentAlignment sniff.
  *
  * @package Apermo\Tests\Formatting
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\Formatting;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.Formatting.ConsistentAssignmentAlignment.
+ * Tests Apermo.Formatting.ConsistentAssignmentAlignment.
  */
 class ConsistentAssignmentAlignmentUnitTest extends AbstractSniffUnitTest {
 

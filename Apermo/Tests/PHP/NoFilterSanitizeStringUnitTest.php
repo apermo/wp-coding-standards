@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the NoFilterSanitizeString sniff.
+ * Tests the NoFilterSanitizeString sniff.
  *
  * @package Apermo\Tests\PHP
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\PHP;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.PHP.NoFilterSanitizeString.
+ * Tests Apermo.PHP.NoFilterSanitizeString.
  */
 class NoFilterSanitizeStringUnitTest extends AbstractSniffUnitTest {
 

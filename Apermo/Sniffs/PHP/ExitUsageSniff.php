@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enforce exit() over die and bare exit.
+ * Enforces exit() over die and bare exit.
  *
  * @package Apermo\Sniffs\PHP
  */

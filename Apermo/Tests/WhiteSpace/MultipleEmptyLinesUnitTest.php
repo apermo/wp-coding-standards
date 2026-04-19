@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the MultipleEmptyLines sniff.
+ * Tests the MultipleEmptyLines sniff.
  *
  * @package Apermo\Tests\WhiteSpace
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\WhiteSpace;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.WhiteSpace.MultipleEmptyLines.
+ * Tests Apermo.WhiteSpace.MultipleEmptyLines.
  */
 class MultipleEmptyLinesUnitTest extends AbstractSniffUnitTest {
 

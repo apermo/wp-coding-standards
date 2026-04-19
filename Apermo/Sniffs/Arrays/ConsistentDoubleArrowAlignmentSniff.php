@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enforce consistent => alignment within arrays.
+ * Enforces consistent => alignment within arrays.
  *
  * @package Apermo\Sniffs\Arrays
  */
@@ -69,7 +69,7 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Collect top-level T_DOUBLE_ARROW tokens and their spacing info.
+	 * Collects top-level T_DOUBLE_ARROW tokens and their spacing info.
 	 *
 	 * Skips nested arrays, closures, and anonymous classes.
 	 *
@@ -129,7 +129,7 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Measure spaces between end of key and the => operator.
+	 * Measures spaces between end of key and the => operator.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $arrowPtr  The T_DOUBLE_ARROW token position.
@@ -155,7 +155,7 @@ class ConsistentDoubleArrowAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Check consistency within collected arrows and report violations.
+	 * Checks consistency within collected arrows and report violations.
 	 *
 	 * Two valid styles:
 	 * - Single-space: all `=>` have exactly 1 space before them

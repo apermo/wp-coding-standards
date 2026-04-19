@@ -5,6 +5,66 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - 2026-04-19
+
+### Added
+
+- `Apermo.Commenting.DocSummaryStyle` sniff: flags WordPress
+  docblock summaries that violate the third-person singular
+  style. Three layered checks: a configurable whitelist of
+  noun-lead openers (`Callback`, `Wrapper`, …), a blacklist of
+  known anti-patterns (`Allows you to`, `Lets you`, …), and a
+  default `first-word-ends-in-s` check with a closer list for
+  bare infinitives whose third-person form adds `-es`
+  (`Process`, `Fix`, `Access`, …). Property, constant, and bare
+  variable docblocks are skipped — their summaries are idiomatically
+  noun-form. All warnings. Closes #96.
+- `Apermo.DataStructures.ArrayComplexity.ComplexParameterKeys` and
+  `ComplexParameterDepth` (error): flag custom function, method,
+  and closure parameters whose default value or PHPStan/Psalm
+  `@param array{...}` docblock shape exceeds
+  `parameterMaxKeys` (default 5) or `parameterMaxDepth` (default 2).
+  Unlike the existing literal-array checks (advisory warnings),
+  the signature author owns the shape and can refactor to a DTO.
+  Closes #98.
+
+### Changed
+
+- `Apermo.DataStructures.ArrayComplexity` default thresholds raised
+  so idiomatic WordPress usage (e.g. a `WP_Query` call with
+  `meta_query`, or a 7-key arg set) stays silent, while genuinely
+  monolithic shapes still surface:
+    - `warnDepth`  2 → 3 (`meta_query` is associative depth 3)
+    - `errorDepth` 3 → 5
+    - `warnKeys`   5 → 10 (typical `WP_Query` arg sets land at 5–8)
+    - `errorKeys`  10 → 20
+  Consumers can still tighten via `<property>` overrides. Closes #97.
+- All shipped sniff and test source files now pass
+  `Apermo.Commenting.DocSummaryStyle` on the repo's own code
+  (third-person singular docblock summaries throughout).
+  Internal cleanup only — no user-visible behavior change.
+  Closes #100.
+
+### Fixed
+
+- `Apermo.WordPress.RequireWpErrorHandling.Unchecked` no longer
+  warns on `wp_delete_post()`, `wp_mail()`, and
+  `wp_upload_bits()` — none of these return `WP_Error`
+  (`WP_Post|false|null`, `bool`, and `array` respectively).
+  Closes #95.
+- `Apermo.WordPress.NoHardcodedTableNames.Found` no longer fires
+  on HTML `<table class="...">` elements. `TABLE` alone was too
+  ambiguous to act as a SQL anchor; it now only qualifies when
+  preceded by a DDL verb (`CREATE`, `DROP`, `ALTER`, `TRUNCATE`,
+  `RENAME`), with optional `IF [NOT] EXISTS`. Closes #101.
+- `Apermo.WordPress.NoHardcodedTableNames.Found` no longer fires
+  on English prose or WP UI labels that happen to contain
+  FROM/UPDATE/etc. next to another word (e.g. `"lessons from a
+  team"`, `"Update Revision Tag"`). A string must now also
+  contain a secondary SQL marker (`SELECT`, `WHERE`, `SET`,
+  `VALUES`, `ORDER BY`, `GROUP BY`, `HAVING`, `LIMIT`, or a DDL
+  `TABLE` clause) before the table-name regex runs. Closes #102.
+
 ## [2.7.0] - Unreleased
 
 ### Added
@@ -442,6 +502,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.4...v2.7.0
 [2.6.4]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.3...v2.6.4
 [2.6.3]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.2...v2.6.3

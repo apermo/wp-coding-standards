@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the RequireAbsoluteIncludePath sniff.
+ * Tests the RequireAbsoluteIncludePath sniff.
  *
  * @package Apermo\Tests\PHP
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\PHP;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.PHP.RequireAbsoluteIncludePath.
+ * Tests Apermo.PHP.RequireAbsoluteIncludePath.
  */
 class RequireAbsoluteIncludePathUnitTest extends AbstractSniffUnitTest {
 

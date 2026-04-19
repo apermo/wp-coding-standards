@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag require/include with relative paths.
+ * Flags require/include with relative paths.
  *
  * @package Apermo\Sniffs\PHP
  */

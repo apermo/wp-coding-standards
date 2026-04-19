@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Unit test for the ArrayComplexity sniff.
+ * Tests the ArrayComplexity sniff.
  *
  * @package Apermo\Tests\DataStructures
  */
@@ -12,7 +12,7 @@ namespace Apermo\Tests\DataStructures;
 use PHP_CodeSniffer\Tests\Standards\AbstractSniffUnitTest;
 
 /**
- * Unit test for Apermo.DataStructures.ArrayComplexity.
+ * Tests Apermo.DataStructures.ArrayComplexity.
  */
 class ArrayComplexityUnitTest extends AbstractSniffUnitTest {
 
@@ -25,8 +25,15 @@ class ArrayComplexityUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getErrorList( $testFile = '' ) {
 		return [
-			15 => 1,
-			28 => 1,
+			35  => 1,
+			53  => 1,
+			128 => 1,
+			140 => 1,
+			167 => 1,
+			176 => 1,
+			202 => 1,
+			220 => 1,
+			225 => 1,
 		];
 	}
 
@@ -39,10 +46,10 @@ class ArrayComplexityUnitTest extends AbstractSniffUnitTest {
 	 */
 	protected function getWarningList( $testFile = '' ) {
 		return [
-			12 => 1,
-			18 => 1,
-			52 => 1,
-			55 => 2,
+			32 => 1,
+			38 => 1,
+			87 => 1,
+			90 => 2,
 		];
 	}
 }

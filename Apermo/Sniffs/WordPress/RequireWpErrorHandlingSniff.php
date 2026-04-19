@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Flag unchecked WP_Error-returning function calls.
+ * Flags unchecked WP_Error-returning function calls.
  *
  * @package Apermo\Sniffs\WordPress
  */
@@ -40,15 +40,12 @@ class RequireWpErrorHandlingSniff implements Sniff {
 		'wp_safe_remote_head' => true,
 		'wp_insert_post'     => true,
 		'wp_update_post'     => true,
-		'wp_delete_post'     => true,
 		'wp_insert_term'     => true,
 		'wp_update_term'     => true,
 		'wp_insert_user'     => true,
 		'wp_update_user'     => true,
-		'wp_upload_bits'     => true,
 		'wp_crop_image'      => true,
 		'media_handle_upload' => true,
-		'wp_mail'            => true,
 	];
 
 	/**
@@ -101,7 +98,7 @@ class RequireWpErrorHandlingSniff implements Sniff {
 	}
 
 	/**
-	 * Get the variable name the function result is assigned to.
+	 * Gets the variable name the function result is assigned to.
 	 *
 	 * Looks for pattern: $var = func_name(
 	 *
@@ -129,7 +126,7 @@ class RequireWpErrorHandlingSniff implements Sniff {
 	}
 
 	/**
-	 * Find the end of the enclosing scope.
+	 * Finds the end of the enclosing scope.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  Current position.
@@ -149,7 +146,7 @@ class RequireWpErrorHandlingSniff implements Sniff {
 	}
 
 	/**
-	 * Check if is_wp_error($var) is called in the scope.
+	 * Checks if is_wp_error($var) is called in the scope.
 	 *
 	 * @param File   $phpcsFile The file being scanned.
 	 * @param int    $stackPtr  Position after which to search.

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Disallow pre-increment/pre-decrement in favor of post-increment/post-decrement.
+ * Disallows pre-increment/pre-decrement in favor of post-increment/post-decrement.
  *
  * @package Apermo\Sniffs\Operators
  */
@@ -83,7 +83,7 @@ class DisallowPreIncrementDecrementSniff implements Sniff {
 	}
 
 	/**
-	 * Find the last token of a complex identifier.
+	 * Finds the last token of a complex identifier.
 	 *
 	 * Walks through object operators (->), double colons (::),
 	 * property/method names, and array brackets.

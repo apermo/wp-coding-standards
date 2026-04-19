@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 /**
- * Enforce consistent alignment within assignment groups.
+ * Enforces consistent alignment within assignment groups.
  *
  * @package Apermo\Sniffs\Formatting
  */
@@ -97,7 +97,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Find the first assignment token on a given line, searching from a position.
+	 * Finds the first assignment token on a given line, searching from a position.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $line      The line number.
@@ -129,7 +129,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Collect consecutive assignment statements into a group.
+	 * Collects consecutive assignment statements into a group.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $stackPtr  The first assignment token.
@@ -172,7 +172,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Find an assignment token on the next consecutive line.
+	 * Finds an assignment token on the next consecutive line.
 	 *
 	 * Returns false if the next line is blank, has no assignment,
 	 * or is inside parentheses (for loops etc).
@@ -228,7 +228,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Measure spaces between end of LHS and the assignment operator.
+	 * Measures spaces between end of LHS and the assignment operator.
 	 *
 	 * @param File $phpcsFile The file being scanned.
 	 * @param int  $assignPtr The assignment token position.
@@ -256,7 +256,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Check consistency within a group and report violations.
+	 * Checks consistency within a group and report violations.
 	 *
 	 * Two valid styles:
 	 * - Single-space: all assignments have exactly 1 space before `=`
@@ -397,7 +397,7 @@ class ConsistentAssignmentAlignmentSniff implements Sniff {
 	}
 
 	/**
-	 * Get the stack pointer past the last member of a group.
+	 * Gets the stack pointer past the last member of a group.
 	 *
 	 * @param array<int, array{ptr: int, spaces: int, column: int, line: int, lhs_end: int}> $group    The collected group.
 	 * @param int                                                                            $stackPtr Fallback position.
