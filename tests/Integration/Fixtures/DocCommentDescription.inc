@@ -21,3 +21,7 @@ $param = 4;
 // Normal short description should pass (line 22).
 /** Short description. */
 $normal = 5;
+
+// Empty doc comment should not be flagged (line 26).
+/** */
+$empty = 6;

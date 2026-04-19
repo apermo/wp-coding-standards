@@ -476,6 +476,7 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 14, '@phpstan-ignore should satisfy.' );
 		$this->assertErrorOnLine( $file, 18, 'MissingShort', '@param without short desc should be flagged.' );
 		$this->assertNoErrorsOnLine( $file, 22, 'Normal short description should pass.' );
+		$this->assertNoErrorsOnLine( $file, 26, 'Empty doc comment should not be flagged.' );
 	}
 
 	public function testFqnAllowedInNoNamespaceFiles(): void {
