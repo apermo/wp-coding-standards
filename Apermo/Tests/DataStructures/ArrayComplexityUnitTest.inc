@@ -120,3 +120,102 @@ $extracted_args = [
 	'post_type'  => 'any',
 	'meta_query' => $meta_query_body,
 ];
+
+// --- Parameter-signature checks (ComplexParameter*) --- //
+
+// ERROR ComplexParameterKeys — 6-key default value (> parameterMaxKeys=5).
+function with_wide_default( $opts = [
+	'k1' => 1,
+	'k2' => 2,
+	'k3' => 3,
+	'k4' => 4,
+	'k5' => 5,
+	'k6' => 6,
+] ) {
+	return $opts;
+}
+
+// ERROR ComplexParameterDepth — 3-level default value (> parameterMaxDepth=2).
+function with_deep_default( $opts = [ 'a' => [ 'b' => [ 'c' => 1 ] ] ] ) {
+	return $opts;
+}
+
+// OK — simple default (5 keys, depth 1).
+function with_simple_default( $opts = [ 'a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5 ] ) {
+	return $opts;
+}
+
+// OK — numeric default (no associative keys, depth still 0).
+function with_numeric_default( $opts = [ 1, 2, 3, 4, 5, 6 ] ) {
+	return $opts;
+}
+
+// OK — no default at all.
+function without_default( $opts ) {
+	return $opts;
+}
+
+// OK — scalar default.
+function with_scalar_default( $opts = 'x' ) {
+	return $opts;
+}
+
+/**
+ * ERROR ComplexParameterKeys — docblock shape with 6 top-level entries.
+ *
+ * @param array{a: int, b: int, c: int, d: int, e: int, f: int} $opts Options.
+ */
+function with_wide_shape( array $opts ) {
+	return $opts;
+}
+
+/**
+ * ERROR ComplexParameterDepth — docblock shape depth 3.
+ *
+ * @param array{a: array{b: array{c: int}}} $opts Options.
+ */
+function with_deep_shape( array $opts ) {
+	return $opts;
+}
+
+/**
+ * OK — docblock shape within limits (2 keys, depth 1).
+ *
+ * @param array{a: int, b: int} $opts Options.
+ */
+function with_simple_shape( array $opts ) {
+	return $opts;
+}
+
+/**
+ * OK — @param without array{} shape (just array type) is ignored.
+ *
+ * @param array $opts Options.
+ */
+function with_untyped_array( array $opts ) {
+	return $opts;
+}
+
+class ArrayComplexityMethodHost {
+	// ERROR ComplexParameterKeys — method with a wide array default.
+	public function method_with_wide_default( $opts = [
+		'k1' => 1,
+		'k2' => 2,
+		'k3' => 3,
+		'k4' => 4,
+		'k5' => 5,
+		'k6' => 6,
+	] ) {
+		return $opts;
+	}
+}
+
+// OK — closure with simple default.
+$simple_closure = function ( $opts = [ 'a' => 1 ] ) {
+	return $opts;
+};
+
+// ERROR ComplexParameterDepth — closure with deep default.
+$deep_closure = function ( $opts = [ 'a' => [ 'b' => [ 'c' => 1 ] ] ] ) {
+	return $opts;
+};
