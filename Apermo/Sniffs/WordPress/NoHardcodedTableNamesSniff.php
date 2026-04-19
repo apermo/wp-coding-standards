@@ -28,12 +28,16 @@ class NoHardcodedTableNamesSniff implements Sniff {
 
 	/**
 	 * SQL keywords after which a bare identifier is a table name.
-	 * Matches the keyword followed by a hardcoded identifier that is
+	 *
+	 * `TABLE` alone is too ambiguous (matches `<table class=...>` HTML),
+	 * so it only qualifies when preceded by a DDL verb
+	 * (CREATE/DROP/ALTER/TRUNCATE/RENAME), with an optional `IF [NOT] EXISTS`
+	 * clause. Matches the keyword followed by a hardcoded identifier that is
 	 * not a placeholder (%s, %i, %1$s) or an interpolation ({$...}).
 	 *
 	 * @var string
 	 */
-	private const PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|TABLE)\s+(?!%[sid]|%\d+\$[sid])([a-zA-Z_]\w*)\b/i';
+	private const PATTERN = '/\b(?:FROM|JOIN|INTO|UPDATE|(?:CREATE(?:\s+TEMPORARY)?|DROP|ALTER|TRUNCATE|RENAME)\s+TABLE(?:\s+IF\s+(?:NOT\s+)?EXISTS)?)\s+(?!%[sid]|%\d+\$[sid])([a-zA-Z_]\w*)\b/i';
 
 	/**
 	 * Matches $wpdb->prefix interpolation followed by a table name

@@ -47,6 +47,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `wp_upload_bits()` — none of these return `WP_Error`
   (`WP_Post|false|null`, `bool`, and `array` respectively).
   Closes #95.
+- `Apermo.WordPress.NoHardcodedTableNames.Found` no longer fires
+  on HTML `<table class="...">` elements. `TABLE` alone was too
+  ambiguous to act as a SQL anchor; it now only qualifies when
+  preceded by a DDL verb (`CREATE`, `DROP`, `ALTER`, `TRUNCATE`,
+  `RENAME`), with optional `IF [NOT] EXISTS`. Closes #101.
 
 ## [2.7.0] - Unreleased
 

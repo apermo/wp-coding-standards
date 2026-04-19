@@ -44,6 +44,9 @@ class NoHardcodedTableNamesUnitTest extends AbstractSniffUnitTest {
 			21 => 1, // INTO custom_table.
 			24 => 1, // UPDATE wp_users.
 			47 => 1, // $wpdb->prefix interpolation (warnPrefix on).
+			55 => 1, // CREATE TABLE wp_custom.
+			58 => 1, // DROP TABLE IF EXISTS wp_obsolete.
+			61 => 1, // ALTER TABLE wp_users.
 		];
 	}
 }
