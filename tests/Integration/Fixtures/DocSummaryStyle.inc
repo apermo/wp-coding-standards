@@ -53,3 +53,17 @@ function emp(): void {}
 // Backtick code ref stripped; third-person "handles" — OK (line 54).
 /** `wp_foo()` handles the request. */
 function code(): void {}
+
+// Property docblock — noun-form summary skipped (line 59).
+class HasProperties {
+	/** The user's display name. */
+	public string $name = '';
+}
+
+// Constant docblock — noun-form summary skipped (line 65).
+/** Maximum retry attempts. */
+const MAX_RETRIES = 3;
+
+// Bare variable with noun-form docblock skipped (line 69).
+/** The current timestamp. */
+$now = 0;

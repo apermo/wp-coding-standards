@@ -108,6 +108,13 @@ class DocSummaryStyleSniff implements Sniff {
 		$commentEnd = $tokens[ $stackPtr ]['comment_closer'];
 		$empty      = [ T_DOC_COMMENT_WHITESPACE, T_DOC_COMMENT_STAR ];
 
+		// Properties, constants, and bare variables use noun-form summaries;
+		// the third-person rule only applies to behavior-describing docblocks
+		// (functions, methods, classes, interfaces, traits, enums).
+		if ( $this->describesDataDeclaration( $phpcsFile, $commentEnd ) ) {
+			return;
+		}
+
 		$first = $phpcsFile->findNext( $empty, ( $stackPtr + 1 ), $commentEnd, true );
 
 		if ( $first === false ) {
@@ -174,6 +181,47 @@ class DocSummaryStyleSniff implements Sniff {
 				[ $firstWord ],
 			);
 		}
+	}
+
+	/**
+	 * Reports whether the docblock attaches to a property, constant, or bare variable.
+	 *
+	 * Scans forward from the docblock's closing tag and returns true if the
+	 * first attachable declaration encountered is a property / constant /
+	 * variable (noun-form summaries are idiomatic), false if it is a function,
+	 * class, interface, trait, or enum (third-person rule applies).
+	 *
+	 * @param File $phpcsFile    The file being scanned.
+	 * @param int  $commentClose Position of the docblock's T_DOC_COMMENT_CLOSE_TAG.
+	 *
+	 * @return bool
+	 */
+	private function describesDataDeclaration( File $phpcsFile, int $commentClose ): bool {
+		$tokens = $phpcsFile->getTokens();
+		$end    = $phpcsFile->numTokens;
+
+		for ( $i = $commentClose + 1; $i < $end; $i++ ) {
+			$code = $tokens[ $i ]['code'];
+
+			if ( $code === T_FUNCTION
+				|| $code === T_CLASS
+				|| $code === T_INTERFACE
+				|| $code === T_TRAIT
+				|| ( defined( 'T_ENUM' ) && $code === T_ENUM )
+			) {
+				return false;
+			}
+
+			if ( $code === T_VARIABLE || $code === T_CONST ) {
+				return true;
+			}
+
+			if ( $code === T_DOC_COMMENT_OPEN_TAG ) {
+				return false;
+			}
+		}
+
+		return false;
 	}
 
 	/**
