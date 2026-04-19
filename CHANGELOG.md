@@ -39,6 +39,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `warnKeys`   5 → 10 (typical `WP_Query` arg sets land at 5–8)
     - `errorKeys`  10 → 20
   Consumers can still tighten via `<property>` overrides. Closes #97.
+- All shipped sniff and test source files now pass
+  `Apermo.Commenting.DocSummaryStyle` on the repo's own code
+  (third-person singular docblock summaries throughout).
+  Internal cleanup only — no user-visible behavior change.
+  Closes #100.
 
 ### Fixed
 
