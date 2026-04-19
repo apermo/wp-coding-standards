@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.8.0] - Unreleased
+
+### Added
+
+- `Apermo.DataStructures.ArrayComplexity.ComplexParameterKeys` and
+  `ComplexParameterDepth` (error): flag custom function, method,
+  and closure parameters whose default value or PHPStan/Psalm
+  `@param array{...}` docblock shape exceeds
+  `parameterMaxKeys` (default 5) or `parameterMaxDepth` (default 2).
+  Unlike the existing literal-array checks (advisory warnings),
+  the signature author owns the shape and can refactor to a DTO.
+  Closes #98.
+
+### Changed
+
+- `Apermo.DataStructures.ArrayComplexity` default thresholds raised
+  so idiomatic WordPress usage (e.g. a `WP_Query` call with
+  `meta_query`, or a 7-key arg set) stays silent, while genuinely
+  monolithic shapes still surface:
+    - `warnDepth`  2 → 3 (`meta_query` is associative depth 3)
+    - `errorDepth` 3 → 5
+    - `warnKeys`   5 → 10 (typical `WP_Query` arg sets land at 5–8)
+    - `errorKeys`  10 → 20
+  Consumers can still tighten via `<property>` overrides. Closes #97.
+
 ## [2.7.0] - Unreleased
 
 ### Added
@@ -442,6 +467,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.4...v2.7.0
 [2.6.4]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.3...v2.6.4
 [2.6.3]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.2...v2.6.3
