@@ -383,6 +383,9 @@ class RulesetIntegrationTest extends TestCase {
 		$file = $this->processFixture( 'WpErrorHandling.inc' );
 		$this->assertWarningOnLine( $file, 8, 'RequireWpErrorHandling', 'Unchecked wp_remote_get should warn.' );
 		$this->assertNoWarningsOnLine( $file, 14, 'Checked with is_wp_error should be allowed.' );
+		$this->assertNoWarningsOnLine( $file, 23, 'wp_delete_post returns WP_Post|false|null, never WP_Error.' );
+		$this->assertNoWarningsOnLine( $file, 28, 'wp_mail returns bool, never WP_Error.' );
+		$this->assertNoWarningsOnLine( $file, 33, 'wp_upload_bits returns an array, never WP_Error.' );
 	}
 
 	public function testPreferWpdbIdentifierPlaceholder(): void {

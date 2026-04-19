@@ -55,3 +55,12 @@ function array_assign( string $url ): array {
 
 // WARNING: top-level code without is_wp_error() check.
 $response = wp_remote_get( 'https://example.com' );
+
+// OK: wp_delete_post returns WP_Post|false|null, never WP_Error.
+$deleted = wp_delete_post( 123, true );
+
+// OK: wp_mail returns bool, never WP_Error.
+$sent = wp_mail( 'recipient@example.tld', 'subject', 'body' );
+
+// OK: wp_upload_bits returns array with 'error' string key, never WP_Error.
+$upload = wp_upload_bits( 'name.txt', null, 'bits' );

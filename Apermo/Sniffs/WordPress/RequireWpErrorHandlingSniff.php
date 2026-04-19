@@ -40,15 +40,12 @@ class RequireWpErrorHandlingSniff implements Sniff {
 		'wp_safe_remote_head' => true,
 		'wp_insert_post'     => true,
 		'wp_update_post'     => true,
-		'wp_delete_post'     => true,
 		'wp_insert_term'     => true,
 		'wp_update_term'     => true,
 		'wp_insert_user'     => true,
 		'wp_update_user'     => true,
-		'wp_upload_bits'     => true,
 		'wp_crop_image'      => true,
 		'media_handle_upload' => true,
-		'wp_mail'            => true,
 	];
 
 	/**
