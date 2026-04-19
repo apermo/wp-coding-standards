@@ -220,3 +220,40 @@ $simple_closure = function ( $opts = [ 'a' => 1 ] ) {
 $deep_closure = function ( $opts = [ 'a' => [ 'b' => [ 'c' => 1 ] ] ] ) {
 	return $opts;
 };
+
+// ERROR ComplexParameterKeys — arrow function with wide array default (T_FN).
+$wide_arrow = fn( $opts = [
+	'k1' => 1,
+	'k2' => 2,
+	'k3' => 3,
+	'k4' => 4,
+	'k5' => 5,
+	'k6' => 6,
+] ) => $opts;
+
+/**
+ * OK — callable type's parenthesised commas must NOT inflate the key count.
+ *
+ * @param array{cb: callable(int, string): void, flag: bool} $opts Options.
+ */
+function with_callable_shape( array $opts ) {
+	return $opts;
+}
+
+/**
+ * OK — generic's angle-bracketed commas must NOT inflate the key count.
+ *
+ * @param array{items: Collection<int, string>, name: string} $opts Options.
+ */
+function with_generic_shape( array $opts ) {
+	return $opts;
+}
+
+/**
+ * OK — variable ($this) inside the shape must not be reported as the param name.
+ *
+ * @param array{self: $this, other: int} $opts Options.
+ */
+function with_this_in_shape( array $opts ) {
+	return $opts;
+}

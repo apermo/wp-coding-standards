@@ -491,8 +491,8 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoWarningsOnLine( $file, 50, 'Empty docblock should pass.' );
 		$this->assertNoWarningsOnLine( $file, 54, 'Backtick code ref then third-person verb should pass.' );
 		$this->assertNoWarningsOnLine( $file, 59, 'Property docblock should be skipped.' );
-		$this->assertNoWarningsOnLine( $file, 65, 'Constant docblock should be skipped.' );
-		$this->assertNoWarningsOnLine( $file, 69, 'Bare variable docblock should be skipped.' );
+		$this->assertNoWarningsOnLine( $file, 64, 'Constant docblock should be skipped.' );
+		$this->assertNoWarningsOnLine( $file, 68, 'Bare variable docblock should be skipped.' );
 	}
 
 	public function testDocCommentDescription(): void {

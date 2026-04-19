@@ -33,6 +33,7 @@ class ArrayComplexityUnitTest extends AbstractSniffUnitTest {
 			176 => 1,
 			202 => 1,
 			220 => 1,
+			225 => 1,
 		];
 	}
 

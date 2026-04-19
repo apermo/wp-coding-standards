@@ -96,7 +96,7 @@ class ArrayComplexitySniff implements Sniff {
 	 * @return array<int|string>
 	 */
 	public function register() {
-		return [ T_OPEN_SHORT_ARRAY, T_ARRAY, T_FUNCTION, T_CLOSURE ];
+		return [ T_OPEN_SHORT_ARRAY, T_ARRAY, T_FUNCTION, T_CLOSURE, T_FN ];
 	}
 
 	/**
@@ -118,7 +118,7 @@ class ArrayComplexitySniff implements Sniff {
 		$tokens = $phpcsFile->getTokens();
 		$code   = $tokens[ $stackPtr ]['code'];
 
-		if ( $code === T_FUNCTION || $code === T_CLOSURE ) {
+		if ( $code === T_FUNCTION || $code === T_CLOSURE || $code === T_FN ) {
 			$this->processFunctionSignature( $phpcsFile, $stackPtr );
 			return;
 		}
@@ -230,7 +230,7 @@ class ArrayComplexitySniff implements Sniff {
 				if ( ! $depthIsAssoc[ $depth ] ) {
 					$depthIsAssoc[ $depth ] = true;
 					$assocCount++;
-					$maxAssocCount = max( $maxAssocCount, $assocCount );
+					$maxAssocCount = \max( $maxAssocCount, $assocCount );
 				}
 			}
 		}
@@ -452,7 +452,7 @@ class ArrayComplexitySniff implements Sniff {
 			}
 		}
 
-		return trim( implode( ' ', $parts ) );
+		return \trim( \implode( ' ', $parts ) );
 	}
 
 	/**
@@ -462,13 +462,13 @@ class ArrayComplexitySniff implements Sniff {
 	 * or null if no shape is present or the braces are unbalanced.
 	 */
 	private function extractArrayShapeBody( string $content ): ?string {
-		if ( preg_match( '/\b(?:array|list)\s*\{/', $content, $match, PREG_OFFSET_CAPTURE ) !== 1 ) {
+		if ( \preg_match( '/\b(?:array|list)\s*\{/', $content, $match, PREG_OFFSET_CAPTURE ) !== 1 ) {
 			return null;
 		}
 
-		$start = $match[0][1] + strlen( $match[0][0] );
+		$start = $match[0][1] + \strlen( $match[0][0] );
 		$depth = 1;
-		$len   = strlen( $content );
+		$len   = \strlen( $content );
 
 		for ( $i = $start; $i < $len; $i++ ) {
 			if ( $content[ $i ] === '{' ) {
@@ -476,7 +476,7 @@ class ArrayComplexitySniff implements Sniff {
 			} elseif ( $content[ $i ] === '}' ) {
 				$depth--;
 				if ( $depth === 0 ) {
-					return substr( $content, $start, $i - $start );
+					return \substr( $content, $start, $i - $start );
 				}
 			}
 		}
@@ -485,10 +485,18 @@ class ArrayComplexitySniff implements Sniff {
 	}
 
 	/**
-	 * Extracts the first `$name` token from $content.
+	 * Extracts the parameter name from an @param tag's content.
+	 *
+	 * Searches after the last closing brace of the array shape (if any) so
+	 * variables that appear inside the type definition itself — e.g.
+	 * `@param array{foo: $this} $opts` — are not confused with the real
+	 * parameter name.
 	 */
 	private function extractParamName( string $content ): string {
-		if ( preg_match( '/\$(\w+)/', $content, $match ) === 1 ) {
+		$lastBrace = \strrpos( $content, '}' );
+		$searchIn  = ( $lastBrace !== false ) ? \substr( $content, $lastBrace ) : $content;
+
+		if ( \preg_match( '/\$(\w+)/', $searchIn, $match ) === 1 ) {
 			return '$' . $match[1];
 		}
 
@@ -498,18 +506,22 @@ class ArrayComplexitySniff implements Sniff {
 	/**
 	 * Counts top-level entries and max nesting depth of an array-shape body.
 	 *
-	 * Walks $body character by character, tracking brace depth. Commas at
-	 * depth 0 separate top-level entries. Nested `{...}` blocks are
-	 * analyzed recursively and contribute to the reported depth.
+	 * Walks $body character by character, tracking brace, parenthesis, and
+	 * angle-bracket depth. Commas at depth 0 separate top-level entries.
+	 * Nested `{...}` blocks are analyzed recursively and contribute to the
+	 * reported depth. Commas inside `(...)` (callable signatures) and
+	 * `<...>` (generics) do not count as entry separators.
 	 *
 	 * @return array{depth: int, keys: int}
 	 */
 	private function analyzeShapeBody( string $body ): array {
-		$len         = strlen( $body );
+		$len         = \strlen( $body );
 		$keys        = 0;
 		$hasContent  = false;
 		$nestedMax   = 0;
 		$braceDepth  = 0;
+		$parenDepth  = 0;
+		$angleDepth  = 0;
 		$nestedStart = null;
 
 		for ( $i = 0; $i < $len; $i++ ) {
@@ -526,14 +538,34 @@ class ArrayComplexitySniff implements Sniff {
 			if ( $ch === '}' ) {
 				$braceDepth--;
 				if ( $braceDepth === 0 && $nestedStart !== null ) {
-					$nested      = $this->analyzeShapeBody( substr( $body, $nestedStart, $i - $nestedStart ) );
-					$nestedMax   = max( $nestedMax, $nested['depth'] );
+					$nested      = $this->analyzeShapeBody( \substr( $body, $nestedStart, $i - $nestedStart ) );
+					$nestedMax   = \max( $nestedMax, $nested['depth'] );
 					$nestedStart = null;
 				}
 				continue;
 			}
 
-			if ( $braceDepth > 0 ) {
+			if ( $ch === '(' ) {
+				$parenDepth++;
+				continue;
+			}
+
+			if ( $ch === ')' ) {
+				$parenDepth--;
+				continue;
+			}
+
+			if ( $ch === '<' ) {
+				$angleDepth++;
+				continue;
+			}
+
+			if ( $ch === '>' ) {
+				$angleDepth--;
+				continue;
+			}
+
+			if ( $braceDepth > 0 || $parenDepth > 0 || $angleDepth > 0 ) {
 				continue;
 			}
 
@@ -545,7 +577,7 @@ class ArrayComplexitySniff implements Sniff {
 				continue;
 			}
 
-			if ( ! ctype_space( $ch ) ) {
+			if ( ! \ctype_space( $ch ) ) {
 				$hasContent = true;
 			}
 		}

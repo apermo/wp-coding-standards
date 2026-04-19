@@ -60,11 +60,11 @@ class HasProperties {
 	public string $name = '';
 }
 
-// Constant docblock — noun-form summary skipped (line 65).
+// Constant docblock — noun-form summary skipped (line 64).
 /** Maximum retry attempts. */
 const MAX_RETRIES = 3;
 
-// Bare variable with noun-form docblock skipped (line 69).
+// Bare variable with noun-form docblock skipped (line 68).
 /** The current timestamp. */
 $now = 0;
 
