@@ -22,7 +22,8 @@
 		"slevomat/coding-standard": "^8.0",
 		"yoast/yoastcs": "^3.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"automattic/vipwpcs": "^3.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^11.0",
