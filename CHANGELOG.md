@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- `WordPressVIPMinimum.Security.ExitAfterRedirect` (error): flags
+  `wp_redirect()` and `wp_safe_redirect()` calls not followed by
+  `exit()`, preventing unintended output or side effects after
+  headers are sent — a known WordPress footgun, especially in
+  `admin_post_*` handlers. Pulled from `automattic/vipwpcs`
+  (cherry-picked; the full VIP ruleset is not included).
+  Closes #103.
+
 ## [2.8.0] - 2026-04-19
 
 ### Added
@@ -502,6 +514,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[Unreleased]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...HEAD
 [2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.4...v2.7.0
 [2.6.4]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.3...v2.6.4

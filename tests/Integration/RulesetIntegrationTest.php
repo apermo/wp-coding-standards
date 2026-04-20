@@ -258,6 +258,15 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 13, 'exit() should be allowed.' );
 	}
 
+	public function testExitAfterRedirect(): void {
+		$file = $this->processFixture( 'ExitAfterRedirect.inc' );
+		$this->assertErrorOnLine( $file, 7, 'ExitAfterRedirect.NoExit', 'wp_safe_redirect() without exit should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 10, 'wp_safe_redirect() followed by exit() should pass.' );
+		$this->assertErrorOnLine( $file, 14, 'ExitAfterRedirect.NoExit', 'wp_redirect() without exit should be flagged.' );
+		$this->assertErrorOnLine( $file, 18, 'ExitAfterRedirect', 'Redirect inside conditional without exit should be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 23, 'Redirect inside conditional with exit() should pass.' );
+	}
+
 	public function testUnusedVariable(): void {
 		$file = $this->processFixture( 'UnusedVariable.inc' );
 		$this->assertErrorOnLine( $file, 9, 'UnusedVariable', 'Unused variable should be flagged.' );

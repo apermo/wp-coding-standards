@@ -137,6 +137,9 @@
 		<type>error</type>
 	</rule>
 
+	<!-- Require exit() after wp_redirect() / wp_safe_redirect() so script execution stops once headers are sent. -->
+	<rule ref="WordPressVIPMinimum.Security.ExitAfterRedirect"/>
+
 	<!-- Disallow Yoda conditions. -->
 	<rule ref="Generic.ControlStructures.DisallowYodaConditions"/>
 

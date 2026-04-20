@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95df949e895da167022186cf9b9e76e0",
+    "content-hash": "752dac55ad3f88534de3169b0136ef5b",
     "packages": [
         {
             "name": "automattic/vipwpcs",
@@ -2974,7 +2974,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.3"
+        "php": ">=7.4"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
