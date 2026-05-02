@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0] - Unreleased
+## [3.0.0] - 2026-05-02
 
 ### Added
 
@@ -16,6 +16,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `admin_post_*` handlers. Pulled from `automattic/vipwpcs`
   (cherry-picked; the full VIP ruleset is not included).
   Closes #103.
+
+### Removed
+
+- **BREAKING:** Short echo tags (`<?= … ?>`) are no longer
+  allowed. The ruleset previously excluded
+  `Generic.PHP.DisallowShortOpenTag.EchoFound` and
+  `Squiz.PHP.EmbeddedPhp.ShortOpenEchoNoSemicolon`; both
+  exclusions have been dropped so the WordPress defaults apply.
+  This brings local PHPCS in line with the WordPress.org Plugin
+  Check, which enforces `DisallowShortOpenTag.EchoFound` and is
+  not configurable from a consuming project. Migration is
+  mechanical: replace `<?= esc_html( $x ) ?>` with
+  `<?php echo esc_html( $x ); ?>`. Closes #107.
+
+### Fixed
+
+- `Apermo.WordPress.ImplicitPostFunction.IntegerArgument` no
+  longer fires on `get_post( int )` or `get_post( $var->ID )`.
+  Unlike the other functions in `POST_FUNCTIONS`, `get_post()`
+  is overloaded: the int form forces a fresh DB fetch
+  (intentional after `wp_update_post()`), while passing a
+  `WP_Post` returns the (possibly stale) object as-is.
+  `get_post()` with no argument and `get_post( null )` still
+  error. Closes #110.
+
+### CI
+
+- Migrate `stale.yml` to `apermo/reusable-workflows`
+  (`reusable-stale.yml`). Aligns with the rest of the
+  `apermo/*` namespace and centralizes future updates.
+  Closes #106.
+- Migrate `validate-conventional-commits.yml` to
+  `apermo/reusable-workflows`
+  (`reusable-conventional-commits.yml`). The shared workflow
+  supports the Conventional Commits `!` breaking-change
+  marker (`feat(scope)!: …`); the local copy did not.
+  Allowed-types kept narrow per this repo's style guide.
+  Closes #111.
 
 ## [2.8.0] - 2026-04-19
 
@@ -514,7 +552,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
-[2.9.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...HEAD
+[3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...v3.0.0
 [2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.4...v2.7.0
 [2.6.4]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.3...v2.6.4

@@ -34,10 +34,6 @@
 		<exclude name="Universal.Operators.DisallowStandalonePostIncrementDecrement"/>
 		<!-- Suggests pre-increment; conflicts with DisallowPreIncrementDecrement. -->
 		<exclude name="Squiz.Operators.IncrementDecrementUsage"/>
-		<!-- We allow short open tags. -->
-		<exclude name="Generic.PHP.DisallowShortOpenTag.EchoFound"/>
-		<!-- We allow short open tags. -->
-		<exclude name="Squiz.PHP.EmbeddedPhp.ShortOpenEchoNoSemicolon"/>
 
 		<!-- Filename rules are still open for discussion. -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>

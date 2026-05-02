@@ -19,7 +19,7 @@ function test_implicit() {
 
 	// Warning: IntegerArgument — literal int or ->ID.
 	get_the_title( 123 );
-	get_post( $post->ID );
+	get_the_title( $post->ID );
 	get_the_date( '', 42 );
 
 	// Error: NoPostParameter — function has no $post param.
@@ -73,3 +73,9 @@ $closure = function () {
 
 // Error: arrow function scope.
 $arrow = fn() => get_the_title();
+
+// OK: get_post( int ) / get_post( $var->ID ) — overload triggers fresh DB fetch.
+function refresh_post( $post ) {
+	$a = get_post( $post->ID );
+	$b = get_post( 123 );
+}

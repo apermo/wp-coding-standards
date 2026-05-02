@@ -1,34 +1,12 @@
-name: 'Close stale issues and PRs'
+name: Stale
 
 on:
-  schedule:
-    - cron: '0 6 * * *'
-  workflow_dispatch:
-
-permissions:
-  issues: write
-  pull-requests: write
+    schedule:
+        - cron: '0 6 * * *'
 
 jobs:
-  stale:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/stale@v9
-        with:
-          days-before-stale: 30
-          days-before-close: 14
-
-          stale-issue-label: 'stale'
-          stale-pr-label: 'stale'
-
-          exempt-issue-labels: 'pinned,security,in-progress'
-          exempt-pr-labels: 'dependencies,security,in-progress'
-
-          stale-issue-message: >
-            This issue has been automatically marked as stale because it has not had
-            recent activity. It will be closed in 14 days if no further activity occurs.
-          stale-pr-message: >
-            This PR has been automatically marked as stale because it has not had
-            recent activity. It will be closed in 14 days if no further activity occurs.
-
-          operations-per-run: 30
+    stale:
+        uses: apermo/reusable-workflows/.github/workflows/reusable-stale.yml@main
+        permissions:
+            issues: write
+            pull-requests: write

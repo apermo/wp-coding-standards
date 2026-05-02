@@ -267,6 +267,13 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 23, 'Redirect inside conditional with exit() should pass.' );
 	}
 
+	public function testShortEchoTagDisallowed(): void {
+		$file = $this->processFixture( 'ShortEcho.inc' );
+		$this->assertErrorOnLine( $file, 9, 'Generic.PHP.DisallowShortOpenTag.EchoFound', '<?= without semicolon should be flagged as short echo tag.' );
+		$this->assertErrorOnLine( $file, 9, 'Squiz.PHP.EmbeddedPhp.ShortOpenEchoNoSemicolon', '<?= without trailing semicolon should be flagged.' );
+		$this->assertErrorOnLine( $file, 11, 'Generic.PHP.DisallowShortOpenTag.EchoFound', '<?= with semicolon should still be flagged as short echo tag.' );
+	}
+
 	public function testUnusedVariable(): void {
 		$file = $this->processFixture( 'UnusedVariable.inc' );
 		$this->assertErrorOnLine( $file, 9, 'UnusedVariable', 'Unused variable should be flagged.' );
@@ -463,6 +470,8 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 14, 'get_post_format() with post should be allowed.' );
 		$this->assertErrorOnLine( $file, 19, 'NoPostParameter', 'the_post_thumbnail() without argument should be flagged.' );
 		$this->assertErrorOnLine( $file, 24, 'NoPostParameter', 'the_post_thumbnail() with size should still be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 30, 'get_post( $var->ID ) should be allowed (fresh-fetch overload).' );
+		$this->assertNoWarningsOnLine( $file, 30, 'get_post( $var->ID ) should not warn (fresh-fetch overload).' );
 	}
 
 	public function testBooleanOperators(): void {

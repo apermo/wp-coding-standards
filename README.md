@@ -559,7 +559,7 @@ Severity depends on what was passed, not which function:
 |---|---|---|
 | `MissingArgument` | error | Post param exists but no argument provided |
 | `NullArgument` | error | Literal `null` passed as post argument |
-| `IntegerArgument` | warning | Literal int or `$var->ID` passed |
+| `IntegerArgument` | warning | Literal int or `$var->ID` passed (except `get_post()`, where the int overload triggers a fresh DB fetch) |
 | `NoPostParameter` | error | Function has no post param at all |
 
 ```php

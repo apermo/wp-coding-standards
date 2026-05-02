@@ -33,15 +33,21 @@ class ImplicitPostFunctionSniff extends AbstractPostContextSniff {
 	 * the appropriate argument.
 	 *
 	 * Structure: function_name => [
-	 *     'position' => int|null,  // 1-based param position, null = no post param
-	 *     'name'     => string,    // PHP parameter name (for named arg lookup)
+	 *     'position'      => int|null,  // 1-based param position, null = no post param
+	 *     'name'          => string,    // PHP parameter name (for named arg lookup)
+	 *     'allowsInteger' => bool,      // optional; suppress IntegerArgument warning
 	 * ]
 	 *
-	 * @var array<string, array{position: int|null, name: string}>
+	 * `allowsInteger` opts a function out of the IntegerArgument warning. Set
+	 * it for functions where the int form has distinct, intentional semantics
+	 * — e.g. `get_post( int )` forces a fresh DB fetch, while
+	 * `get_post( WP_Post )` returns the (possibly stale) object as-is.
+	 *
+	 * @var array<string, array{position: int|null, name: string, allowsInteger?: bool}>
 	 */
 	private const POST_FUNCTIONS = [
 		// Functions with a $post parameter.
-		'get_post'                          => [ 'position' => 1, 'name' => 'post' ],
+		'get_post'                          => [ 'position' => 1, 'name' => 'post', 'allowsInteger' => true ],
 		'get_post_format'                   => [ 'position' => 1, 'name' => 'post' ],
 		'get_the_title'                     => [ 'position' => 1, 'name' => 'post' ],
 		'get_the_excerpt'                   => [ 'position' => 1, 'name' => 'post' ],
@@ -181,7 +187,7 @@ class ImplicitPostFunctionSniff extends AbstractPostContextSniff {
 				'NullArgument',
 				[ $origName ]
 			);
-		} elseif ( $argType === 'integer' ) {
+		} elseif ( $argType === 'integer' && ( $config['allowsInteger'] ?? false ) === false ) {
 			$phpcsFile->addWarning(
 				'Function %s() called with integer post ID; pass WP_Post instead',
 				$stackPtr,

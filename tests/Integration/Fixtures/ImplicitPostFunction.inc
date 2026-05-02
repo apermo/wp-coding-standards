@@ -23,3 +23,9 @@ function test_the_post_thumbnail_missing() {
 function test_the_post_thumbnail_with_size() {
 	the_post_thumbnail( 'large' );
 }
+
+// get_post( $var->ID ) inside function scope is allowed: the int overload
+// forces a fresh DB fetch (line 30).
+function test_get_post_refresh( $post ) {
+	return get_post( $post->ID );
+}

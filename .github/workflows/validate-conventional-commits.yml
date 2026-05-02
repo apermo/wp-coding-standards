@@ -1,91 +1,14 @@
 name: Validate Conventional Commits
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  push:
-    branches:
-      - main
+    pull_request:
+        types: [opened, synchronize, reopened]
+    push:
+        branches:
+            - main
 
 jobs:
-  validate-commits:
-    runs-on: ubuntu-latest
-    name: Check Commit Message Format
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    validate:
+        uses: apermo/reusable-workflows/.github/workflows/reusable-conventional-commits.yml@main
         with:
-          fetch-depth: 0
-
-      - name: Get commit range
-        id: commit-range
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            echo "base=${{ github.event.pull_request.base.sha }}" >> $GITHUB_OUTPUT
-            echo "head=${{ github.event.pull_request.head.sha }}" >> $GITHUB_OUTPUT
-          else
-            echo "base=${{ github.event.before }}" >> $GITHUB_OUTPUT
-            echo "head=${{ github.event.after }}" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Validate commit messages
-        run: |
-          RED='\033[0;31m'
-          GREEN='\033[0;32m'
-          NC='\033[0m'
-
-          PATTERN="^(feat|fix|docs|style|refactor|test|chore|perf)(\(.+\))?: .{1,}$"
-
-          COMMITS=$(git log --format=%H ${{ steps.commit-range.outputs.base }}..${{ steps.commit-range.outputs.head }})
-
-          if [ -z "$COMMITS" ]; then
-            echo "No commits to validate"
-            exit 0
-          fi
-
-          INVALID_COMMITS=()
-
-          for COMMIT in $COMMITS; do
-            # Skip merge commits (e.g. GitHub "Merge pull request" button)
-            PARENTS=$(git rev-list --parents -n 1 $COMMIT | wc -w)
-            if [ "$PARENTS" -gt 2 ]; then
-              continue
-            fi
-
-            MSG=$(git log --format=%B -n 1 $COMMIT | head -n 1)
-
-            if ! echo "$MSG" | grep -qE "$PATTERN"; then
-              INVALID_COMMITS+=("$COMMIT: $MSG")
-            fi
-
-            LENGTH=${#MSG}
-            if [ $LENGTH -gt 72 ]; then
-              echo -e "${RED}Commit $COMMIT has subject line too long${NC}"
-              echo "   Length: $LENGTH characters (max: 72)"
-              echo "   Message: $MSG"
-              INVALID_COMMITS+=("$COMMIT: Subject too long")
-            fi
-          done
-
-          if [ ${#INVALID_COMMITS[@]} -gt 0 ]; then
-            echo -e "${RED}Invalid commit messages found:${NC}"
-            echo ""
-            for INVALID in "${INVALID_COMMITS[@]}"; do
-              echo "  $INVALID"
-            done
-            echo ""
-            echo "Commit messages must follow Conventional Commits format:"
-            echo "  <type>(<scope>): <subject>"
-            echo ""
-            echo "Valid types: feat, fix, docs, style, refactor, test, chore, perf"
-            echo "Subject: Max 72 characters (50 recommended)"
-            echo ""
-            echo "Examples:"
-            echo "  feat(sniff): add new ArrayComplexity sniff"
-            echo "  fix: resolve false positive in GlobalPostAccess"
-            echo "  docs: update README"
-            exit 1
-          fi
-
-          echo -e "${GREEN}All commit messages are valid${NC}"
+            allowed-types: 'feat|fix|docs|style|refactor|test|chore|perf'
