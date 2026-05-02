@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - Unreleased
+## [3.0.0] - 2026-05-02
 
 ### Added
 
@@ -40,6 +40,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `WP_Post` returns the (possibly stale) object as-is.
   `get_post()` with no argument and `get_post( null )` still
   error. Closes #110.
+
+### CI
+
+- Migrate `stale.yml` to `apermo/reusable-workflows`
+  (`reusable-stale.yml`). Aligns with the rest of the
+  `apermo/*` namespace and centralizes future updates.
+  Closes #106.
+- Migrate `validate-conventional-commits.yml` to
+  `apermo/reusable-workflows`
+  (`reusable-conventional-commits.yml`). The shared workflow
+  supports the Conventional Commits `!` breaking-change
+  marker (`feat(scope)!: …`); the local copy did not.
+  Allowed-types kept narrow per this repo's style guide.
+  Closes #111.
 
 ## [2.8.0] - 2026-04-19
 
@@ -538,7 +552,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
-[3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...HEAD
+[3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...v3.0.0
 [2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.4...v2.7.0
 [2.6.4]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.3...v2.6.4
