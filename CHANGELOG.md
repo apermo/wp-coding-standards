@@ -17,6 +17,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   (cherry-picked; the full VIP ruleset is not included).
   Closes #103.
 
+### Removed
+
+- **BREAKING:** Short echo tags (`<?= … ?>`) are no longer
+  allowed. The ruleset previously excluded
+  `Generic.PHP.DisallowShortOpenTag.EchoFound` and
+  `Squiz.PHP.EmbeddedPhp.ShortOpenEchoNoSemicolon`; both
+  exclusions have been dropped so the WordPress defaults apply.
+  This brings local PHPCS in line with the WordPress.org Plugin
+  Check, which enforces `DisallowShortOpenTag.EchoFound` and is
+  not configurable from a consuming project. Migration is
+  mechanical: replace `<?= esc_html( $x ) ?>` with
+  `<?php echo esc_html( $x ); ?>`. Closes #107.
+
 ## [2.8.0] - 2026-04-19
 
 ### Added
