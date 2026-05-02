@@ -9,6 +9,6 @@ on:
 
 jobs:
     validate:
-        uses: apermo/reusable-workflows/.github/workflows/reusable-conventional-commits.yml@main
+        uses: apermo/reusable-workflows/.github/workflows/reusable-conventional-commits.yml@v0.6.2
         with:
             allowed-types: 'feat|fix|docs|style|refactor|test|chore|perf'
