@@ -30,6 +30,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   mechanical: replace `<?= esc_html( $x ) ?>` with
   `<?php echo esc_html( $x ); ?>`. Closes #107.
 
+### Fixed
+
+- `Apermo.WordPress.ImplicitPostFunction.IntegerArgument` no
+  longer fires on `get_post( int )` or `get_post( $var->ID )`.
+  Unlike the other functions in `POST_FUNCTIONS`, `get_post()`
+  is overloaded: the int form forces a fresh DB fetch
+  (intentional after `wp_update_post()`), while passing a
+  `WP_Post` returns the (possibly stale) object as-is.
+  `get_post()` with no argument and `get_post( null )` still
+  error. Closes #110.
+
 ## [2.8.0] - 2026-04-19
 
 ### Added
