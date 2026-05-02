@@ -470,6 +470,8 @@ class RulesetIntegrationTest extends TestCase {
 		$this->assertNoErrorsOnLine( $file, 14, 'get_post_format() with post should be allowed.' );
 		$this->assertErrorOnLine( $file, 19, 'NoPostParameter', 'the_post_thumbnail() without argument should be flagged.' );
 		$this->assertErrorOnLine( $file, 24, 'NoPostParameter', 'the_post_thumbnail() with size should still be flagged.' );
+		$this->assertNoErrorsOnLine( $file, 30, 'get_post( $var->ID ) should be allowed (fresh-fetch overload).' );
+		$this->assertNoWarningsOnLine( $file, 30, 'get_post( $var->ID ) should not warn (fresh-fetch overload).' );
 	}
 
 	public function testBooleanOperators(): void {
