@@ -5,9 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [3.1.0] - Unreleased
 
 ### Changed
+
+- Require `wp-coding-standards/wpcs` `^3.4` (was `^3.0`) and
+  `squizlabs/php_codesniffer` `^3.13.5` (was `^3.10`) to adopt WPCS
+  3.4.0. Brings bug fixes (`PreparedSQL`, `EscapeOutput`,
+  `AlternativeFunctions`, `CronInterval`), WP 7.0.0 deprecation and
+  pluggable-function recognition, a stricter `NoSilencedErrors` (no
+  longer allows `@parse_url()`), and a new default `minimum_wp_version`
+  of 6.7. No ruleset changes.
+
+### CI
 
 - Bump GitHub Actions off the deprecated Node 20 runtime: `actions/cache`
   v4→v5, `actions/checkout` v4→v5, `actions/github-script` v7→v8. GitHub
@@ -560,6 +570,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[3.1.0]: https://github.com/apermo/apermo-coding-standards/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...v3.0.0
 [2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
 [2.7.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.6.4...v2.7.0
