@@ -7,11 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.1.0] - Unreleased
 
+### Security
+
+- Require `wp-coding-standards/wpcs` `^3.4.1` to fix
+  [GHSA-3pwp-g2mj-5p3v](https://github.com/WordPress/WordPress-Coding-Standards/security/advisories/GHSA-3pwp-g2mj-5p3v)
+  (CVSS 8.6, high). The `WordPress.WP.EnqueuedResourceParameters`
+  sniff reconstructed function arguments and passed them to
+  `eval()`, so scanning untrusted PHP — CI on pull requests,
+  third-party code review — could execute arbitrary commands on
+  the scanning host. WPCS 0.14.1 through 3.4.0 were affected via
+  the `WordPress` and `WordPress-Extra` rulesets; `Apermo`
+  references `WordPress`, so it was in the affected set. The floor
+  is raised rather than only the lockfile refreshed, so consuming
+  projects cannot resolve back to a vulnerable version.
+
 ### Changed
 
-- Require `wp-coding-standards/wpcs` `^3.4` (was `^3.0`) and
+- Require `wp-coding-standards/wpcs` `^3.4.1` (was `^3.0`) and
   `squizlabs/php_codesniffer` `^3.13.5` (was `^3.10`) to adopt WPCS
-  3.4.0. Brings bug fixes (`PreparedSQL`, `EscapeOutput`,
+  3.4.0/3.4.1. Brings bug fixes (`PreparedSQL`, `EscapeOutput`,
   `AlternativeFunctions`, `CronInterval`), WP 7.0.0 deprecation and
   pluggable-function recognition, a stricter `NoSilencedErrors` (no
   longer allows `@parse_url()`), and a new default `minimum_wp_version`
