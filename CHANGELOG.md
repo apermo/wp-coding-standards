@@ -5,11 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.0] - Unreleased
+## [3.1.1] - 2026-07-29
 
 ### Security
 
-- Require `wp-coding-standards/wpcs` `^3.4.1` to fix
+- Require `wp-coding-standards/wpcs` `^3.4.1` (was `^3.4`) to fix
   [GHSA-3pwp-g2mj-5p3v](https://github.com/WordPress/WordPress-Coding-Standards/security/advisories/GHSA-3pwp-g2mj-5p3v)
   (CVSS 8.6, high). The `WordPress.WP.EnqueuedResourceParameters`
   sniff reconstructed function arguments and passed them to
@@ -19,13 +19,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the `WordPress` and `WordPress-Extra` rulesets; `Apermo`
   references `WordPress`, so it was in the affected set. The floor
   is raised rather than only the lockfile refreshed, so consuming
-  projects cannot resolve back to a vulnerable version.
+  projects cannot resolve back to a vulnerable version. No ruleset
+  changes.
+
+## [3.1.0] - 2026-07-17
 
 ### Changed
 
-- Require `wp-coding-standards/wpcs` `^3.4.1` (was `^3.0`) and
+- Require `wp-coding-standards/wpcs` `^3.4` (was `^3.0`) and
   `squizlabs/php_codesniffer` `^3.13.5` (was `^3.10`) to adopt WPCS
-  3.4.0/3.4.1. Brings bug fixes (`PreparedSQL`, `EscapeOutput`,
+  3.4.0. Brings bug fixes (`PreparedSQL`, `EscapeOutput`,
   `AlternativeFunctions`, `CronInterval`), WP 7.0.0 deprecation and
   pluggable-function recognition, a stricter `NoSilencedErrors` (no
   longer allows `@parse_url()`), and a new default `minimum_wp_version`
@@ -584,6 +587,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[3.1.1]: https://github.com/apermo/apermo-coding-standards/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/apermo/apermo-coding-standards/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...v3.0.0
 [2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
