@@ -5,7 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.0] - Unreleased
+## [3.1.1] - 2026-07-29
+
+### Security
+
+- Require `wp-coding-standards/wpcs` `^3.4.1` (was `^3.4`) to fix
+  [GHSA-3pwp-g2mj-5p3v](https://github.com/WordPress/WordPress-Coding-Standards/security/advisories/GHSA-3pwp-g2mj-5p3v)
+  (CVSS 8.6, high). The `WordPress.WP.EnqueuedResourceParameters`
+  sniff reconstructed function arguments and passed them to
+  `eval()`, so scanning untrusted PHP — CI on pull requests,
+  third-party code review — could execute arbitrary commands on
+  the scanning host. WPCS 0.14.1 through 3.4.0 were affected via
+  the `WordPress` and `WordPress-Extra` rulesets; `Apermo`
+  references `WordPress`, so it was in the affected set. The floor
+  is raised rather than only the lockfile refreshed, so consuming
+  projects cannot resolve back to a vulnerable version. No ruleset
+  changes.
+
+## [3.1.0] - 2026-07-17
 
 ### Changed
 
@@ -570,6 +587,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[3.1.1]: https://github.com/apermo/apermo-coding-standards/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/apermo/apermo-coding-standards/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...v3.0.0
 [2.8.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.7.0...v2.8.0
