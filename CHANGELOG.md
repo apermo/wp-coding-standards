@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.2] - Unreleased
+
+### Security
+
+- Require `squizlabs/php_codesniffer` `^3.13.6` (was `^3.13.5`) to fix
+  [GHSA-hmqg-cxww-wqhq](https://github.com/PHPCSStandards/PHP_CodeSniffer/security/advisories/GHSA-hmqg-cxww-wqhq)
+  / CVE-2026-67434 (high). The `Gitblame`, `Hgblame` and `Svnblame`
+  reports built shell commands from file names without escaping, so
+  scanning a file whose name contains shell metacharacters could
+  execute attacker-controlled commands on the scanning host — CI
+  pipelines over pull requests, or local review of third-party code.
+  Runs using the default `Full` report or any other non-blame report
+  are unaffected. The floor is raised rather than only the lockfile
+  refreshed, so consuming projects cannot resolve back to a
+  vulnerable version. No ruleset changes.
+
 ## [3.1.1] - 2026-07-29
 
 ### Security
@@ -587,6 +603,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PHPCompatibility checks targeting PHP 8.3+.
 - Empty `Apermo/Sniffs/` directory for future custom sniffs.
 
+[3.1.2]: https://github.com/apermo/apermo-coding-standards/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/apermo/apermo-coding-standards/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/apermo/apermo-coding-standards/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/apermo/apermo-coding-standards/compare/v2.8.0...v3.0.0
