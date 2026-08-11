@@ -14,6 +14,10 @@ jobs:
   validate-version:
     name: Check Version Bump
     runs-on: ubuntu-latest
+    # Dependency PRs carry no release decision, and a failing check here would
+    # block the automerge configured for dev-dependency patches. The release PR
+    # sets the version; validate-changelog is skipped with this job via `needs`.
+    if: github.event.pull_request.user.login != 'renovate[bot]'
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v5
