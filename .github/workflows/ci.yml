@@ -6,6 +6,10 @@ on:
   push:
     branches:
       - main
+  # Advisories are published against versions already in the lockfile, so the
+  # audit has to run without a code change to trigger it.
+  schedule:
+    - cron: '0 6 * * 1'
 
 jobs:
   test:
@@ -77,3 +81,23 @@ jobs:
 
       - name: Run PHPStan
         run: composer analyse
+
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+          coverage: none
+
+      # --locked audits composer.lock without installing: it is the versions
+      # consumers resolve to that matter, and abandoned packages are reported
+      # rather than failed so only advisories break the build.
+      - name: Run composer audit
+        run: composer audit --locked --abandoned=report
