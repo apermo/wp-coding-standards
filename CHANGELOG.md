@@ -21,6 +21,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   refreshed, so consuming projects cannot resolve back to a
   vulnerable version. No ruleset changes.
 
+### CI
+
+- Add a `Security Audit` job running `composer audit --locked` on pull
+  requests and pushes, plus a Monday cron so newly published
+  advisories surface here rather than in a consuming project. The
+  PHPCS advisory above was only caught downstream, because advisories
+  are published against versions already in the lockfile and nothing
+  ran without a code change to trigger it.
+- Tune `renovate.json` so security updates raise the `composer.json`
+  floor (`rangeStrategy: bump`) instead of only refreshing the
+  lockfile, read advisories from OSV directly, bypass the Monday
+  window, and keep commit subjects within the 50-character limit.
+  Dev-dependency patch automerge now waits three days.
+- Skip `Check Version Bump` and `Check CHANGELOG Entry` for Renovate
+  pull requests; both expect a release decision that dependency PRs
+  do not carry, and their failure blocked automerge.
+
 ## [3.1.1] - 2026-07-29
 
 ### Security
