@@ -5,6 +5,24 @@
   ],
   "labels": ["dependencies"],
   "schedule": ["before 9am on monday"],
+  "commitMessageAction": "bump",
+  "commitMessageTopic": "{{ replace '.*/' '' depName }}",
+  "commitMessageExtra": "",
+  "commitBody": "{{#if depName}}{{depName}}: {{currentValue}} -> {{newValue}}{{/if}}",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 9am on monday"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["dependencies", "security"],
+    "rangeStrategy": "bump",
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "commitMessageSuffix": "",
+    "prCreation": "immediate"
+  },
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
@@ -13,6 +31,7 @@
     {
       "matchDepTypes": ["require-dev"],
       "matchUpdateTypes": ["patch"],
+      "minimumReleaseAge": "3 days",
       "automerge": true
     }
   ]
